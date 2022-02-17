@@ -62,7 +62,7 @@ const release = await octokit.repos.createRelease({
   body: releaseChangelog.join("\n"),
 });
 
-const zip = readFile(resolve("dist/alpr.zip"), "binary");
+const zip = await readFile(resolve("dist/alpr.zip"), "binary");
 
 await octokit.repos.uploadReleaseAsset({
   release_id: release.data.id,
