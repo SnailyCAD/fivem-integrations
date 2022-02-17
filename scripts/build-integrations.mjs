@@ -18,6 +18,7 @@ for (const integrationKey of INTEGRATIONS) {
     format: "cjs",
     outdir: distDir,
     platform: "node",
+    target: "node14",
   });
 
   const fxmanifest = path.resolve(integrationPath, "fxmanifest.lua");
