@@ -14,7 +14,8 @@
     "test-tsc": "tsc --noEmit",
     "prepare": "husky install",
     "postinstall": "husky install",
-    "build": "node scripts/build-integrations.mjs"
+    "build": "node scripts/build-integrations.mjs",
+    "build:zip": "node scripts/zip-integrations.mjs"
   },
   "devDependencies": {
     "@casper124578/eslint-config": "^2.3.2",
