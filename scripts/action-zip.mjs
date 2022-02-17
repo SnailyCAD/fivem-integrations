@@ -62,14 +62,17 @@ const release = await octokit.repos.createRelease({
   body: releaseChangelog.join("\n"),
 });
 
-const zip = await readFile(resolve("dist/alpr.zip"), "binary");
+const zip = await readFile(resolve("dist/alpr.zip"));
 
 await octokit.repos.uploadReleaseAsset({
   release_id: release.data.id,
   name: "alpr.zip",
   owner: OWNER,
   repo: REPOSITORY,
-  data: zip,
+  data: zip.toString(),
+  headers: {
+    "content-type": "application/zip",
+  },
 });
 
 console.log(`✅ Done! Release created at ${release.data.html_url}`);
