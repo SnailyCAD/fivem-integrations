@@ -1,5 +1,7 @@
 /**
  * extracted from [https://pastebin.com/XdpJVbHz](https://pastebin.com/XdpJVbHz)
+ *
+ * **previews:** [https://wiki.gtanet.work/index.php?title=Notification_Pictures](https://wiki.gtanet.work/index.php?title=Notification_Pictures)
  */
 export enum TextureTypes {
   "CHAR_ABIGAIL" = "CHAR_ABIGAIL",
