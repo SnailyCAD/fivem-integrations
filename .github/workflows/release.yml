@@ -31,6 +31,6 @@ jobs:
         run: npm run build:zip
 
       - name: Create GitHub release
-        run: node ./scripts/actions/action-zip.mjs
+        run: node ./scripts/action-zip.mjs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
