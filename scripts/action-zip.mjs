@@ -66,7 +66,7 @@ const zip = await readFile(resolve("dist/alpr.zip"), "binary");
 
 await octokit.repos.uploadReleaseAsset({
   release_id: release.data.id,
-  name: "Test",
+  name: "alpr.zip",
   owner: OWNER,
   repo: REPOSITORY,
   data: zip,
