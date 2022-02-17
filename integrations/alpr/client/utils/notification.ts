@@ -3,9 +3,9 @@ import { TextureTypes } from "../types/TextureTypes";
 
 interface NotificationOptions {
   picture: TextureTypes;
-  icon: IconTypes;
   message: string;
   title: string;
+  icon?: IconTypes;
   subject?: string;
 }
 
@@ -16,7 +16,7 @@ export function createNotification(options: NotificationOptions) {
     options.picture,
     options.picture,
     true,
-    options.icon,
+    options.icon ?? IconTypes.None,
     options.title,
     options.subject ?? "",
   );

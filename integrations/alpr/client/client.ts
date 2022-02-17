@@ -1,4 +1,3 @@
-import { IconTypes } from "./types/IconTypes";
 import { TextureTypes } from "./types/TextureTypes";
 import { createNotification } from "./utils/notification";
 
@@ -8,7 +7,6 @@ onNet("sn:cadPlateResults", (plate: string, body: any[]) => {
   if (!vehicle) {
     createNotification({
       picture: TextureTypes.CHAR_CALL911,
-      icon: IconTypes.ChatBox,
       message: `No vehicle found with plate: ${plate}`,
       title: "Plate Search Results",
     });
@@ -24,7 +22,6 @@ onNet("sn:cadPlateResults", (plate: string, body: any[]) => {
 
   createNotification({
     picture: TextureTypes.CHAR_CALL911,
-    icon: IconTypes.None,
     message: message.join("\n"),
     title: "Plate Search Results",
   });
