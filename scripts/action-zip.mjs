@@ -1,5 +1,6 @@
 import { Octokit } from "@octokit/action";
 import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
 
 const packageJson = JSON.parse(
   await readFile(new URL("../package.json", import.meta.url), { encoding: "utf8" }),
@@ -59,6 +60,16 @@ const release = await octokit.repos.createRelease({
   tag_name: packageJson.version,
   name: packageJson.version,
   body: releaseChangelog.join("\n"),
+});
+
+const zip = readFile(resolve("dist/alpr.zip"), "binary");
+
+await octokit.repos.uploadReleaseAsset({
+  release_id: release.data.id,
+  name: "Test",
+  owner: OWNER,
+  repo: REPOSITORY,
+  data: zip,
 });
 
 console.log(`✅ Done! Release created at ${release.data.html_url}`);
