@@ -1,11 +1,11 @@
 import { TextureTypes } from "./types/TextureTypes";
 import { createNotification } from "./utils/notification";
 
-onNet("sn:cadPlateResults", (plate: string, body: any[]) => {
+onNet("sn:cadPlateResults", (plate: string, body: any) => {
   const [vehicle] = body ?? [];
 
   if (!vehicle) {
-    createNotification({
+    return createNotification({
       picture: TextureTypes.CHAR_CALL911,
       message: `No vehicle found with plate: ${plate}`,
       title: "Plate Search Results",
