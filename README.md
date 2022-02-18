@@ -1,3 +1,5 @@
 # @snailycad/fivem-integrations
 
-This project is a work-in-progress. More on this very soon!
+This repository includes several FiveM integrations for [SnailyCADv4](https://github.com/snailycad/snaily-cadv4).
+
+[Please see documenation here](https://cad-docs.caspertheghost.me/docs/fivem-integrations/scripts)
