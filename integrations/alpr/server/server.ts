@@ -1,6 +1,7 @@
-import { cadRequest } from "./utils/fetch";
+import { cadRequest } from "~/utils/fetch.server";
+import { Events } from "~/types/Events";
 
-onNet("wk:onPlateLocked", async (_cam: "front" | "rear", plate: string) => {
+onNet(Events.WraithPlateLocked, async (_cam: "front" | "rear", plate: string) => {
   const response = await cadRequest("/search/vehicle?includeMany=true", "POST", {
     plateOrVin: plate,
   });
@@ -8,6 +9,6 @@ onNet("wk:onPlateLocked", async (_cam: "front" | "rear", plate: string) => {
   const body = (await response?.body.json()) ?? null;
 
   setImmediate(() => {
-    emitNet("sn:cadPlateResults", -1, plate, body);
+    emitNet(Events.ALPRCadPlateResults, -1, plate, body);
   });
 });

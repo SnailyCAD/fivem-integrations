@@ -2,7 +2,7 @@ fx_version "bodacious"
 game "gta5"
 
 author "Dev-CasperTheGhost"
-description "ALPR integration with support for Wraith ARS 2X"
+description "/calltow command that connects to SnailyCADv4"
 version "0.0.1"
 
 server_scripts {"server/server.js"}

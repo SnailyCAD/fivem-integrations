@@ -1,7 +1,8 @@
-import { TextureTypes } from "./types/TextureTypes";
-import { createNotification } from "./utils/notification";
+import { TextureTypes } from "~/types/TextureTypes";
+import { createNotification } from "~/utils/notification";
+import { Events } from "~/types/Events";
 
-onNet("sn:cadPlateResults", (plate: string, body: any) => {
+onNet(Events.ALPRCadPlateResults, (plate: string, body: any) => {
   const [vehicle] = body ?? [];
 
   if (!vehicle) {
