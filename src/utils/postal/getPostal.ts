@@ -1,14 +1,14 @@
 import postals from "./postals.json";
 
 export function getPostal(): string | null {
-  const [x, y]: any[] = GetEntityCoords(GetPlayerPed(-1), true);
+  const [x, y] = GetEntityCoords(GetPlayerPed(-1), true) as [number, number];
 
   let ndm = -1; // nearest distance magnitude
   let ni = -1; // nearest index
 
   postals.map((postal, idx) => {
     // prettier-ignore
-    const dm = (x - postal.x) ^2 + (y - postal.y) ^2;
+    const dm = (x - postal.x) ^2 + (y - postal.y) ^2 // distance magnitude
 
     if (ndm === -1 || dm < ndm) {
       ni = idx;
@@ -22,5 +22,5 @@ export function getPostal(): string | null {
     nearest = { i: ni, d: nd };
   }
 
-  return postals[nearest.id]?.code ?? null;
+  return postals[nearest.i]?.code ?? null;
 }

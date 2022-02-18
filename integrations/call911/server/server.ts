@@ -1,6 +1,8 @@
 import { cadRequest } from "~/utils/fetch.server";
 import { Events } from "~/types/Events";
 
+const usePostal = GetConvar("snailycad_use_postal", "false") === "true";
+
 RegisterCommand(
   "call911",
   (source: string, args: any[]) => {
@@ -16,13 +18,13 @@ RegisterCommand(
   false,
 );
 
-onNet(Events.Call911ToServer, async ({ street, name, description }: any) => {
+onNet(Events.Call911ToServer, async ({ street, postal, name, description }: any) => {
   await cadRequest("/911-calls", "POST", {
     name,
     location: street,
     description: description.join(" "),
     assignedUnits: [],
-    postal: null,
+    postal: usePostal ? postal : null,
   }).catch(console.error);
 
   CancelEvent();

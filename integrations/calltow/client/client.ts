@@ -9,14 +9,11 @@ const usePostal = GetConvar("snailycad_use_postal", "false") === "true";
 onNet(Events.TowCallToClient, ({ name, description }: { name: string; description: string }) => {
   const [x, y, z] = GetEntityCoords(GetPlayerPed(-1), true);
   const [lastStreet] = GetStreetNameAtCoord(x!, y!, z!);
-  let lastStreetName = GetStreetNameFromHashKey(lastStreet);
-
-  if (usePostal) {
-    lastStreetName = `${getPostal()} ${lastStreetName}`;
-  }
+  const lastStreetName = GetStreetNameFromHashKey(lastStreet);
+  const postal = usePostal ? getPostal() : null;
 
   setImmediate(() => {
-    emitNet(Events.TowCallToServer, { street: lastStreetName, name, description, x, y, z });
+    emitNet(Events.TowCallToServer, { street: lastStreetName, postal, name, description, x, y, z });
   });
 
   createNotification({
