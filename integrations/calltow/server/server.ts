@@ -2,7 +2,7 @@ import { cadRequest } from "~/utils/fetch.server";
 import { Events } from "~/types/Events";
 
 RegisterCommand(
-  "call911",
+  "calltow",
   (source: string, args: any[]) => {
     CancelEvent();
 
@@ -10,19 +10,19 @@ RegisterCommand(
     const description = args;
 
     setImmediate(() => {
-      emitNet(Events.Call911ToClient, -1, { source, name, description });
+      emitNet(Events.TowCallToClient, -1, { source, name, description });
     });
   },
   false,
 );
 
-onNet(Events.Call911ToServer, async ({ street, name, description }: any) => {
-  await cadRequest("/911-calls", "POST", {
+onNet(Events.TowCallToServer, async ({ street, name, description }: any) => {
+  await cadRequest("/tow", "POST", {
     name,
     location: street,
     description: description.join(" "),
-    assignedUnits: [],
     postal: null,
+    creatorId: null,
   }).catch(console.error);
 
   CancelEvent();

@@ -4,12 +4,13 @@ import * as esbuild from "esbuild";
 
 const BASE_PATH = path.resolve(process.cwd(), "integrations");
 const INTEGRATIONS = await fs.readdir(BASE_PATH);
+const PREFIX = "sna";
 
 for (const integrationKey of INTEGRATIONS) {
   const integrationPath = path.resolve(BASE_PATH, integrationKey);
   const serverEntry = path.resolve(integrationPath, "server", "server.ts");
   const clientEntry = path.resolve(integrationPath, "client", "client.ts");
-  const distDir = `dist/${integrationKey}`;
+  const distDir = `dist/${PREFIX}-${integrationKey}`;
 
   await esbuild.build({
     bundle: true,
