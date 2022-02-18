@@ -1,3 +1,9 @@
+/**
+ * script originally created by nick-perry14 on GitHub in LUA
+ *
+ * - https://github.com/nick-perry14
+ */
+
 import postals from "./postals.json";
 
 export function getPostal(): string | null {
