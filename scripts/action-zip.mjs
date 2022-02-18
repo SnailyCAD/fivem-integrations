@@ -78,7 +78,7 @@ for (const integrationZip of INTEGRATIONS) {
 
   await octokit.repos.uploadReleaseAsset({
     release_id: release.data.id,
-    name: "alpr.zip",
+    name: integrationZip,
     owner: OWNER,
     repo: REPOSITORY,
     data: fileBytes,
