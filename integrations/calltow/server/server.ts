@@ -1,8 +1,6 @@
 import { cadRequest } from "~/utils/fetch.server";
 import { Events } from "~/types/Events";
 
-const usePostal = GetConvar("snailycad_use_postal", "false") === "true";
-
 RegisterCommand(
   "calltow",
   (source: string, args: any[]) => {
@@ -23,7 +21,7 @@ onNet(Events.TowCallToServer, async ({ street, postal, name, description }: any)
     name,
     location: street,
     description: description.join(" "),
-    postal: usePostal ? postal : null,
+    postal,
     creatorId: null,
   }).catch(console.error);
 
