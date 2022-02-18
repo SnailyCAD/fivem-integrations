@@ -26,13 +26,7 @@ if (previousRelease) {
   // find difference between previous release and current version
   const maybeMinorIndex = changelogContent.indexOf(`## ${previousRelease.tag_name}`);
 
-  if (maybeMinorIndex === -1) {
-    // find major version
-    const maybeMajorIndex = changelogContent.indexOf(`# ${previousRelease.tag_name}`);
-    releaseChangelog.push(changelogContent.slice(0, maybeMajorIndex));
-  } else {
-    releaseChangelog.push(changelogContent.slice(0, maybeMinorIndex));
-  }
+  releaseChangelog.push(changelogContent.slice(0, maybeMinorIndex));
 } else {
   releaseChangelog.push(changelogContent);
 }
@@ -43,14 +37,7 @@ const { data } = await octokit.repos.generateReleaseNotes({
   tag_name: packageJson.version,
 });
 
-// include new contributors
-const possibleNewContributors = data.body.indexOf("## New Contributors");
-
-if (possibleNewContributors === -1) {
-  releaseChangelog.push("", data.body.slice(data.body.indexOf("**Full Changelog**")));
-} else {
-  releaseChangelog.push("", data.body.slice(possibleNewContributors));
-}
+releaseChangelog.push("", data.body.slice(data.body.indexOf("**Full Changelog**")));
 
 console.log(`🎉 Creating new release with version ${packageJson.version}`);
 
