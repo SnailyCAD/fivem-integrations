@@ -16,13 +16,13 @@ RegisterCommand(
   false,
 );
 
-onNet(Events.Call911ToServer, async ({ street, name, description }: any) => {
+onNet(Events.Call911ToServer, async ({ street, postal, name, description }: any) => {
   await cadRequest("/911-calls", "POST", {
     name,
     location: street,
     description: description.join(" "),
     assignedUnits: [],
-    postal: null,
+    postal,
   }).catch(console.error);
 
   CancelEvent();

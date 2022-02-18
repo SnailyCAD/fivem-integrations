@@ -2,6 +2,7 @@ import { createNotification } from "~/utils/notification";
 import { TextureTypes } from "~/types/TextureTypes";
 import { IconTypes } from "~/types/IconTypes";
 import { Events } from "~/types/Events";
+import { getPostal } from "~/utils/postal/getPostal";
 
 const usePostal = GetConvar("snailycad_use_postal", "false") === "true";
 
@@ -9,14 +10,10 @@ onNet(Events.TowCallToClient, ({ name, description }: { name: string; descriptio
   const [x, y, z] = GetEntityCoords(GetPlayerPed(-1), true);
   const [lastStreet] = GetStreetNameAtCoord(x!, y!, z!);
   const lastStreetName = GetStreetNameFromHashKey(lastStreet);
-
-  if (usePostal) {
-    // todo
-    // lastStreetName = `${getPostal()} ${lastStreetName}`;
-  }
+  const postal = usePostal ? getPostal() : null;
 
   setImmediate(() => {
-    emitNet(Events.TowCallToServer, { street: lastStreetName, name, description, x, y, z });
+    emitNet(Events.TowCallToServer, { street: lastStreetName, postal, name, description, x, y, z });
   });
 
   createNotification({

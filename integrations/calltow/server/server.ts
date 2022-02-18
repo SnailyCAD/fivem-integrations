@@ -16,12 +16,12 @@ RegisterCommand(
   false,
 );
 
-onNet(Events.TowCallToServer, async ({ street, name, description }: any) => {
+onNet(Events.TowCallToServer, async ({ street, postal, name, description }: any) => {
   await cadRequest("/tow", "POST", {
     name,
     location: street,
     description: description.join(" "),
-    postal: null,
+    postal,
     creatorId: null,
   }).catch(console.error);
 
