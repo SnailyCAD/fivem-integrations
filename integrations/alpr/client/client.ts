@@ -26,4 +26,15 @@ onNet(Events.ALPRCadPlateResults, (plate: string, body: any) => {
     message: message.join("\n"),
     title: "Plate Search Results",
   });
+
+  const warrants = vehicle.citizen?.warrants?.filter((v: any) => v.status === "ACTIVE");
+  const hasWarrants = warrants?.length > 0;
+
+  if (hasWarrants) {
+    createNotification({
+      picture: TextureTypes.CHAR_CALL911,
+      message: "This vehicle owner has active warrants",
+      title: "Active Warrants",
+    });
+  }
 });
