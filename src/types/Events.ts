@@ -7,4 +7,7 @@ export enum Events {
 
   TowCallToClient = "sn:towCall",
   TowCallToServer = "sn:towCallUpdate",
+
+  TaxiCallToClient = "sn:taxiCall",
+  TaxiCallToServer = "sn:taxiCallUpdate",
 }
