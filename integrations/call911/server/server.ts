@@ -10,7 +10,7 @@ RegisterCommand(
     const description = args;
 
     setImmediate(() => {
-      emitNet(Events.Call911ToClient, -1, { source, name, description });
+      emitNet(Events.Call911ToClient, source, { source, name, description });
     });
   },
   false,
