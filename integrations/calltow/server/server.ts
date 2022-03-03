@@ -10,7 +10,7 @@ RegisterCommand(
     const description = args;
 
     setImmediate(() => {
-      emitNet(Events.TowCallToClient, -1, { source, name, description });
+      emitNet(Events.TowCallToClient, source, { source, name, description });
     });
   },
   false,

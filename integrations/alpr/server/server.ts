@@ -13,6 +13,6 @@ onNet(Events.WraithPlateLocked, async (_cam: "front" | "rear", plate: string) =>
   const body = (await response?.body.json()) ?? null;
 
   setImmediate(() => {
-    emitNet(Events.ALPRCadPlateResults, -1, plate, body);
+    emitNet(Events.ALPRCadPlateResults, source, plate, body);
   });
 });
