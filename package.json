@@ -33,7 +33,7 @@
     "typescript": "^4.6.3"
   },
   "dependencies": {
-    "@octokit/action": "^3.18.0",
+    "@octokit/action": "^3.18.1",
     "archiver": "^5.3.1",
     "undici": "^5.0.0"
   },
