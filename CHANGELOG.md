@@ -1,3 +1,8 @@
+## 0.1.1
+
+- Remove debug logs
+- Set fx version to `cerulean`
+
 ## 0.1.0
 
 - Fix sna-alpr

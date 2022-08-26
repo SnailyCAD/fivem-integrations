@@ -1,10 +1,10 @@
 {
   "private": true,
   "name": "@snailycad/fivem-integrations",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "Dev-CasperTheGhost",
-    "url": "https://www.caspertheghost.me"
+    "url": "https://snailycad.caspertheghost.me"
   },
   "license": "MIT",
   "scripts": {
