@@ -1,3 +1,8 @@
+## 0.1.0
+
+- Fix sna-alpr
+- Update dependencies
+
 ## 0.0.6
 
 - Update dependencies

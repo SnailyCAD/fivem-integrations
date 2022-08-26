@@ -2,8 +2,8 @@ import { TextureTypes } from "~/types/TextureTypes";
 import { createNotification } from "~/utils/notification";
 import { Events } from "~/types/Events";
 
-onNet(Events.ALPRCadPlateResults, (plate: string, body: any) => {
-  const [vehicle] = body ?? [];
+onNet(Events.ALPRCadPlateResults, (plate: string, body: any[] | null) => {
+  const vehicle = body?.at(0);
 
   if (!vehicle) {
     return createNotification({
@@ -17,7 +17,7 @@ onNet(Events.ALPRCadPlateResults, (plate: string, body: any) => {
     `Plate: ${plate}`,
     `Model: ${vehicle.model.value?.value ?? "N/A"}`,
     `Color: ${vehicle.color}`,
-    `Vin Number: ${vehicle.vinNumber}`,
+    `VIN Number: ${vehicle.vinNumber}`,
     `Owner: ${vehicle.citizen.name} ${vehicle.citizen.surname}`,
   ];
 
