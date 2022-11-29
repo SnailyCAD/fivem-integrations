@@ -43,8 +43,15 @@ async function getPostalCodes() {
 
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     return require(pwd) as Promise<typeof defaultPostals>;
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    if (error instanceof Error) {
+      const errorMessage = error.message;
+
+      // return default postals if a custom postals file cannot be found
+      if (errorMessage.includes("Cannot find module")) return defaultPostals;
+    }
+
+    console.error(error);
     return defaultPostals;
   }
 }
