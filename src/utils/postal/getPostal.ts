@@ -4,17 +4,22 @@
  * - https://github.com/nick-perry14
  */
 
-import postals from "./postals.json";
+import { resolve } from "node:path";
+import defaultPostals from "./postals.json";
 
-export function getPostal(): string | null {
-  const [x, y] = GetEntityCoords(GetPlayerPed(-1), true) as [number, number];
-
+export async function getPostal(playerPosition: {
+  x: number;
+  y: number;
+  z: number;
+}): Promise<string | null> {
   let ndm = -1; // nearest distance magnitude
   let ni = -1; // nearest index
 
+  const postals = await getPostalCodes();
+
   postals.map((postal, idx) => {
     // prettier-ignore
-    const dm = (x - postal.x) ^2 + (y - postal.y) ^2 // distance magnitude
+    const dm = (playerPosition.x - postal.x) ^2 + (playerPosition.y - postal.y) ^2 // distance magnitude
 
     if (ndm === -1 || dm < ndm) {
       ni = idx;
@@ -29,4 +34,17 @@ export function getPostal(): string | null {
   }
 
   return postals[nearest.i]?.code ?? null;
+}
+
+async function getPostalCodes() {
+  try {
+    const resourceName = GetCurrentResourceName();
+    const pwd = resolve(process.cwd(), "resources", resourceName, "postals.json");
+
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    return require(pwd) as Promise<typeof defaultPostals>;
+  } catch (e) {
+    console.error(e);
+    return defaultPostals;
+  }
 }

@@ -1,26 +1,20 @@
 import { createNotification } from "~/utils/notification";
 import { TextureTypes } from "~/types/TextureTypes";
 import { IconTypes } from "~/types/IconTypes";
-import { Events } from "~/types/Events";
-import { getPostal } from "~/utils/postal/getPostal";
+import { EventData, Events } from "~/types/Events";
 
-const usePostal = GetConvar("snailycad_use_postal", "false") === "true";
-
-onNet(Events.TaxiCallToClient, ({ name, description }: { name: string; description: string }) => {
-  const [x, y, z] = GetEntityCoords(GetPlayerPed(-1), true);
+onNet(Events.TaxiCallToClient, async ({ name, description }: EventData) => {
+  const playerPed = GetPlayerPed(-1);
+  const [x, y, z] = GetEntityCoords(playerPed, true);
   const [lastStreet] = GetStreetNameAtCoord(x!, y!, z!);
   const lastStreetName = GetStreetNameFromHashKey(lastStreet);
-  const postal = usePostal ? getPostal() : null;
 
   setImmediate(() => {
     emitNet(Events.TaxiCallToServer, {
       street: lastStreetName,
-      postal,
       name,
       description,
-      x,
-      y,
-      z,
+      position: { x, y, z },
     });
   });
 

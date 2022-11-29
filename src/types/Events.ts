@@ -11,3 +11,8 @@ export enum Events {
   TaxiCallToClient = "sn:taxiCall",
   TaxiCallToServer = "sn:taxiCallUpdate",
 }
+
+export interface EventData {
+  name: string;
+  description: string;
+}
