@@ -3,7 +3,7 @@ import { createNotification } from "~/utils/notification";
 import { Events } from "~/types/Events";
 
 onNet(Events.ALPRCadPlateResults, (plate: string, body: any[] | null) => {
-  const vehicle = body?.at(0);
+  const vehicle = body?.[0];
 
   if (!vehicle) {
     return createNotification({

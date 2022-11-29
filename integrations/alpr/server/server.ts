@@ -22,5 +22,8 @@ onNet(Events.WraithPlateLocked, async (_cam: "front" | "rear", plate: string) =>
     }
   } catch (e) {
     console.error(e);
+    setImmediate(() => {
+      emitNet(Events.ALPRCadPlateResults, player, plate, []);
+    });
   }
 });
