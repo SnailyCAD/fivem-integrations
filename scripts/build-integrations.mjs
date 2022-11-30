@@ -6,8 +6,6 @@ const BASE_PATH = path.resolve(process.cwd(), "integrations");
 const INTEGRATIONS = await fs.readdir(BASE_PATH);
 const PREFIX = "sna";
 
-console.log({ INTEGRATIONS });
-
 for (const integrationKey of INTEGRATIONS) {
   const integrationPath = path.resolve(BASE_PATH, integrationKey);
   const isPostals = integrationKey === "postals";
