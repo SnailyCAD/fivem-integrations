@@ -1,6 +1,7 @@
 export enum Events {
   WraithPlateLocked = "wk:onPlateLocked",
   ALPRCadPlateResults = "sn:cadPlateResults",
+  ALPRCadBoloResults = "sn:cadBoloResults",
 
   Call911ToClient = "sn:911Call",
   Call911ToServer = "sn:911CallUpdate",

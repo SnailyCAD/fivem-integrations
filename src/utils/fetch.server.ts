@@ -1,6 +1,6 @@
 import { request } from "undici";
 
-export async function cadRequest<T = unknown>(path: string, method: "POST" | "GET", data: T) {
+export async function cadRequest<T = unknown>(path: string, method: "POST" | "GET", data?: T) {
   const url = GetConvar("snailycad_url", "null");
   const apiKey = GetConvar("snailycad_api_key", "null");
 
@@ -11,7 +11,7 @@ export async function cadRequest<T = unknown>(path: string, method: "POST" | "GE
 
   return request(`${url}${path}`, {
     method,
-    body: JSON.stringify(data),
+    body: data ? JSON.stringify(data) : undefined,
     headers: {
       "is-from-dispatch": "true",
       "snaily-cad-api-token": apiKey,

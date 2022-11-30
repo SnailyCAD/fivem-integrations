@@ -2,13 +2,23 @@ import { TextureTypes } from "~/types/TextureTypes";
 import { createNotification } from "~/utils/notification";
 import { Events } from "~/types/Events";
 
+onNet(Events.ALPRCadBoloResults, (plate: string, body: any[] | null) => {
+  if (body && body.length > 0) {
+    createNotification({
+      title: "BOLO Results",
+      message: `${plate} has an active BOLO. Open SnailyCAD for more details.`,
+      picture: TextureTypes.CHAR_CALL911,
+    });
+  }
+});
+
 onNet(Events.ALPRCadPlateResults, (plate: string, body: any[] | null) => {
   const vehicle = body?.[0];
 
   if (!vehicle) {
     return createNotification({
       picture: TextureTypes.CHAR_CALL911,
-      message: `No vehicle found with plate: ${plate}`,
+      message: `Plate is not registered: ${plate}`,
       title: "Plate Search Results",
     });
   }
