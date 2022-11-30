@@ -38,7 +38,7 @@ export async function getPostal(playerPosition: {
 
 async function getPostalCodes() {
   try {
-    const resourceName = GetCurrentResourceName();
+    const resourceName = "sna-postals";
     const pwd = resolve(process.cwd(), "resources", resourceName, "postals.json");
 
     // eslint-disable-next-line @typescript-eslint/no-var-requires
