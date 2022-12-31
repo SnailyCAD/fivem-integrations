@@ -1,3 +1,8 @@
+## 0.1.2
+
+- Add support for `gtaMapPosition` for `/call911`
+- Update dependencies
+
 ## 0.1.1
 
 - Remove debug logs
