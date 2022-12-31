@@ -31,7 +31,7 @@ onNet(Events.Call911ToServer, async ({ street, name, description, position }: an
       x: position.x,
       y: position.y,
       z: position.z,
-      heading: 0,
+      heading: position.heading,
     },
   }).catch(console.error);
 

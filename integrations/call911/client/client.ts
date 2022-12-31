@@ -8,13 +8,14 @@ onNet(Events.Call911ToClient, ({ name, description }: EventData) => {
   const [x, y, z] = GetEntityCoords(playerPed, true);
   const [lastStreet] = GetStreetNameAtCoord(x!, y!, z!);
   const lastStreetName = GetStreetNameFromHashKey(lastStreet);
+  const heading = GetEntityHeading(PlayerPedId());
 
   setImmediate(() => {
     emitNet(Events.Call911ToServer, {
       street: lastStreetName,
       name,
       description,
-      position: { x, y, z },
+      position: { x, y, z, heading },
     });
   });
 
