@@ -28,11 +28,11 @@ onNet(Events.Call911ToServer, async ({ street, name, description, position }: an
     description: description.join(" "),
     postal,
     gtaMapPosition: {
-        x: position.x,
-        y: position.y,
-        z: position.z,
-        heading: 0,
-      },
+      x: position.x,
+      y: position.y,
+      z: position.z,
+      heading: 0,
+    },
   }).catch(console.error);
 
   CancelEvent();
