@@ -27,6 +27,12 @@ onNet(Events.Call911ToServer, async ({ street, name, description, position }: an
     location: street,
     description: description.join(" "),
     postal,
+    gtaMapPosition: {
+      x: position.x,
+      y: position.y,
+      z: position.z,
+      heading: position.heading,
+    },
   }).catch(console.error);
 
   CancelEvent();
