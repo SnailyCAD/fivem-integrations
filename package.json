@@ -19,23 +19,23 @@
   },
   "devDependencies": {
     "@casper124578/eslint-config": "^5.0.1",
-    "@citizenfx/client": "^2.0.6181-1",
-    "@citizenfx/server": "^2.0.6181-1",
+    "@citizenfx/client": "^2.0.6231-1",
+    "@citizenfx/server": "^2.0.6231-1",
     "@types/archiver": "^5.3.1",
     "@types/node": "^18.11.18",
-    "@typescript-eslint/parser": "^5.47.1",
-    "esbuild": "^0.16.12",
-    "eslint": "^8.31.0",
-    "eslint-config-prettier": "^8.5.0",
+    "@typescript-eslint/parser": "^5.49.0",
+    "esbuild": "^0.17.4",
+    "eslint": "^8.32.0",
+    "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "husky": "^8.0.2",
-    "prettier": "^2.8.1",
+    "husky": "^8.0.3",
+    "prettier": "^2.8.3",
     "typescript": "^4.9.4"
   },
   "dependencies": {
-    "@octokit/action": "^4.0.10",
+    "@octokit/action": "^5.0.2",
     "archiver": "^5.3.1",
-    "undici": "^5.14.0"
+    "undici": "^5.16.0"
   },
   "prettier": {
     "semi": true,
