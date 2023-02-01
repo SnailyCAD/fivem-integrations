@@ -19,18 +19,18 @@
   },
   "devDependencies": {
     "@casper124578/eslint-config": "^5.0.1",
-    "@citizenfx/client": "^2.0.6231-1",
-    "@citizenfx/server": "^2.0.6231-1",
+    "@citizenfx/client": "^2.0.6247-1",
+    "@citizenfx/server": "^2.0.6247-1",
     "@types/archiver": "^5.3.1",
     "@types/node": "^18.11.18",
-    "@typescript-eslint/parser": "^5.49.0",
-    "esbuild": "^0.17.4",
-    "eslint": "^8.32.0",
+    "@typescript-eslint/parser": "^5.50.0",
+    "esbuild": "^0.17.5",
+    "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.3",
     "prettier": "^2.8.3",
-    "typescript": "^4.9.4"
+    "typescript": "^4.9.5"
   },
   "dependencies": {
     "@octokit/action": "^5.0.2",
