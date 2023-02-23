@@ -7,33 +7,24 @@
 import { resolve } from "node:path";
 import defaultPostals from "./postals.json";
 
-export async function getPostal(playerPosition: {
-  x: number;
-  y: number;
-  z: number;
-}): Promise<string | null> {
-  let ndm = -1; // nearest distance magnitude
-  let ni = -1; // nearest index
-
+export async function getPostal(playerPosition: { x: number; y: number }): Promise<string | null> {
   const postals = await getPostalCodes();
 
-  postals.map((postal, idx) => {
-    // prettier-ignore
-    const dm = (playerPosition.x - postal.x) ^2 + (playerPosition.y - postal.y) ^2 // distance magnitude
+  let nearestPoint: { code: string } | null = null;
+  let minDistance: number | null = null;
 
-    if (ndm === -1 || dm < ndm) {
-      ni = idx;
-      ndm = dm;
+  for (const point of postals) {
+    const distance = Math.sqrt(
+      (point.x - playerPosition.x) ** 2 + (point.y - playerPosition.y) ** 2,
+    );
+
+    if (minDistance === null || distance < minDistance) {
+      nearestPoint = point;
+      minDistance = distance;
     }
-  });
-
-  let nearest: any = {};
-  if (ni !== -1) {
-    const nd = Math.sqrt(ndm);
-    nearest = { i: ni, d: nd };
   }
 
-  return postals[nearest.i]?.code ?? null;
+  return nearestPoint ? nearestPoint.code : null;
 }
 
 async function getPostalCodes() {
