@@ -18,24 +18,24 @@
     "build:zip": "node scripts/zip-integrations.mjs"
   },
   "devDependencies": {
-    "@casper124578/eslint-config": "^5.0.1",
-    "@citizenfx/client": "^2.0.6247-1",
-    "@citizenfx/server": "^2.0.6247-1",
+    "@casper124578/eslint-config": "^6.0.0",
+    "@citizenfx/client": "^2.0.6287-1",
+    "@citizenfx/server": "^2.0.6287-1",
     "@types/archiver": "^5.3.1",
-    "@types/node": "^18.11.18",
-    "@typescript-eslint/parser": "^5.50.0",
-    "esbuild": "^0.17.5",
-    "eslint": "^8.33.0",
+    "@types/node": "^18.14.1",
+    "@typescript-eslint/parser": "^5.53.0",
+    "esbuild": "^0.17.10",
+    "eslint": "^8.34.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.3",
-    "prettier": "^2.8.3",
+    "prettier": "^2.8.4",
     "typescript": "^4.9.5"
   },
   "dependencies": {
     "@octokit/action": "^5.0.2",
     "archiver": "^5.3.1",
-    "undici": "^5.16.0"
+    "undici": "^5.20.0"
   },
   "prettier": {
     "semi": true,
