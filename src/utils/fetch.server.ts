@@ -1,4 +1,5 @@
 import { request } from "undici";
+import "./version.server";
 
 export async function cadRequest<T = unknown>(path: string, method: "POST" | "GET", data?: T) {
   const url = GetConvar("snailycad_url", "null");
