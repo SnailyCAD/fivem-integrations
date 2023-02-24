@@ -19,16 +19,25 @@ RegisterCommand(
   false,
 );
 
-onNet(Events.TaxiCallToServer, async ({ street, name, position, description }: any) => {
-  const postal = usePostal ? await getPostal(position) : null;
+onNet(
+  Events.TaxiCallToServer,
+  async ({ source: player, street, name, position, description }: any) => {
+    const postal = usePostal ? await getPostal(position) : null;
 
-  await cadRequest("/taxi", "POST", {
-    name,
-    location: street,
-    description: description.join(" "),
-    postal,
-    creatorId: null,
-  }).catch(console.error);
+    const response = await cadRequest("/taxi", "POST", {
+      name,
+      location: street,
+      description: description.join(" "),
+      postal,
+      creatorId: null,
+    }).catch(console.error);
 
-  CancelEvent();
-});
+    if (response?.statusCode === 200) {
+      emitNet(Events.TaxiCallToClientResponse, player, "success");
+    } else {
+      emitNet(Events.TaxiCallToClientResponse, player, "failed");
+    }
+
+    CancelEvent();
+  },
+);

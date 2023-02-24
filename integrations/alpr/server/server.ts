@@ -24,8 +24,9 @@ async function fetchVehicleSearch(plate: string) {
 
     const body = (await response?.body.json()) ?? null;
     return Array.isArray(body) ? body : [];
-  } catch {
-    return [];
+  } catch (err) {
+    console.error(err);
+    return "failed";
   }
 }
 
@@ -35,7 +36,8 @@ async function fetchBoloSearch(plate: string) {
 
     const body = (await response?.body.json()) ?? null;
     return Array.isArray(body) ? body : [];
-  } catch {
-    return [];
+  } catch (err) {
+    console.error(err);
+    return "failed";
   }
 }

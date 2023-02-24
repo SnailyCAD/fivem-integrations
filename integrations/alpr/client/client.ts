@@ -2,8 +2,11 @@ import { TextureTypes } from "~/types/TextureTypes";
 import { createNotification } from "~/utils/notification";
 import { Events } from "~/types/Events";
 
-onNet(Events.ALPRCadBoloResults, (plate: string, body: any[] | null) => {
-  if (body && body.length > 0) {
+onNet(Events.ALPRCadBoloResults, (plate: string, body: unknown) => {
+  if (body === "failed") return;
+  if (!Array.isArray(body)) return;
+
+  if (body.length > 0) {
     createNotification({
       title: "BOLO Results",
       message: `${plate} has an active BOLO. Open SnailyCAD for more details.`,
@@ -12,9 +15,16 @@ onNet(Events.ALPRCadBoloResults, (plate: string, body: any[] | null) => {
   }
 });
 
-onNet(Events.ALPRCadPlateResults, (plate: string, body: any[] | null) => {
-  const vehicle = body?.[0];
+onNet(Events.ALPRCadPlateResults, (plate: string, body?: unknown) => {
+  if (body === "failed") {
+    return createNotification({
+      picture: TextureTypes.CHAR_CALL911,
+      message: "Unable to fetch plate search results: failed to fetch",
+      title: "Plate Search Results",
+    });
+  }
 
+  const [vehicle] = Array.isArray(body) ? body : [body];
   if (!vehicle) {
     return createNotification({
       picture: TextureTypes.CHAR_CALL911,

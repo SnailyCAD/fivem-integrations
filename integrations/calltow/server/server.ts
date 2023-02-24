@@ -19,16 +19,25 @@ RegisterCommand(
   false,
 );
 
-onNet(Events.TowCallToServer, async ({ street, name, position, description }: any) => {
-  const postal = usePostal ? await getPostal(position) : null;
+onNet(
+  Events.TowCallToServer,
+  async ({ source: player, street, name, position, description }: any) => {
+    const postal = usePostal ? await getPostal(position) : null;
 
-  await cadRequest("/tow", "POST", {
-    name,
-    location: street,
-    description: description.join(" "),
-    postal,
-    creatorId: null,
-  }).catch(console.error);
+    const response = await cadRequest("/tow", "POST", {
+      name,
+      location: street,
+      description: description.join(" "),
+      postal,
+      creatorId: null,
+    }).catch(console.error);
 
-  CancelEvent();
-});
+    if (response?.statusCode === 200) {
+      emitNet(Events.TowCallToClientResponse, player, "success");
+    } else {
+      emitNet(Events.TowCallToClientResponse, player, "failed");
+    }
+
+    CancelEvent();
+  },
+);

@@ -19,21 +19,33 @@ RegisterCommand(
   false,
 );
 
-onNet(Events.Call911ToServer, async ({ street, name, description, position }: any) => {
-  const postal = usePostal ? await getPostal(position) : null;
+onNet(
+  Events.Call911ToServer,
+  async ({ source: player, street, name, description, position }: any) => {
+    const postal = usePostal ? await getPostal(position) : null;
 
-  await cadRequest("/911-calls", "POST", {
-    name,
-    location: street,
-    description: description.join(" "),
-    postal,
-    gtaMapPosition: {
-      x: position.x,
-      y: position.y,
-      z: position.z,
-      heading: position.heading,
-    },
-  }).catch(console.error);
+    const response = await cadRequest("/911-calls", "POST", {
+      name,
+      location: street,
+      description: description.join(" "),
+      postal,
+      gtaMapPosition: {
+        x: position.x,
+        y: position.y,
+        z: position.z,
+        heading: position.heading,
+      },
+    }).catch((error) => {
+      console.error(error);
+      return null;
+    });
 
-  CancelEvent();
-});
+    if (response?.statusCode === 200) {
+      emitNet(Events.Call911ToClientResponse, player, "success");
+    } else {
+      emitNet(Events.Call911ToClientResponse, player, "failed");
+    }
+
+    CancelEvent();
+  },
+);

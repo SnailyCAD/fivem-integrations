@@ -6,7 +6,7 @@ export async function cadRequest<T = unknown>(path: string, method: "POST" | "GE
 
   if (url === "null") {
     console.warn("No `snailycad_url` convar was found in your server.cfg");
-    return;
+    return undefined;
   }
 
   return request(`${url}${path}`, {

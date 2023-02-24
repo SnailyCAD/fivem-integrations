@@ -3,7 +3,7 @@ import { TextureTypes } from "~/types/TextureTypes";
 import { IconTypes } from "~/types/IconTypes";
 import { EventData, Events } from "~/types/Events";
 
-onNet(Events.Call911ToClient, ({ name, description }: EventData) => {
+onNet(Events.Call911ToClient, ({ source, name, description }: EventData) => {
   const playerPed = GetPlayerPed(-1);
   const [x, y, z] = GetEntityCoords(playerPed, true);
   const [lastStreet] = GetStreetNameAtCoord(x!, y!, z!);
@@ -16,13 +16,25 @@ onNet(Events.Call911ToClient, ({ name, description }: EventData) => {
       name,
       description,
       position: { x, y, z, heading },
+      source,
     });
   });
+});
 
-  createNotification({
-    picture: TextureTypes.CHAR_CALL911,
-    icon: IconTypes.ChatBox,
-    message: "Your call has been reported to the emergency services",
-    title: "Emergency Services",
-  });
+onNet(Events.Call911ToClientResponse, (state: "failed" | "success") => {
+  if (state === "success") {
+    createNotification({
+      picture: TextureTypes.CHAR_CALL911,
+      icon: IconTypes.ChatBox,
+      message: "Your call has been reported to the emergency services",
+      title: "Emergency Services",
+    });
+  } else {
+    createNotification({
+      picture: TextureTypes.CHAR_CALL911,
+      icon: IconTypes.ChatBox,
+      message: "We were unable to process your 911 call at this time.",
+      title: "Failed to report call",
+    });
+  }
 });
