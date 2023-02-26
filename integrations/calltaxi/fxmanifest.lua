@@ -3,7 +3,7 @@ game "gta5"
 
 author "Dev-CasperTheGhost"
 description "/calltaxi command that connects to SnailyCADv4"
-version "0.1.6"
+version "0.1.7"
 
 server_scripts {"server/server.js"}
 client_scripts {"client/client.js"}

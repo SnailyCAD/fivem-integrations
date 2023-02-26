@@ -4,15 +4,15 @@ import { Events } from "~/types/Events";
 onNet(Events.WraithPlateLocked, async (_cam: "front" | "rear", plate: string) => {
   const player = source;
 
-  const plateSearchResults = await fetchVehicleSearch(plate);
-  const boloSearchResults = await fetchBoloSearch(plate);
+  const plateSearchResults = await fetchVehicleSearch(plate.trim().toUpperCase());
+  const boloSearchResults = await fetchBoloSearch(plate.trim().toUpperCase());
 
   setImmediate(() => {
-    emitNet(Events.ALPRCadPlateResults, player, plate, plateSearchResults);
+    emitNet(Events.ALPRCadPlateResults, player, plate.trim().toUpperCase(), plateSearchResults);
   });
 
   setImmediate(() => {
-    emitNet(Events.ALPRCadBoloResults, player, plate, boloSearchResults);
+    emitNet(Events.ALPRCadBoloResults, player, plate.trim().toUpperCase(), boloSearchResults);
   });
 });
 
