@@ -1,3 +1,7 @@
+## 0.1.7
+
+- fix(sna-alpr): remove spaces from plates
+
 ## 0.1.5
 
 - update dependencies
