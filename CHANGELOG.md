@@ -1,3 +1,7 @@
+## 0.2.0
+
+- feat: add `sna-sync`: Sync AOP changes, Signal 100 toggles to all players
+
 ## 0.1.7
 
 - fix(sna-alpr): remove spaces from plates
