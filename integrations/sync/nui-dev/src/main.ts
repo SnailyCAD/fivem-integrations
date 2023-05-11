@@ -1,26 +1,43 @@
-import { io } from "socket.io-client";
+import { Socket, io } from "socket.io-client";
 
-const socket = io("http://localhost:8080");
+interface NuiMessage {
+  action: string;
+  data?: { url: string };
+}
 
 declare global {
   interface Window {
     GetCurrentResourceName?(): string;
+    GetConvar(name: string, defaultValue: string): string;
   }
 }
 
-socket.on("connect", () => fetchNUI("connected", { socketId: socket.id }));
+window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
+  const apiURL = event.data.data?.url;
+  if (apiURL) {
+    onSpawn(apiURL);
+  }
+});
 
-socket.on("Signal100", (enabled) =>
-  fetchNUI("Signal100", {
-    enabled,
-  }),
-);
+let socket: Socket;
 
-socket.on("UpdateAreaOfPlay", (areaOfPlay: string | null) =>
-  fetchNUI("UpdateAreaOfPlay", {
-    areaOfPlay,
-  }),
-);
+function onSpawn(apiURL: string) {
+  socket = io(apiURL.replace("/v1", ""));
+
+  socket.on("connect", () => fetchNUI("connected", { socketId: socket.id }));
+
+  socket.on("Signal100", (enabled) =>
+    fetchNUI("Signal100", {
+      enabled,
+    }),
+  );
+
+  socket.on("UpdateAreaOfPlay", (areaOfPlay: string | null) =>
+    fetchNUI("UpdateAreaOfPlay", {
+      areaOfPlay,
+    }),
+  );
+}
 
 async function fetchNUI(eventName: string, data = {}) {
   try {
