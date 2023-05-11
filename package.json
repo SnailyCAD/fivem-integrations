@@ -26,7 +26,7 @@
     "@types/node": "^18.14.2",
     "@types/ws": "^8.5.4",
     "@typescript-eslint/parser": "^5.54.0",
-    "esbuild": "^0.17.10",
+    "esbuild": "^0.17.18",
     "eslint": "^8.35.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
