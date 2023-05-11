@@ -3,7 +3,7 @@ game "gta5"
 
 author "Dev-CasperTheGhost"
 description "Sync SnailyCAD's signal 100s with FiveM."
-version "0.1.7"
+version "0.0."
 
 ui_page "nui/index.html"
 
