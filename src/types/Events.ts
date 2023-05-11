@@ -14,6 +14,9 @@ export enum Events {
   TaxiCallToClient = "sn:taxiCall",
   TaxiCallToServer = "sn:taxiCallUpdate",
   TaxiCallToClientResponse = "sn:taxiCallResponse",
+
+  SnSignal100 = "sn:signal100",
+  AreaOfPlayChange = "sn:areaOfPlayChange",
 }
 
 export interface EventData {
