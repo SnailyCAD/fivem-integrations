@@ -9,7 +9,16 @@ const PREFIX = "sna";
 for (const integrationKey of INTEGRATIONS) {
   const integrationPath = path.resolve(BASE_PATH, integrationKey);
   const isPostals = integrationKey === "postals";
+  const isSync = integrationKey === "sync";
+
   const distDir = `dist/${PREFIX}-${integrationKey}`;
+
+  if (isSync) {
+    const nuiFolder = path.resolve(integrationPath, "nui");
+
+    await fs.mkdir(distDir).catch(() => null);
+    fs.cp(path.resolve(nuiFolder), path.resolve(distDir, "nui/"), { recursive: true });
+  }
 
   if (isPostals) {
     const postalsFile = isPostals && path.resolve(integrationPath, "postals.json");
