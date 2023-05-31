@@ -8,7 +8,6 @@ interface NuiMessage {
 declare global {
   interface Window {
     GetCurrentResourceName?(): string;
-    GetConvar(name: string, defaultValue: string): string;
   }
 }
 
@@ -25,6 +24,7 @@ function onSpawn(apiURL: string) {
   socket = io(apiURL.replace("/v1", ""));
 
   socket.on("connect", () => fetchNUI("connected", { socketId: socket.id }));
+  socket.on("connect_error", (error) => fetchNUI("connect_error", { error }));
 
   socket.on("Signal100", (enabled) =>
     fetchNUI("Signal100", {

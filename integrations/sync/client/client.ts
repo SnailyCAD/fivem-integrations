@@ -1,9 +1,7 @@
 /**
  * send a message to the NUI with the API URL when a player spawns.
  */
-onNet("playerSpawned", (player: unknown) => {
-  console.log(player);
-
+onNet("playerSpawned", () => {
   const url = GetConvar("snailycad_url", "null");
   SendNuiMessage(JSON.stringify({ action: "sn:initialize", data: { url } }));
 });
@@ -16,6 +14,12 @@ RegisterNuiCallbackType("connected"); // register the type
 
 on("__cfx_nui:connected", (_data: never, cb: Function) => {
   console.info("Connected to SnailyCAD!");
+  cb({ ok: true });
+});
+
+on("__cfx_nui:connect_error", (data: Partial<Error> | null, cb: Function) => {
+  console.info(data?.message ?? data?.name ?? (String(data) || "Unknown error"));
+  console.info("Unable to connect to SnailyCAD. Error:", data);
   cb({ ok: true });
 });
 
