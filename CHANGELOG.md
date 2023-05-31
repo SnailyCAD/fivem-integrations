@@ -1,3 +1,7 @@
+## 0.2.1
+
+- Add debug logging for `sna-sync`
+
 ## 0.2.0
 
 - feat: add `sna-sync`: Sync AOP changes, Signal 100 toggles to all players
