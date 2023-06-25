@@ -12,26 +12,28 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.event.head_commit.message, 'chore(release)') && !contains(github.event.head_commit.message, '[skip ci]')
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Install Node v16
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
         with:
-          node-version: 16
-          registry-url: https://registry.npmjs.org/
+          version: 8
 
-      - name: Install dependencies
-        run: npm ci --ignore-scripts
+      - name: Use Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "pnpm"
+
+      - name: Install root dependencies
+        run: pnpm i
 
       - name: Install dependencies NUI
-        run: cd integrations/sync/nui-dev && npm ci --ignore-scripts
+        run: cd integrations/sync/nui-dev && pnpm i
 
       - name: build integrations
-        run: npm run build
+        run: pnpm run build
 
       - name: Zip integrations
-        run: npm run build:zip
+        run: pnpm run build:zip
 
       - name: Create GitHub release
         run: node ./scripts/action-zip.mjs
