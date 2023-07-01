@@ -22,7 +22,7 @@
     "@citizenfx/client": "^2.0.6520-1",
     "@citizenfx/server": "^2.0.6520-1",
     "@types/archiver": "^5.3.2",
-    "@types/node": "^20.3.1",
+    "@types/node": "^20.3.3",
     "@types/ws": "^8.5.5",
     "@typescript-eslint/parser": "^5.60.0",
     "esbuild": "^0.18.8",
