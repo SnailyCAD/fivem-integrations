@@ -1,17 +1,24 @@
+import "dotenv/config";
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as esbuild from "esbuild";
 
-const BASE_PATH = path.resolve(process.cwd(), "integrations");
-const INTEGRATIONS = await fs.readdir(BASE_PATH);
+const FXSERVER_RESOURCES_PATH = process.env.FXSERVER_RESOURCES_PATH;
+
+const BASE_SOURCE_PATH = path.resolve(process.cwd(), "integrations");
+const INTEGRATIONS_SOURCE = await fs.readdir(BASE_SOURCE_PATH);
 const PREFIX = "sna";
 
-for (const integrationKey of INTEGRATIONS) {
-  const integrationPath = path.resolve(BASE_PATH, integrationKey);
+for (const integrationKey of INTEGRATIONS_SOURCE) {
+  const integrationPath = path.resolve(BASE_SOURCE_PATH, integrationKey);
   const isPostals = integrationKey === "postals";
   const isSync = integrationKey === "sync";
 
-  const distDir = `dist/${PREFIX}-${integrationKey}`;
+  const distDir = FXSERVER_RESOURCES_PATH
+    ? `${FXSERVER_RESOURCES_PATH}/${PREFIX}-${integrationKey}`
+    : `dist/${PREFIX}-${integrationKey}`;
+
+  console.log(`Building ${integrationKey} to ${distDir}`);
 
   if (isSync) {
     const nuiFolder = path.resolve(integrationPath, "nui");
