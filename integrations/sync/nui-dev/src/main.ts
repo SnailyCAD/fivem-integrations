@@ -1,4 +1,5 @@
 import { Socket, io } from "socket.io-client";
+import { handleAuthenticationFlow } from "./authentication";
 
 interface NuiMessage {
   action: string;
@@ -12,12 +13,15 @@ declare global {
 }
 
 window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
+  const apiURL = event.data.data?.url;
+
+  if (!apiURL) {
+    return;
+  }
+
   switch (event.data.action) {
     case "sn:initialize": {
-      const apiURL = event.data.data?.url;
-      if (apiURL) {
-        onSpawn(apiURL);
-      }
+      onSpawn(apiURL);
 
       break;
     }
@@ -25,6 +29,8 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
       const authenticationFlowElement = document.getElementById("authentication-flow");
       if (authenticationFlowElement) {
         authenticationFlowElement.classList.remove("hidden");
+
+        handleAuthenticationFlow(apiURL);
       }
 
       break;
@@ -34,27 +40,6 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
     }
   }
 });
-
-const closeAuthenticationFlowButton = document.getElementById("close-authentication-flow");
-if (closeAuthenticationFlowButton) {
-  closeAuthenticationFlowButton.addEventListener("click", async () => {
-    const authenticationFlowElement = document.getElementById("authentication-flow");
-    await fetchNUI("sna-sync:close-authentication-flow", {});
-
-    if (authenticationFlowElement) {
-      authenticationFlowElement.classList.add("hidden");
-    }
-  });
-}
-
-const authenticationFlowForm = document.getElementById("authentication-flow-form");
-if (authenticationFlowForm) {
-  authenticationFlowForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    // todo: onSuccessful login -> send event to client
-  });
-}
 
 let socket: Socket;
 
@@ -77,7 +62,7 @@ function onSpawn(apiURL: string) {
   );
 }
 
-async function fetchNUI(eventName: string, data = {}) {
+export async function fetchNUI(eventName: string, data = {}) {
   try {
     const options = {
       method: "POST",
@@ -93,5 +78,6 @@ async function fetchNUI(eventName: string, data = {}) {
     return response;
   } catch (err) {
     console.error(err);
+    return null;
   }
 }

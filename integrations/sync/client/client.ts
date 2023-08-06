@@ -1,9 +1,10 @@
+const API_URL = GetConvar("snailycad_url", "null");
+
 /**
  * send a message to the NUI with the API URL when a player spawns.
  */
 onNet("playerSpawned", () => {
-  const url = GetConvar("snailycad_url", "null");
-  SendNuiMessage(JSON.stringify({ action: "sn:initialize", data: { url } }));
+  SendNuiMessage(JSON.stringify({ action: "sn:initialize", data: { url: API_URL } }));
 });
 
 /**
@@ -87,7 +88,10 @@ emit(
 // request to show the authentication flow modal
 onNet("sna-sync:request-authentication-flow", (source: number) => {
   SendNuiMessage(
-    JSON.stringify({ action: "sna-sync:request-authentication-flow", data: { source } }),
+    JSON.stringify({
+      action: "sna-sync:request-authentication-flow",
+      data: { url: API_URL, source },
+    }),
   );
   SetNuiFocus(true, true);
 });
