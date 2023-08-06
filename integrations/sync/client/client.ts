@@ -76,13 +76,31 @@ function formatDate(date: Date) {
 /**
  * authentication flow
  */
+
+// add client command suggestion
+emit(
+  "chat:addSuggestion",
+  "/authenticate",
+  "Authenticate with your personal SnailyCAD API Token to interact with parts of it.",
+);
+
+// request to show the authentication flow modal
 onNet("sna-sync:request-authentication-flow", (source: number) => {
   SendNuiMessage(
     JSON.stringify({ action: "sna-sync:request-authentication-flow", data: { source } }),
   );
+  SetNuiFocus(true, true);
 });
 
+// the user has logged in successfully
 on("__cfx_nui:sna-sync:request-authentication-flow", (data: unknown, cb: Function) => {
   emitNet("sna-sync:request-user-save", data);
+  cb({ ok: true });
+});
+
+// the authentication flow has been closed
+RegisterNuiCallbackType("sna-sync:close-authentication-flow");
+on("__cfx_nui:sna-sync:close-authentication-flow", (_data: unknown, cb: Function) => {
+  SetNuiFocus(false, false);
   cb({ ok: true });
 });

@@ -22,8 +22,10 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
       break;
     }
     case "sna-sync:request-authentication-flow": {
-      // todo: show form to handle user auth input
-      // todo: onSuccessful login -> send event to client
+      const authenticationFlowElement = document.getElementById("authentication-flow");
+      if (authenticationFlowElement) {
+        authenticationFlowElement.classList.remove("hidden");
+      }
 
       break;
     }
@@ -32,6 +34,27 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
     }
   }
 });
+
+const closeAuthenticationFlowButton = document.getElementById("close-authentication-flow");
+if (closeAuthenticationFlowButton) {
+  closeAuthenticationFlowButton.addEventListener("click", async () => {
+    const authenticationFlowElement = document.getElementById("authentication-flow");
+    await fetchNUI("sna-sync:close-authentication-flow", {});
+
+    if (authenticationFlowElement) {
+      authenticationFlowElement.classList.add("hidden");
+    }
+  });
+}
+
+const authenticationFlowForm = document.getElementById("authentication-flow-form");
+if (authenticationFlowForm) {
+  authenticationFlowForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    // todo: onSuccessful login -> send event to client
+  });
+}
 
 let socket: Socket;
 
