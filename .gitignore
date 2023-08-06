@@ -2,3 +2,4 @@ node_modules
 dist
 integrations/**/nui
 .env
+sna-sync.db

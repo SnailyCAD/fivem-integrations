@@ -12,9 +12,24 @@ declare global {
 }
 
 window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
-  const apiURL = event.data.data?.url;
-  if (apiURL) {
-    onSpawn(apiURL);
+  switch (event.data.action) {
+    case "sn:initialize": {
+      const apiURL = event.data.data?.url;
+      if (apiURL) {
+        onSpawn(apiURL);
+      }
+
+      break;
+    }
+    case "sna-sync:request-authentication-flow": {
+      // todo: show form to handle user auth input
+      // todo: onSuccessful login -> send event to client
+
+      break;
+    }
+    default: {
+      break;
+    }
   }
 });
 

@@ -72,3 +72,17 @@ function formatDate(date: Date) {
     second: "numeric",
   });
 }
+
+/**
+ * authentication flow
+ */
+onNet("sna-sync:request-authentication-flow", (source: number) => {
+  SendNuiMessage(
+    JSON.stringify({ action: "sna-sync:request-authentication-flow", data: { source } }),
+  );
+});
+
+on("__cfx_nui:sna-sync:request-authentication-flow", (data: unknown, cb: Function) => {
+  emitNet("sna-sync:request-user-save", data);
+  cb({ ok: true });
+});

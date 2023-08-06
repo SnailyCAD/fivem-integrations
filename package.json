@@ -33,10 +33,12 @@
     "husky": "^8.0.3",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.1",
+    "prisma": "^5.1.1",
     "typescript": "^5.1.6"
   },
   "dependencies": {
     "@octokit/action": "^6.0.5",
+    "@prisma/client": "^5.1.1",
     "archiver": "^5.3.1",
     "dotenv": "^16.3.1",
     "undici": "^5.23.0"
