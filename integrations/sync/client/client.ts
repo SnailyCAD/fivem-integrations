@@ -97,7 +97,8 @@ onNet("sna-sync:request-authentication-flow", (source: number) => {
 });
 
 // the user has logged in successfully
-on("__cfx_nui:sna-sync:request-authentication-flow", (data: unknown, cb: Function) => {
+RegisterNuiCallbackType("sna-sync:authentication-flow-success");
+on("__cfx_nui:sna-sync:authentication-flow-success", (data: unknown, cb: Function) => {
   emitNet("sna-sync:request-user-save", data);
   cb({ ok: true });
 });

@@ -27,6 +27,8 @@ export async function handleAuthenticationFlow(apiUrl: string) {
       console.log(response);
       console.log(text);
 
+      fetchNUI("sna-sync:authentication-flow-success", { id: "test" });
+
       // todo: onSuccessful login -> send event to client
     });
   }

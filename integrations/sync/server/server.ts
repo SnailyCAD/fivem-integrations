@@ -54,9 +54,9 @@ RegisterCommand(
   false,
 );
 
-onNet("sna-sync:request-user-save", async (user: unknown) => {
-  console.log("user", user);
+onNet("sna-sync:request-user-save", async (userData: unknown) => {
+  console.log("user", userData);
 
   // todo: validate user input
-  // todo: save in Prisma SQLite database
+  // todo: save in SQLite database
 });
