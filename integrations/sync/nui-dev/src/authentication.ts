@@ -1,7 +1,7 @@
 import { handleClientCadRequest } from "./fetch.client";
 import { fetchNUI } from "./main";
 
-export async function handleAuthenticationFlow(apiUrl: string) {
+export async function handleAuthenticationFlow(apiUrl: string, identifiers: string[]) {
   const closeAuthenticationFlowButton = document.getElementById("close-authentication-flow");
   if (closeAuthenticationFlowButton) {
     closeAuthenticationFlowButton.addEventListener("click", async () => {
@@ -19,17 +19,26 @@ export async function handleAuthenticationFlow(apiUrl: string) {
     authenticationFlowForm.addEventListener("submit", async (event) => {
       event.preventDefault();
 
-      const response = await handleClientCadRequest(apiUrl, "/auth/login", "POST", {
-        test: "hello world",
+      const elements = (event.currentTarget as HTMLFormElement).elements;
+      const tokenElement = elements.namedItem("api_token") as HTMLInputElement | null;
+      if (!tokenElement) return;
+
+      const response = await handleClientCadRequest(apiUrl, "/user/api-token/validate", "POST", {
+        token: tokenElement.value,
+        identifiers,
       });
 
-      const text = await response.text();
-      console.log(response);
-      console.log(text);
+      const json = await response.json(); // basic user data
+      console.log(json);
 
-      fetchNUI("sna-sync:authentication-flow-success", { id: "test" });
+      const errorHintElement = document.getElementById("api_token_hint");
+      if (errorHintElement) {
+        // todo: properly handle errors
+        // todo: properly handle invalidate response
+        errorHintElement.innerText = json.error ?? "";
+      }
 
-      // todo: onSuccessful login -> send event to client
+      fetchNUI("sna-sync:authentication-flow-success", json);
     });
   }
 }

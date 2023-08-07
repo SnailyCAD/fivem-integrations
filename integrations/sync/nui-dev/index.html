@@ -38,10 +38,13 @@
           <div>
             <label for="api_token" htmlFor="api_token" class="mb-2">API Token</label>
             <input
+              name="api_token"
               id="api_token"
               type="password"
               class="bg-secondary border-quinary w-full rounded-md border p-1.5 px-3 text-white outline-none transition-colors focus:border-gray-500 disabled:cursor-not-allowed disabled:opacity-80"
             />
+
+            <span id="api_token_hint" class="hidden font-medium text-red-400"></span>
           </div>
 
           <button

@@ -1,9 +1,9 @@
 import { Socket, io } from "socket.io-client";
 import { handleAuthenticationFlow } from "./authentication";
 
-interface NuiMessage {
+export interface NuiMessage {
   action: string;
-  data?: { url: string };
+  data?: { url: string; identifiers?: string[] };
 }
 
 declare global {
@@ -14,6 +14,7 @@ declare global {
 
 window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
   const apiURL = event.data.data?.url;
+  const identifiers = event.data.data?.identifiers;
 
   if (!apiURL) {
     return;
@@ -27,10 +28,10 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
     }
     case "sna-sync:request-authentication-flow": {
       const authenticationFlowElement = document.getElementById("authentication-flow");
-      if (authenticationFlowElement) {
+      if (authenticationFlowElement && identifiers) {
         authenticationFlowElement.classList.remove("hidden");
 
-        handleAuthenticationFlow(apiURL);
+        handleAuthenticationFlow(apiURL, identifiers);
       }
 
       break;

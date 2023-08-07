@@ -16,7 +16,7 @@ RegisterCommand(
   async (source: number) => {
     CancelEvent();
 
-    const identifiers = getPlayerIds(source);
+    const identifiers = getPlayerIds(source, "object");
     const response = await cadRequest("/dispatch/player", "POST", identifiers).catch((error) => {
       console.error(error);
       return null;
@@ -49,7 +49,8 @@ RegisterCommand(
   (source: number) => {
     CancelEvent();
 
-    emitNet("sna-sync:request-authentication-flow", source);
+    const identifiers = getPlayerIds(source, "array");
+    emitNet("sna-sync:request-authentication-flow", source, identifiers);
   },
   false,
 );
