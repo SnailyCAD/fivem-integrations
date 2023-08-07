@@ -10,11 +10,11 @@
     <div id="app" class="text-white">
       <div id="authentication-flow" class="max-w-4xl rounded-md bg-primary p-8 hidden">
         <header class="mb-2">
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between mb-3">
             <h1 class="text-2xl font-bold text-white">SnailyCAD API Token Authentication</h1>
             <button
               id="close-authentication-flow"
-              class="bg-secondary border-quinary mt-2 cursor-pointer rounded-md border p-1.5 text-white transition-colors hover:brightness-150 disabled:cursor-not-allowed disabled:opacity-60"
+              class="bg-secondary border-quinary cursor-pointer rounded-md border p-1.5 text-white transition-colors hover:brightness-150 disabled:cursor-not-allowed disabled:opacity-60"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +44,7 @@
               class="bg-secondary border-quinary w-full rounded-md border p-1.5 px-3 text-white outline-none transition-colors focus:border-gray-500 disabled:cursor-not-allowed disabled:opacity-80"
             />
 
-            <span id="api_token_hint" class="hidden font-medium text-red-400"></span>
+            <span id="api_token_hint" class="hidden font-medium"></span>
           </div>
 
           <button

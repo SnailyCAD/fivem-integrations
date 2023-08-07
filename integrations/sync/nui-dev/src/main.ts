@@ -20,13 +20,15 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
     return;
   }
 
+  console.log(identifiers);
+
   switch (event.data.action) {
     case "sn:initialize": {
       onSpawn(apiURL);
 
       break;
     }
-    case "sna-sync:request-authentication-flow": {
+    case "sn:request-authentication-flow": {
       const authenticationFlowElement = document.getElementById("authentication-flow");
       if (authenticationFlowElement && identifiers) {
         authenticationFlowElement.classList.remove("hidden");

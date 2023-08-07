@@ -29,16 +29,26 @@ export async function handleAuthenticationFlow(apiUrl: string, identifiers: stri
       });
 
       const json = await response.json(); // basic user data
-      console.log(json);
+      const hasErrors = json.name === "BAD_REQUEST" || json.status === 400;
+      console.log(JSON.stringify(json, null, 4));
 
       const errorHintElement = document.getElementById("api_token_hint");
       if (errorHintElement) {
-        // todo: properly handle errors
-        // todo: properly handle invalidate response
-        errorHintElement.innerText = json.error ?? "";
+        if (hasErrors) {
+          errorHintElement.innerText = json.message;
+          errorHintElement.classList.add("text-red-400");
+          errorHintElement.classList.remove("hidden", "text-green-400");
+          return;
+        }
+
+        errorHintElement.classList.remove("hidden", "text-red-400");
+        errorHintElement.classList.add("text-green-400");
+        errorHintElement.innerText = "Successfully authenticated. You can now close this window.";
       }
 
-      fetchNUI("sna-sync:authentication-flow-success", json);
+      if (!hasErrors) {
+        fetchNUI("sna-sync:authentication-flow-success", json);
+      }
     });
   }
 }

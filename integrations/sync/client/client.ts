@@ -86,10 +86,10 @@ emit(
 );
 
 // request to show the authentication flow modal
-onNet("sna-sync:request-authentication-flow", (source: number, identifiers: string[]) => {
+onNet("sna-sync:request-authentication-flow", (identifiers: string[]) => {
   SendNuiMessage(
     JSON.stringify({
-      action: "sna-sync:request-authentication-flow",
+      action: "sn:request-authentication-flow",
       data: { url: API_URL, source, identifiers },
     }),
   );
