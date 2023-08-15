@@ -12,3 +12,4 @@ files {
 }
 
 client_scripts {"client/client.js"}
+server_scripts {"server/server.js"}

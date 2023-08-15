@@ -1,8 +1,9 @@
 import { Socket, io } from "socket.io-client";
+import { handleAuthenticationFlow } from "./authentication";
 
-interface NuiMessage {
+export interface NuiMessage {
   action: string;
-  data?: { url: string };
+  data?: { url: string; identifiers?: string[] };
 }
 
 declare global {
@@ -13,8 +14,33 @@ declare global {
 
 window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
   const apiURL = event.data.data?.url;
-  if (apiURL) {
-    onSpawn(apiURL);
+  const identifiers = event.data.data?.identifiers;
+
+  if (!apiURL) {
+    return;
+  }
+
+  console.log(identifiers);
+
+  switch (event.data.action) {
+    case "sn:initialize": {
+      onSpawn(apiURL);
+
+      break;
+    }
+    case "sn:request-authentication-flow": {
+      const authenticationFlowElement = document.getElementById("authentication-flow");
+      if (authenticationFlowElement && identifiers) {
+        authenticationFlowElement.classList.remove("hidden");
+
+        handleAuthenticationFlow(apiURL, identifiers);
+      }
+
+      break;
+    }
+    default: {
+      break;
+    }
   }
 });
 
@@ -39,7 +65,7 @@ function onSpawn(apiURL: string) {
   );
 }
 
-async function fetchNUI(eventName: string, data = {}) {
+export async function fetchNUI(eventName: string, data = {}) {
   try {
     const options = {
       method: "POST",
@@ -55,5 +81,6 @@ async function fetchNUI(eventName: string, data = {}) {
     return response;
   } catch (err) {
     console.error(err);
+    return null;
   }
 }
