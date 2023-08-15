@@ -1,3 +1,8 @@
+## 0.3.0
+
+- Add `sn-whoami` command. This allows players to view their current SnailyCAD username and ID.
+- Add `sn-auth` command. This allows players to authenticate with SnailyCAD's API and interact with the CAD in-game.
+
 ## 0.2.1
 
 - Add debug logging for `sna-sync`

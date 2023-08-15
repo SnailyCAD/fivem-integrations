@@ -1,6 +1,7 @@
-interface PlayerIdentifiers {
+export interface PlayerIdentifiers {
   steamId: string | null;
   discordId: string | null;
+  license: string | null;
 }
 
 export function getPlayerIds<ReturnType extends "object" | "array">(
@@ -8,7 +9,7 @@ export function getPlayerIds<ReturnType extends "object" | "array">(
   returnType: ReturnType,
 ): ReturnType extends "object" ? PlayerIdentifiers : string[] {
   const _identifiers = getPlayerIdentifiers(source);
-  const identifiers: PlayerIdentifiers = { steamId: null, discordId: null };
+  const identifiers: PlayerIdentifiers = { license: null, steamId: null, discordId: null };
   const identifiersArray: string[] = [];
 
   if (returnType === "object") {
@@ -17,6 +18,8 @@ export function getPlayerIds<ReturnType extends "object" | "array">(
         identifiers.steamId = identifier;
       } else if (identifier.includes("discord")) {
         identifiers.discordId = identifier;
+      } else if (identifier.startsWith("license:")) {
+        identifiers.license = identifier;
       }
     }
 

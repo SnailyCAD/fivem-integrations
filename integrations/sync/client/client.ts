@@ -81,7 +81,13 @@ function formatDate(date: Date) {
 // add client command suggestion
 emit(
   "chat:addSuggestion",
-  "/authenticate",
+  "/sn-whoami",
+  "Shows your current SnailyCAD account username and ID that is connected to the game.",
+);
+
+emit(
+  "chat:addSuggestion",
+  "/sn-auth",
   "Authenticate with your personal SnailyCAD API Token to interact with parts of it.",
 );
 

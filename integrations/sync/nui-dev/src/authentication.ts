@@ -30,12 +30,12 @@ export async function handleAuthenticationFlow(apiUrl: string, identifiers: stri
 
       const json = await response.json(); // basic user data
       const hasErrors = json.name === "BAD_REQUEST" || json.status === 400;
-      console.log(JSON.stringify(json, null, 4));
 
       const errorHintElement = document.getElementById("api_token_hint");
       if (errorHintElement) {
         if (hasErrors) {
-          errorHintElement.innerText = json.message;
+          errorHintElement.innerText =
+            json.message === "invalidToken" ? "An invalid token was provided." : json.message;
           errorHintElement.classList.add("text-red-400");
           errorHintElement.classList.remove("hidden", "text-green-400");
           return;
@@ -47,7 +47,9 @@ export async function handleAuthenticationFlow(apiUrl: string, identifiers: stri
       }
 
       if (!hasErrors) {
-        fetchNUI("sna-sync:authentication-flow-success", json);
+        fetchNUI("sna-sync:authentication-flow-success", {
+          token: tokenElement.value,
+        });
       }
     });
   }
