@@ -1,5 +1,5 @@
 import { Socket, io } from "socket.io-client";
-import { handleAuthenticationFlow } from "./authentication";
+import { handleAuthenticationFlow } from "./flows/authentication";
 
 export interface NuiMessage {
   action: string;
@@ -20,22 +20,20 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
     return;
   }
 
-  console.log(identifiers);
-
   switch (event.data.action) {
     case "sn:initialize": {
       onSpawn(apiURL);
-
       break;
     }
     case "sn:request-authentication-flow": {
       const authenticationFlowElement = document.getElementById("authentication-flow");
       if (authenticationFlowElement && identifiers) {
         authenticationFlowElement.classList.remove("hidden");
-
         handleAuthenticationFlow(apiURL, identifiers);
       }
-
+      break;
+    }
+    case "sn:request-set-status-flow": {
       break;
     }
     default: {

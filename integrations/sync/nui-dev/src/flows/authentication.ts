@@ -1,5 +1,5 @@
-import { handleClientCadRequest } from "./fetch.client";
-import { fetchNUI } from "./main";
+import { handleClientCadRequest } from "../fetch.client";
+import { fetchNUI } from "../main";
 
 export async function handleAuthenticationFlow(apiUrl: string, identifiers: string[]) {
   const closeAuthenticationFlowButton = document.getElementById("close-authentication-flow");
