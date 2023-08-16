@@ -1,3 +1,10 @@
+## 0.4.0
+
+Building on top of the previous release, players who are authenticated with SnailyCAD (using the `sn-auth` command.) are now able to view their active unit and set the status for their active unit.
+
+- Add `sn-set-status` command. This allows players to set their status for their active unit. (If no argument is provided, it will open a menu with all available codes)
+- Add `sn-active-unit` command. This allows players to view their active unit.
+
 ## 0.3.0
 
 - Add `sn-whoami` command. This allows players to view their current SnailyCAD username and ID.
