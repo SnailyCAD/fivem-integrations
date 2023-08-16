@@ -3,6 +3,10 @@ import { TextureTypes } from "~/types/TextureTypes";
 import { IconTypes } from "~/types/IconTypes";
 import { EventData, Events } from "~/types/Events";
 
+emit("chat:addSuggestion", "/calltaxi ", "Contact the taxi services (SnailyCAD).", [
+  { name: "description", help: "The description of the call" },
+]);
+
 onNet(Events.TaxiCallToClient, async ({ source, name, description }: EventData) => {
   const playerPed = GetPlayerPed(-1);
   const [x, y, z] = GetEntityCoords(playerPed, true);
