@@ -1,5 +1,11 @@
 const API_URL = GetConvar("snailycad_url", "null");
 
+emit(
+  "chat:addSuggestion",
+  `/${SnCommands.PanicButton}`,
+  "Toggle the panic button state for your active unit.",
+);
+
 /**
  * send a message to the NUI with the API URL when a player spawns.
  */
@@ -75,6 +81,6 @@ function formatDate(date: Date) {
   });
 }
 
-import { NuiEvents } from "~/types/Events";
+import { NuiEvents, SnCommands } from "~/types/events";
 import "./flows/auth";
 import "./flows/unit-status";

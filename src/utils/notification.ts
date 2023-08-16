@@ -1,5 +1,5 @@
-import { IconTypes } from "../types/IconTypes";
-import { TextureTypes } from "../types/TextureTypes";
+import { IconTypes } from "../types/icon-types";
+import { TextureTypes } from "../types/texture-types";
 
 interface NotificationOptions {
   picture: TextureTypes;

@@ -1,9 +1,9 @@
 import { createNotification } from "~/utils/notification";
-import { TextureTypes } from "~/types/TextureTypes";
-import { IconTypes } from "~/types/IconTypes";
-import { EventData, Events } from "~/types/Events";
+import { TextureTypes } from "~/types/texture-types";
+import { IconTypes } from "~/types/icon-types";
+import { EventData, Events, SnCommands } from "~/types/events";
 
-emit("chat:addSuggestion", "/calltow", "Contact the tow services (SnailyCAD).", [
+emit("chat:addSuggestion", `/${SnCommands.CallTow}`, "Contact the tow services.", [
   { name: "description", help: "The description of the call" },
 ]);
 

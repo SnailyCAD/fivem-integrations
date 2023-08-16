@@ -25,12 +25,15 @@ export interface EventData {
   description: string;
 }
 
-// todo: export NUI events here too.
 export enum SnCommands {
+  Call911 = "sn-call911",
+  CallTow = "sn-calltow",
+  CallTaxi = "sn-calltaxi",
   WhoAmI = "sn-whoami",
   Auth = "sn-auth",
   ActiveUnit = "sn-active-unit",
   SetStatus = "sn-set-status",
+  PanicButton = "sn-panic-button",
 }
 
 export enum ServerEvents {
@@ -65,9 +68,12 @@ export enum NuiEvents {
   OnAuthenticationFlowSuccess = "sna-sync-nui:authentication-flow-success",
   CloseSetStatusFlow = "sna-sync-nui:close-set-status-flow",
   OnSetUnitStatus = "sna-sync-nui:set-unit-status",
-
+  /** a connection was established to the SnailyCAD API. */
   Connected = "sna-sync-nui:connected",
+  /** an error occurred while connecting to the SnailyCAD API. */
   ConnectionError = "sna-sync-nui:connect_error",
+  /** a socket event for `Signal100` was received from the SnailyCAD API. */
   Signal100 = "sna-sync-nui:signal100",
+  /** a socket event for `UpdateAreaOfPlay` was received from the SnailyCAD API. */
   UpdateAreaOfPlay = "sna-sync-nui:update-area-of-play",
 }

@@ -1,1 +1,1 @@
-export { ClientEvents, NuiEvents, ServerEvents } from "../../../../src/types/Events";
+export { ClientEvents, NuiEvents, ServerEvents } from "../../../../src/types/events";

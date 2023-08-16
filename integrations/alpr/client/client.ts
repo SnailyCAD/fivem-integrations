@@ -1,6 +1,6 @@
-import { TextureTypes } from "~/types/TextureTypes";
+import { TextureTypes } from "~/types/texture-types";
 import { createNotification } from "~/utils/notification";
-import { Events } from "~/types/Events";
+import { Events } from "~/types/events";
 
 onNet(Events.ALPRCadBoloResults, (plate: string, body: unknown) => {
   if (body === "failed") return;

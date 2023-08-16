@@ -1,3 +1,10 @@
+## 0.5.0
+
+- Add `sn-panic-button` command. This allows players to toggle panic button state on their active unit.
+- Update older commands to use the new SnailyCAD format. (`sn-call911`, `sn-calltow`, `sn-calltaxi`)
+- Add chat suggestions for other commands (`sn-call911`, `sn-calltow`, `sn-calltaxi`).
+- Append correct version to the `fxmanifest.lua` files.
+
 ## 0.4.0
 
 Building on top of the previous release, players who are authenticated with SnailyCAD (using the `sn-auth` command.) are now able to view their active unit and set the status for their active unit.

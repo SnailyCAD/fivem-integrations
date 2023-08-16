@@ -1,7 +1,7 @@
 import { cadRequest } from "~/utils/fetch.server";
 import { getPlayerIds } from "~/utils/get-player-ids.server";
 import { getPlayerApiToken, prependSnailyCAD } from "../server";
-import { ClientEvents, ServerEvents, SnCommands } from "~/types/Events";
+import { ClientEvents, ServerEvents, SnCommands } from "~/types/events";
 
 // todo: add general docs for this plugin.
 

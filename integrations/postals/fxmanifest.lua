@@ -3,5 +3,5 @@ game "gta5"
 
 author "Dev-CasperTheGhost"
 description "This allow you to define custom postals"
-version "0.0."
+version "0.5.0"
 

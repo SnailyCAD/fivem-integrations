@@ -1,4 +1,4 @@
-import { ClientEvents, NuiEvents, ServerEvents } from "~/types/Events";
+import { ClientEvents, NuiEvents, ServerEvents, SnCommands } from "~/types/events";
 
 /**
  * authentication flow
@@ -9,13 +9,13 @@ const API_URL = GetConvar("snailycad_url", "null");
 // add client command suggestion
 emit(
   "chat:addSuggestion",
-  "/sn-whoami",
+  `/${SnCommands.WhoAmI}`,
   "Shows your current SnailyCAD account username and ID that is connected to the game.",
 );
 
 emit(
   "chat:addSuggestion",
-  "/sn-auth",
+  `/${SnCommands.Auth}`,
   "Authenticate with your personal SnailyCAD API Token to interact with parts of it.",
 );
 

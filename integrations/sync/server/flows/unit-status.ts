@@ -1,9 +1,9 @@
 import { cadRequest } from "~/utils/fetch.server";
 import { getPlayerApiToken, prependSnailyCAD } from "../server";
 import { getPlayerIds } from "~/utils/get-player-ids.server";
-import { ClientEvents, ServerEvents, SnCommands } from "~/types/Events";
+import { ClientEvents, ServerEvents, SnCommands } from "~/types/events";
 
-// todo: add general docs for this plugin.
+// todo: publish `@snailycad/types` package to npm
 
 /**
  * duty status

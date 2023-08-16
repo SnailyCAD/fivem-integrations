@@ -2,14 +2,18 @@
  * unit status flow
  */
 
-import { ClientEvents, NuiEvents, ServerEvents } from "~/types/Events";
+import { ClientEvents, NuiEvents, ServerEvents, SnCommands } from "~/types/events";
 
 const API_URL = GetConvar("snailycad_url", "null");
 
-emit("chat:addSuggestion", "/sn-active-unit", "This will show your active unit's name and status.");
 emit(
   "chat:addSuggestion",
-  "/sn-set-status",
+  `/${SnCommands.ActiveUnit}`,
+  "This will show your active unit's name and status.",
+);
+emit(
+  "chat:addSuggestion",
+  `/${SnCommands.SetStatus}`,
   "This will open a menu and will allow you to select a status for your active unit.",
   [{ name: "status-code", help: "The status code you want to set." }],
 );

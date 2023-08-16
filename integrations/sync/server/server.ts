@@ -13,3 +13,4 @@ export function getPlayerApiToken(source: number) {
 import { getPlayerIds } from "~/utils/get-player-ids.server";
 import "./flows/auth";
 import "./flows/unit-status";
+import "./flows/panic-button";

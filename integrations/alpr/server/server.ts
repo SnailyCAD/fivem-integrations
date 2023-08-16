@@ -1,5 +1,5 @@
 import { cadRequest } from "~/utils/fetch.server";
-import { Events } from "~/types/Events";
+import { Events } from "~/types/events";
 
 onNet(Events.WraithPlateLocked, async (_cam: "front" | "rear", plate: string) => {
   const player = source;

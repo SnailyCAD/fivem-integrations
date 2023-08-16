@@ -1,11 +1,11 @@
 import { cadRequest } from "~/utils/fetch.server";
-import { Events } from "~/types/Events";
+import { Events, SnCommands } from "~/types/events";
 import { getPostal } from "~/utils/postal/getPostal";
 
 const usePostal = GetConvar("snailycad_use_postal", "false") === "true";
 
 RegisterCommand(
-  "call911",
+  SnCommands.Call911,
   (source: string, args: any[]) => {
     CancelEvent();
 
