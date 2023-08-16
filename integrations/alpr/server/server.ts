@@ -18,12 +18,15 @@ onNet(Events.WraithPlateLocked, async (_cam: "front" | "rear", plate: string) =>
 
 async function fetchVehicleSearch(plate: string) {
   try {
-    const response = await cadRequest("/search/vehicle?includeMany=true", "POST", {
-      plateOrVin: plate,
+    const { data } = await cadRequest({
+      path: "/search/vehicle?includeMany=true",
+      method: "POST",
+      data: {
+        plateOrVin: plate,
+      },
     });
 
-    const body = (await response?.body.json()) ?? null;
-    return Array.isArray(body) ? body : [];
+    return Array.isArray(data) ? data : [];
   } catch (err) {
     console.error(err);
     return "failed";
@@ -32,10 +35,15 @@ async function fetchVehicleSearch(plate: string) {
 
 async function fetchBoloSearch(plate: string) {
   try {
-    const response = await cadRequest(`/bolos?query=${plate}`, "GET");
+    const { data } = await cadRequest({
+      path: `/bolos?query=${plate}`,
+      method: "GET",
+      data: {
+        plateOrVin: plate,
+      },
+    });
 
-    const body = (await response?.body.json()) ?? null;
-    return Array.isArray(body) ? body : [];
+    return Array.isArray(data) ? data : [];
   } catch (err) {
     console.error(err);
     return "failed";

@@ -1,12 +1,13 @@
-import { handleClientCadRequest } from "./fetch.client";
-import { fetchNUI } from "./main";
+import { handleClientCadRequest } from "../fetch.client";
+import { fetchNUI } from "../main";
+import { NuiEvents } from "../types";
 
 export async function handleAuthenticationFlow(apiUrl: string, identifiers: string[]) {
   const closeAuthenticationFlowButton = document.getElementById("close-authentication-flow");
   if (closeAuthenticationFlowButton) {
     closeAuthenticationFlowButton.addEventListener("click", async () => {
       const authenticationFlowElement = document.getElementById("authentication-flow");
-      await fetchNUI("sna-sync:close-authentication-flow", {});
+      await fetchNUI(NuiEvents.CloseAuthenticationFlow, {});
 
       if (authenticationFlowElement) {
         authenticationFlowElement.classList.add("hidden");
@@ -47,7 +48,7 @@ export async function handleAuthenticationFlow(apiUrl: string, identifiers: stri
       }
 
       if (!hasErrors) {
-        fetchNUI("sna-sync:authentication-flow-success", {
+        fetchNUI(NuiEvents.OnAuthenticationFlowSuccess, {
           token: tokenElement.value,
         });
       }

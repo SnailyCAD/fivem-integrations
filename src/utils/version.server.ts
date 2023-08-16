@@ -10,11 +10,13 @@ on("onResourceStart", async (resourceName: string) => {
 
 async function verifyVersion() {
   try {
-    const response = await cadRequest("/", "GET");
+    const { data } = await cadRequest({
+      path: "/",
+      method: "GET",
+      responseType: "text",
+    });
 
-    const textResponse = await response?.body.text(); // example response: 200 Success. Current CAD Version: 1.48.1 - bf19df6
-
-    if (!textResponse?.includes("200 Success. Current CAD Version")) {
+    if (!data?.includes("200 Success. Current CAD Version")) {
       console.error("Failed to verify CAD version");
     }
   } catch (err) {

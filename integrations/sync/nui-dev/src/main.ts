@@ -1,9 +1,17 @@
 import { Socket, io } from "socket.io-client";
-import { handleAuthenticationFlow } from "./authentication";
+import { handleAuthenticationFlow } from "./flows/authentication";
+import { handleSetStatusFlow } from "./flows/set-status";
+import { ClientEvents, NuiEvents } from "./types";
 
 export interface NuiMessage {
   action: string;
-  data?: { url: string; identifiers?: string[] };
+  data?: {
+    url: string;
+    identifiers?: string[];
+    statusCodes?: any[];
+    unitId?: string;
+    source?: number;
+  };
 }
 
 declare global {
@@ -20,20 +28,28 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
     return;
   }
 
-  console.log(identifiers);
-
   switch (event.data.action) {
     case "sn:initialize": {
       onSpawn(apiURL);
-
       break;
     }
-    case "sn:request-authentication-flow": {
+    case ClientEvents.RequestAuthFlow: {
       const authenticationFlowElement = document.getElementById("authentication-flow");
       if (authenticationFlowElement && identifiers) {
         authenticationFlowElement.classList.remove("hidden");
-
         handleAuthenticationFlow(apiURL, identifiers);
+      }
+      break;
+    }
+    case ClientEvents.RequestSetStatusFlow: {
+      const setStatusFlowElement = document.getElementById("set-status-flow");
+      const statusCodes = event.data.data?.statusCodes ?? [];
+      const unitId = event.data.data?.unitId;
+      const source = event.data.data?.source;
+
+      if (setStatusFlowElement && unitId && source) {
+        setStatusFlowElement.classList.remove("hidden");
+        handleSetStatusFlow({ statusCodes, source, unitId });
       }
 
       break;
@@ -49,23 +65,16 @@ let socket: Socket;
 function onSpawn(apiURL: string) {
   socket = io(apiURL.replace("/v1", ""));
 
-  socket.on("connect", () => fetchNUI("connected", { socketId: socket.id }));
-  socket.on("connect_error", (error) => fetchNUI("connect_error", { error }));
+  socket.on("connect", () => fetchNUI(NuiEvents.Connected, { socketId: socket.id }));
+  socket.on("connect_error", (error) => fetchNUI(NuiEvents.ConnectionError, { error }));
 
-  socket.on("Signal100", (enabled) =>
-    fetchNUI("Signal100", {
-      enabled,
-    }),
-  );
-
+  socket.on("Signal100", (enabled) => fetchNUI(NuiEvents.Signal100, { enabled }));
   socket.on("UpdateAreaOfPlay", (areaOfPlay: string | null) =>
-    fetchNUI("UpdateAreaOfPlay", {
-      areaOfPlay,
-    }),
+    fetchNUI(NuiEvents.UpdateAreaOfPlay, { areaOfPlay }),
   );
 }
 
-export async function fetchNUI(eventName: string, data = {}) {
+export async function fetchNUI(eventName: NuiEvents, data = {}) {
   try {
     const options = {
       method: "POST",

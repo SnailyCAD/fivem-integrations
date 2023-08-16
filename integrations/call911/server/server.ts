@@ -24,23 +24,24 @@ onNet(
   async ({ source: player, street, name, description, position }: any) => {
     const postal = usePostal ? await getPostal(position) : null;
 
-    const response = await cadRequest("/911-calls", "POST", {
-      name,
-      location: street,
-      description: description.join(" "),
-      postal,
-      gtaMapPosition: {
-        x: position.x,
-        y: position.y,
-        z: position.z,
-        heading: position.heading,
+    const { data } = await cadRequest<{ id: string }>({
+      path: "/911-calls",
+      method: "POST",
+      data: {
+        name,
+        location: street,
+        description: description.join(" "),
+        postal,
+        gtaMapPosition: {
+          x: position.x,
+          y: position.y,
+          z: position.z,
+          heading: position.heading,
+        },
       },
-    }).catch((error) => {
-      console.error(error);
-      return null;
     });
 
-    if (response?.statusCode === 200) {
+    if (data?.id) {
       emitNet(Events.Call911ToClientResponse, player, "success");
     } else {
       emitNet(Events.Call911ToClientResponse, player, "failed");
