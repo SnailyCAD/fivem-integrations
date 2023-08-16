@@ -1,6 +1,7 @@
 import { cadRequest } from "~/utils/fetch.server";
 import { getPlayerIds } from "~/utils/get-player-ids.server";
 import { getPlayerApiToken, prependSnailyCAD } from "../server";
+import { ClientEvents, ServerEvents, SnCommands } from "~/types/Events";
 
 // todo: add general docs for this plugin.
 
@@ -16,7 +17,7 @@ export interface User {
 }
 
 RegisterCommand(
-  "sn-whoami",
+  SnCommands.WhoAmI,
   async (source: number) => {
     CancelEvent();
 
@@ -48,17 +49,17 @@ RegisterCommand(
 );
 
 RegisterCommand(
-  "sn-auth",
+  SnCommands.Auth,
   (source: number) => {
     CancelEvent();
 
     const identifiers = getPlayerIds(source, "array");
-    emitNet("sna-sync:request-authentication-flow", source, identifiers);
+    emitNet(ClientEvents.RequestAuthFlow, source, identifiers);
   },
   false,
 );
 
-onNet("sna-sync:request-user-save", async (userData: { token: string }) => {
+onNet(ServerEvents.OnUserSave, async (userData: { token: string }) => {
   const identifiers = getPlayerIds(source, "object");
   if (!identifiers.license) {
     console.error("no license found");

@@ -2,7 +2,8 @@
  * unit status flow
  */
 
-// @ts-expect-error will not be duplicated in the final build/bundle
+import { ClientEvents, NuiEvents } from "~/types/Events";
+
 const API_URL = GetConvar("snailycad_url", "null");
 
 emit("chat:addSuggestion", "/sn-active-unit", "This will show your active unit's name and status.");
@@ -14,10 +15,10 @@ emit(
 );
 
 // request to open the set status modal
-onNet("sna-sync:request-set-status-flow", (identifiers: string[], statusCodes: any[]) => {
+onNet(ClientEvents.RequestSetStatusFlow, (identifiers: string[], statusCodes: any[]) => {
   SendNuiMessage(
     JSON.stringify({
-      action: "sn:request-set-status-flow",
+      action: ClientEvents.RequestSetStatusFlow,
       data: { url: API_URL, source, identifiers, statusCodes },
     }),
   );
@@ -25,8 +26,8 @@ onNet("sna-sync:request-set-status-flow", (identifiers: string[], statusCodes: a
 });
 
 // the set status flow has been closed
-RegisterNuiCallbackType("sna-sync:close-set-status-flow");
-on("__cfx_nui:sna-sync:close-set-status-flow", (_data: unknown, cb: Function) => {
+RegisterNuiCallbackType(NuiEvents.CloseSetStatusFlow);
+on(`__cfx_nui:${NuiEvents.CloseSetStatusFlow}`, (_data: unknown, cb: Function) => {
   SetNuiFocus(false, false);
   cb({ ok: true });
 });

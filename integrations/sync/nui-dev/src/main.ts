@@ -1,6 +1,7 @@
 import { Socket, io } from "socket.io-client";
 import { handleAuthenticationFlow } from "./flows/authentication";
 import { handleSetStatusFlow } from "./flows/set-status";
+import { ClientEvents, NuiEvents } from "./types";
 
 export interface NuiMessage {
   action: string;
@@ -26,7 +27,7 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
       onSpawn(apiURL);
       break;
     }
-    case "sn:request-authentication-flow": {
+    case ClientEvents.RequestAuthFlow: {
       const authenticationFlowElement = document.getElementById("authentication-flow");
       if (authenticationFlowElement && identifiers) {
         authenticationFlowElement.classList.remove("hidden");
@@ -34,7 +35,7 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
       }
       break;
     }
-    case "sn:request-set-status-flow": {
+    case ClientEvents.RequestSetStatusFlow: {
       const setStatusFlowElement = document.getElementById("set-status-flow");
       const statusCodes = event.data.data?.statusCodes ?? [];
 
@@ -56,23 +57,16 @@ let socket: Socket;
 function onSpawn(apiURL: string) {
   socket = io(apiURL.replace("/v1", ""));
 
-  socket.on("connect", () => fetchNUI("connected", { socketId: socket.id }));
-  socket.on("connect_error", (error) => fetchNUI("connect_error", { error }));
+  socket.on("connect", () => fetchNUI(NuiEvents.Connected, { socketId: socket.id }));
+  socket.on("connect_error", (error) => fetchNUI(NuiEvents.ConnectionError, { error }));
 
-  socket.on("Signal100", (enabled) =>
-    fetchNUI("Signal100", {
-      enabled,
-    }),
-  );
-
+  socket.on("Signal100", (enabled) => fetchNUI(NuiEvents.Signal100, { enabled }));
   socket.on("UpdateAreaOfPlay", (areaOfPlay: string | null) =>
-    fetchNUI("UpdateAreaOfPlay", {
-      areaOfPlay,
-    }),
+    fetchNUI(NuiEvents.UpdateAreaOfPlay, { areaOfPlay }),
   );
 }
 
-export async function fetchNUI(eventName: string, data = {}) {
+export async function fetchNUI(eventName: NuiEvents, data = {}) {
   try {
     const options = {
       method: "POST",

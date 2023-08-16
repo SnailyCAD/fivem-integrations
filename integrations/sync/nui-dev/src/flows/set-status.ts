@@ -1,4 +1,5 @@
 import { fetchNUI } from "../main";
+import { NuiEvents } from "../types";
 
 interface HandleSetStatusFlowOptions {
   statusCodes: any[];
@@ -9,7 +10,7 @@ export async function handleSetStatusFlow(options: HandleSetStatusFlowOptions) {
   if (closeSetStatusButton) {
     closeSetStatusButton.addEventListener("click", async () => {
       const setStatusElement = document.getElementById("set-status-flow");
-      await fetchNUI("sna-sync:close-set-status-flow", {});
+      await fetchNUI(NuiEvents.CloseSetStatusFlow, {});
 
       if (setStatusElement) {
         setStatusElement.classList.add("hidden");

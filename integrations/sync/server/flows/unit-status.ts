@@ -1,6 +1,7 @@
 import { cadRequest } from "~/utils/fetch.server";
 import { getPlayerApiToken, prependSnailyCAD } from "../server";
 import { getPlayerIds } from "~/utils/get-player-ids.server";
+import { ClientEvents, SnCommands } from "~/types/Events";
 
 // todo: add general docs for this plugin.
 
@@ -16,7 +17,7 @@ export interface User {
 }
 
 RegisterCommand(
-  "sn-active-unit",
+  SnCommands.ActiveUnit,
   async (source: number) => {
     CancelEvent();
 
@@ -55,7 +56,7 @@ RegisterCommand(
 );
 
 RegisterCommand(
-  "sn-set-status",
+  SnCommands.SetStatus,
   async (source: number) => {
     CancelEvent();
 
@@ -90,13 +91,10 @@ RegisterCommand(
     });
 
     const all10Codes = values?.find((v) => v.type === "CODES_10") ?? null;
-
     const statusCodes = all10Codes?.values.filter((v) => v.type === "STATUS_CODE") ?? [];
 
-    console.log(JSON.stringify({ all10Codes, statusCodes }, null, 4));
-
     const identifiers = getPlayerIds(source, "array");
-    emitNet("sna-sync:request-set-status-flow", source, identifiers, statusCodes);
+    emitNet(ClientEvents.RequestSetStatusFlow, source, identifiers, statusCodes);
   },
   false,
 );
