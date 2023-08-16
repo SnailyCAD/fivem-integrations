@@ -1,9 +1,10 @@
 import { Socket, io } from "socket.io-client";
 import { handleAuthenticationFlow } from "./flows/authentication";
+import { handleSetStatusFlow } from "./flows/set-status";
 
 export interface NuiMessage {
   action: string;
-  data?: { url: string; identifiers?: string[] };
+  data?: { url: string; identifiers?: string[]; statusCodes?: any[] };
 }
 
 declare global {
@@ -34,6 +35,15 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
       break;
     }
     case "sn:request-set-status-flow": {
+      const setStatusFlowElement = document.getElementById("set-status-flow");
+      const statusCodes = event.data.data?.statusCodes ?? [];
+
+      if (setStatusFlowElement) {
+        setStatusFlowElement.classList.remove("hidden");
+
+        handleSetStatusFlow({ statusCodes });
+      }
+
       break;
     }
     default: {

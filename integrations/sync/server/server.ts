@@ -12,4 +12,4 @@ export function getPlayerApiToken(source: number) {
 
 import { getPlayerIds } from "~/utils/get-player-ids.server";
 import "./flows/auth";
-import "./flows/duty-status";
+import "./flows/unit-status";

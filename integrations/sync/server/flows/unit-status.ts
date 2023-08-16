@@ -61,7 +61,7 @@ RegisterCommand(
 
     const { data } = await cadRequest<User & { unit: any }>({
       method: "POST",
-      path: "/user",
+      path: "/user?includeActiveUnit=true",
       headers: {
         userApiToken: getPlayerApiToken(source),
       },
@@ -81,8 +81,22 @@ RegisterCommand(
       return;
     }
 
+    const { data: values } = await cadRequest<{ type: string; values: any[] }[]>({
+      method: "GET",
+      path: "/admin/values/codes_10?includeAll=true",
+      headers: {
+        userApiToken: getPlayerApiToken(source),
+      },
+    });
+
+    const all10Codes = values?.find((v) => v.type === "CODES_10") ?? null;
+
+    const statusCodes = all10Codes?.values.filter((v) => v.type === "STATUS_CODE") ?? [];
+
+    console.log(JSON.stringify({ all10Codes, statusCodes }, null, 4));
+
     const identifiers = getPlayerIds(source, "array");
-    emitNet("sna-sync:request-set-status-flow", source, identifiers);
+    emitNet("sna-sync:request-set-status-flow", source, identifiers, statusCodes);
   },
   false,
 );

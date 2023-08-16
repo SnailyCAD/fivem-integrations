@@ -1,18 +1,30 @@
 import { request } from "undici";
 import "./version.server";
 
-interface CadRequestOptions<TData extends Record<string, unknown>> {
+interface CadRequestOptions<
+  ResponseType extends "json" | "text" = "json",
+  TData extends Record<string, unknown> = Record<string, string>,
+> {
   path: string;
   method: "POST" | "GET";
   data?: TData;
+  responseType?: ResponseType;
   headers?: {
     userApiToken?: string;
   };
 }
 
-export async function cadRequest<T, TData extends Record<string, unknown> = Record<string, string>>(
-  options: CadRequestOptions<TData>,
-): Promise<{ data: T | null; error?: unknown; errorMessage?: string }> {
+export async function cadRequest<
+  T,
+  ResponseType extends "json" | "text" = "json",
+  TData extends Record<string, unknown> = Record<string, string>,
+>(
+  options: CadRequestOptions<ResponseType, TData>,
+): Promise<{
+  data: ResponseType extends "text" ? string | null : T | null;
+  error?: unknown;
+  errorMessage?: string;
+}> {
   const url = GetConvar("snailycad_url", "null");
   const apiKey = GetConvar("snailycad_api_key", "null");
 
@@ -38,8 +50,9 @@ export async function cadRequest<T, TData extends Record<string, unknown> = Reco
       },
     });
 
-    const json = await response.body.json();
-    return { data: json as T | null };
+    const responseType = options.responseType ?? "json";
+    const json = await response.body[responseType]();
+    return { data: json as ResponseType extends "text" ? string | null : T | null };
   } catch (error) {
     console.error("SnailyCAD API error:", error);
 
