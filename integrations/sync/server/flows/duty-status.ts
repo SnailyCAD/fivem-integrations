@@ -42,8 +42,13 @@ RegisterCommand(
       return;
     }
 
+    const unitName = getUnitName(data.unit);
+    const unitStatus = data.unit.status?.value?.value ?? "None";
+
     emitNet("chat:addMessage", source, {
-      args: [prependSnailyCAD(`Your active unit is ^5${"test"} ^7with status of ^5${"10-9"}^7.`)],
+      args: [
+        prependSnailyCAD(`Your active unit is ^5${unitName} ^7with status of ^5${unitStatus}^7.`),
+      ],
     });
   },
   false,
@@ -81,3 +86,9 @@ RegisterCommand(
   },
   false,
 );
+
+function getUnitName(unit: any) {
+  if ("deputies" in unit || "officers" in unit) return "";
+  if (!unit.citizen) return "Unknown";
+  return `${unit.citizen.name} ${unit.citizen.surname}`;
+}
