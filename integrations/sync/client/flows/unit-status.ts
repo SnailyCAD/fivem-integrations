@@ -2,7 +2,7 @@
  * unit status flow
  */
 
-import { ClientEvents, NuiEvents } from "~/types/Events";
+import { ClientEvents, NuiEvents, ServerEvents } from "~/types/Events";
 
 const API_URL = GetConvar("snailycad_url", "null");
 
@@ -15,15 +15,29 @@ emit(
 );
 
 // request to open the set status modal
-onNet(ClientEvents.RequestSetStatusFlow, (identifiers: string[], statusCodes: any[]) => {
-  SendNuiMessage(
-    JSON.stringify({
-      action: ClientEvents.RequestSetStatusFlow,
-      data: { url: API_URL, source, identifiers, statusCodes },
-    }),
-  );
-  SetNuiFocus(true, true);
-});
+onNet(
+  ClientEvents.RequestSetStatusFlow,
+  (unitId: string, source: number, identifiers: string[], statusCodes: any[]) => {
+    SendNuiMessage(
+      JSON.stringify({
+        action: ClientEvents.RequestSetStatusFlow,
+        data: { url: API_URL, source, unitId, identifiers, statusCodes },
+      }),
+    );
+    SetNuiFocus(true, true);
+  },
+);
+
+RegisterNuiCallbackType(NuiEvents.OnSetUnitStatus);
+on(
+  `__cfx_nui:${NuiEvents.OnSetUnitStatus}`,
+  (data: { unitId: string; source: number; statusCodeId: string }, cb: Function) => {
+    SetNuiFocus(false, false);
+    cb({ ok: true });
+
+    emitNet(ServerEvents.OnSetUnitStatus, data.source, data.unitId, data.statusCodeId);
+  },
+);
 
 // the set status flow has been closed
 RegisterNuiCallbackType(NuiEvents.CloseSetStatusFlow);

@@ -5,7 +5,13 @@ import { ClientEvents, NuiEvents } from "./types";
 
 export interface NuiMessage {
   action: string;
-  data?: { url: string; identifiers?: string[]; statusCodes?: any[] };
+  data?: {
+    url: string;
+    identifiers?: string[];
+    statusCodes?: any[];
+    unitId?: string;
+    source?: number;
+  };
 }
 
 declare global {
@@ -38,10 +44,12 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
     case ClientEvents.RequestSetStatusFlow: {
       const setStatusFlowElement = document.getElementById("set-status-flow");
       const statusCodes = event.data.data?.statusCodes ?? [];
+      const unitId = event.data.data?.unitId;
+      const source = event.data.data?.source;
 
-      if (setStatusFlowElement) {
+      if (setStatusFlowElement && unitId && source) {
         setStatusFlowElement.classList.remove("hidden");
-        handleSetStatusFlow({ statusCodes });
+        handleSetStatusFlow({ statusCodes, source, unitId });
       }
 
       break;

@@ -1,7 +1,7 @@
 import { cadRequest } from "~/utils/fetch.server";
 import { getPlayerApiToken, prependSnailyCAD } from "../server";
 import { getPlayerIds } from "~/utils/get-player-ids.server";
-import { ClientEvents, SnCommands } from "~/types/Events";
+import { ClientEvents, ServerEvents, SnCommands } from "~/types/Events";
 
 // todo: add general docs for this plugin.
 
@@ -38,7 +38,11 @@ RegisterCommand(
 
     if (!data.unit) {
       emitNet("chat:addMessage", source, {
-        args: [prependSnailyCAD("No active unit found. Go on-duty first.")],
+        args: [
+          prependSnailyCAD(
+            "No active unit found. Go on-duty first in the SnailyCAD web interface.",
+          ),
+        ],
       });
       return;
     }
@@ -107,38 +111,52 @@ RegisterCommand(
         return;
       }
 
-      const { data: updatedUnit } = await cadRequest<{ id: string }>({
-        method: "PUT",
-        path: `/dispatch/status/${data.unit.id}`,
-        headers: {
-          userApiToken: getPlayerApiToken(source),
-        },
-        data: {
-          status: nearestStatusCode.id,
-        },
-      });
-
-      if (!updatedUnit?.id) {
-        emitNet("chat:addMessage", source, {
-          args: [prependSnailyCAD("An error occurred while updating your status.")],
-        });
-
-        return;
-      }
-
-      emitNet("chat:addMessage", source, {
-        args: [
-          prependSnailyCAD(`Your status has been updated to ^5${nearestStatusCode.value.value}^7.`),
-        ],
-      });
+      emit(ServerEvents.OnSetUnitStatus, source, data.unit.id, nearestStatusCode.id);
 
       return;
     }
 
     const identifiers = getPlayerIds(source, "array");
-    emitNet(ClientEvents.RequestSetStatusFlow, source, identifiers, statusCodes);
+    emitNet(
+      ClientEvents.RequestSetStatusFlow,
+      source,
+      data.unit.id,
+      source,
+      identifiers,
+      statusCodes,
+    );
   },
   false,
+);
+
+onNet(
+  ServerEvents.OnSetUnitStatus,
+  async (source: number, unitId: string, statusCodeId: string) => {
+    const { data: updatedUnit } = await cadRequest<{ id: string } & Record<string, any>>({
+      method: "PUT",
+      path: `/dispatch/status/${unitId}`,
+      headers: {
+        userApiToken: getPlayerApiToken(source),
+      },
+      data: {
+        status: statusCodeId,
+      },
+    });
+
+    if (!updatedUnit?.id) {
+      emitNet("chat:addMessage", source, {
+        args: [prependSnailyCAD("An error occurred while updating your status.")],
+      });
+
+      return;
+    }
+
+    emitNet("chat:addMessage", source, {
+      args: [
+        prependSnailyCAD(`Your status has been updated to ^5${updatedUnit.status?.value.value}^7.`),
+      ],
+    });
+  },
 );
 
 function getUnitName(unit: any) {

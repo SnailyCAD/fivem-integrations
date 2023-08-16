@@ -38,6 +38,12 @@ export enum ServerEvents {
    * the user has successfully authenticated with SnailyCAD's API.
    * We now want to request to save the user token in KVP storage */
   OnUserSave = "sna-sync:on-user-save",
+
+  /**
+   * the user has selected a status code, we now want to send
+   * an API request to the SnailyCAD API on the server-side.
+   */
+  OnSetUnitStatus = "sna-sync:on-set-unit-status",
 }
 
 export enum ClientEvents {
@@ -58,6 +64,7 @@ export enum NuiEvents {
   CloseAuthenticationFlow = "sna-sync-nui:close-authentication-flow",
   OnAuthenticationFlowSuccess = "sna-sync-nui:authentication-flow-success",
   CloseSetStatusFlow = "sna-sync-nui:close-set-status-flow",
+  OnSetUnitStatus = "sna-sync-nui:set-unit-status",
 
   Connected = "sna-sync-nui:connected",
   ConnectionError = "sna-sync-nui:connect_error",
