@@ -14,6 +14,7 @@ export async function getPostal(playerPosition: { x: number; y: number }): Promi
   let minDistance: number | null = null;
 
   for (const point of postals) {
+    // eslint-disable-next-line unicorn/prefer-modern-math-apis
     const distance = Math.sqrt(
       (point.x - playerPosition.x) ** 2 + (point.y - playerPosition.y) ** 2,
     );

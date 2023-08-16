@@ -1,14 +1,7 @@
 {
   "verbose": true,
-  "ignore": [
-    "node_modules/",
-    "dist/",
-    "nui/"
-  ],
-  "watch": [
-    "src/",
-    "integrations/"
-  ],
+  "ignore": ["node_modules/", "dist/", "nui/"],
+  "watch": ["src/", "integrations/"],
   "ext": ".ts,.tsx,.js,.jsx,.json,.html,.css",
   "exec": "npm run build"
 }
