@@ -57,7 +57,7 @@ RegisterCommand(
 
 RegisterCommand(
   SnCommands.SetStatus,
-  async (source: number) => {
+  async (source: number, extraArgs?: string[]) => {
     CancelEvent();
 
     const { data } = await cadRequest<User & { unit: any }>({
@@ -92,6 +92,48 @@ RegisterCommand(
 
     const all10Codes = values?.find((v) => v.type === "CODES_10") ?? null;
     const statusCodes = all10Codes?.values.filter((v) => v.type === "STATUS_CODE") ?? [];
+
+    const [statusCode] = extraArgs ?? [];
+
+    if (statusCode) {
+      const nearestStatusCode = statusCodes.find((v) =>
+        v.value.value.toLowerCase().startsWith(statusCode.toLowerCase()),
+      );
+
+      if (!nearestStatusCode) {
+        emitNet("chat:addMessage", source, {
+          args: [prependSnailyCAD("An invalid status code was provided.")],
+        });
+        return;
+      }
+
+      const { data: updatedUnit } = await cadRequest<{ id: string }>({
+        method: "PUT",
+        path: `/dispatch/status/${data.unit.id}`,
+        headers: {
+          userApiToken: getPlayerApiToken(source),
+        },
+        data: {
+          status: nearestStatusCode.id,
+        },
+      });
+
+      if (!updatedUnit?.id) {
+        emitNet("chat:addMessage", source, {
+          args: [prependSnailyCAD("An error occurred while updating your status.")],
+        });
+
+        return;
+      }
+
+      emitNet("chat:addMessage", source, {
+        args: [
+          prependSnailyCAD(`Your status has been updated to ^5${nearestStatusCode.value.value}^7.`),
+        ],
+      });
+
+      return;
+    }
 
     const identifiers = getPlayerIds(source, "array");
     emitNet(ClientEvents.RequestSetStatusFlow, source, identifiers, statusCodes);

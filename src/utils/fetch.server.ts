@@ -6,7 +6,7 @@ interface CadRequestOptions<
   TData extends Record<string, unknown> = Record<string, unknown>,
 > {
   path: string;
-  method: "POST" | "GET";
+  method: "POST" | "GET" | "PUT";
   data?: TData;
   responseType?: ResponseType;
   headers?: {
