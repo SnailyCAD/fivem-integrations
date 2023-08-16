@@ -1,5 +1,6 @@
 import { cadRequest } from "~/utils/fetch.server";
 import { getPlayerApiToken, prependSnailyCAD } from "../server";
+import { getPlayerIds } from "~/utils/get-player-ids.server";
 
 // todo: add general docs for this plugin.
 
@@ -19,14 +20,13 @@ RegisterCommand(
   async (source: number) => {
     CancelEvent();
 
-    const response = await cadRequest("/user?includeActiveUnit=true", "POST", {
-      userApiToken: getPlayerApiToken(source),
-    }).catch((error) => {
-      console.error(error);
-      return null;
+    const { data } = await cadRequest<User & { unit: any }>({
+      method: "POST",
+      path: "/user?includeActiveUnit=true",
+      headers: {
+        userApiToken: getPlayerApiToken(source),
+      },
     });
-
-    const data = (await response?.body.json()) as (User & { unit: any }) | null;
 
     if (!data?.id) {
       emitNet("chat:addMessage", source, {
@@ -45,6 +45,39 @@ RegisterCommand(
     emitNet("chat:addMessage", source, {
       args: [prependSnailyCAD(`Your active unit is ^5${"test"} ^7with status of ^5${"10-9"}^7.`)],
     });
+  },
+  false,
+);
+
+RegisterCommand(
+  "sn-set-status",
+  async (source: number) => {
+    CancelEvent();
+
+    const { data } = await cadRequest<User & { unit: any }>({
+      method: "POST",
+      path: "/user",
+      headers: {
+        userApiToken: getPlayerApiToken(source),
+      },
+    });
+
+    if (!data?.id) {
+      emitNet("chat:addMessage", source, {
+        args: [prependSnailyCAD("Please make sure you're authenticated. Use: ^5/sn-auth^7.")],
+      });
+      return;
+    }
+
+    if (!data.unit) {
+      emitNet("chat:addMessage", source, {
+        args: [prependSnailyCAD("No active unit found. Go on-duty first.")],
+      });
+      return;
+    }
+
+    const identifiers = getPlayerIds(source, "array");
+    emitNet("sna-sync:request-set-status-flow", source, identifiers);
   },
   false,
 );

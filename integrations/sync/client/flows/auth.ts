@@ -2,7 +2,7 @@
  * authentication flow
  */
 
-import { API_URL } from "../client";
+const API_URL = GetConvar("snailycad_url", "null");
 
 // add client command suggestion
 emit(

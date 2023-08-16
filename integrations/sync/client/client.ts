@@ -1,4 +1,4 @@
-export const API_URL = GetConvar("snailycad_url", "null");
+const API_URL = GetConvar("snailycad_url", "null");
 
 /**
  * send a message to the NUI with the API URL when a player spawns.

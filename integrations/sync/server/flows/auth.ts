@@ -1,6 +1,6 @@
 import { cadRequest } from "~/utils/fetch.server";
 import { getPlayerIds } from "~/utils/get-player-ids.server";
-import { prependSnailyCAD } from "../server";
+import { getPlayerApiToken, prependSnailyCAD } from "../server";
 
 // todo: add general docs for this plugin.
 
@@ -20,18 +20,13 @@ RegisterCommand(
   async (source: number) => {
     CancelEvent();
 
-    const identifiers = getPlayerIds(source, "object");
-    const userId = identifiers.license;
-    const apiToken = GetResourceKvpString(`snailycad:${userId}:token`);
-
-    const response = await cadRequest("/user", "POST", { userApiToken: apiToken }).catch(
-      (error) => {
-        console.error(error);
-        return null;
+    const { data } = await cadRequest<User>({
+      method: "POST",
+      path: "/user",
+      headers: {
+        userApiToken: getPlayerApiToken(source),
       },
-    );
-
-    const data = (await response?.body.json()) as User | null;
+    });
 
     if (!data?.id) {
       emitNet("chat:addMessage", source, {
