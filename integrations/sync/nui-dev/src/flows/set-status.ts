@@ -1,8 +1,22 @@
+import { fetchNUI } from "../main";
+
 interface HandleSetStatusFlowOptions {
   statusCodes: any[];
 }
 
 export async function handleSetStatusFlow(options: HandleSetStatusFlowOptions) {
+  const closeSetStatusButton = document.getElementById("close-set-status-flow");
+  if (closeSetStatusButton) {
+    closeSetStatusButton.addEventListener("click", async () => {
+      const setStatusElement = document.getElementById("set-status-flow");
+      await fetchNUI("sna-sync:close-set-status-flow", {});
+
+      if (setStatusElement) {
+        setStatusElement.classList.add("hidden");
+      }
+    });
+  }
+
   const selectElement = document.getElementById("unit_status") as HTMLSelectElement | null;
   if (!selectElement) return;
 

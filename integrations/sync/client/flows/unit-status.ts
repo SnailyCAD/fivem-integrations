@@ -23,3 +23,10 @@ onNet("sna-sync:request-set-status-flow", (identifiers: string[], statusCodes: a
   );
   SetNuiFocus(true, true);
 });
+
+// the set status flow has been closed
+RegisterNuiCallbackType("sna-sync:close-set-status-flow");
+on("__cfx_nui:sna-sync:close-set-status-flow", (_data: unknown, cb: Function) => {
+  SetNuiFocus(false, false);
+  cb({ ok: true });
+});

@@ -40,7 +40,6 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
 
       if (setStatusFlowElement) {
         setStatusFlowElement.classList.remove("hidden");
-
         handleSetStatusFlow({ statusCodes });
       }
 

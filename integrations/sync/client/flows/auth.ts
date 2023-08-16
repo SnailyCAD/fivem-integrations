@@ -2,6 +2,7 @@
  * authentication flow
  */
 
+// @ts-expect-error will not be duplicated in the final build/bundle
 const API_URL = GetConvar("snailycad_url", "null");
 
 // add client command suggestion
