@@ -3,7 +3,7 @@ import "./version.server";
 
 interface CadRequestOptions<
   ResponseType extends "json" | "text" = "json",
-  TData extends Record<string, unknown> = Record<string, string>,
+  TData extends Record<string, unknown> = Record<string, unknown>,
 > {
   path: string;
   method: "POST" | "GET";
@@ -17,7 +17,7 @@ interface CadRequestOptions<
 export async function cadRequest<
   T,
   ResponseType extends "json" | "text" = "json",
-  TData extends Record<string, unknown> = Record<string, string>,
+  TData extends Record<string, unknown> = Record<string, unknown>,
 >(
   options: CadRequestOptions<ResponseType, TData>,
 ): Promise<{

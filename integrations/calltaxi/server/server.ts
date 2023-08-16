@@ -24,15 +24,19 @@ onNet(
   async ({ source: player, street, name, position, description }: any) => {
     const postal = usePostal ? await getPostal(position) : null;
 
-    const response = await cadRequest("/taxi", "POST", {
-      name,
-      location: street,
-      description: description.join(" "),
-      postal,
-      creatorId: null,
-    }).catch(console.error);
+    const { data } = await cadRequest<{ id: string }>({
+      path: "/taxi",
+      method: "POST",
+      data: {
+        name,
+        location: street,
+        description: description.join(" "),
+        postal,
+        creatorId: null,
+      },
+    });
 
-    if (response?.statusCode === 200) {
+    if (data?.id) {
       emitNet(Events.TaxiCallToClientResponse, player, "success");
     } else {
       emitNet(Events.TaxiCallToClientResponse, player, "failed");
