@@ -5,10 +5,10 @@ on("onResourceStart", async (resourceName: string) => {
     return;
   }
 
-  await verifyVersion();
+  await verifyCADApiVersion();
 });
 
-async function verifyVersion() {
+async function verifyCADApiVersion() {
   try {
     const { data } = await cadRequest({
       path: "/",
@@ -17,14 +17,17 @@ async function verifyVersion() {
     });
 
     if (!data?.includes("200 Success. Current CAD Version")) {
-      console.error("Failed to verify CAD version");
+      console.warn(`
+---------------------------------------
+[${GetCurrentResourceName()}] Failed to verify SnailyCAD version. Please make sure you have correctly configured the SnailyCAD URL and API key in your server.cfg. Read more here: https://docs.snailycad.org/docs/fivem-integrations/scripts
+---------------------------------------`);
     }
   } catch (err) {
     console.error(err);
 
     console.warn(`
 ---------------------------------------
-[${GetCurrentResourceName()}] Failed to verify CAD version. Please make sure you have correctly configured the CAD URL and API key in your server.cfg. Read more here: https://docs.snailycad.org/docs/fivem-integrations/scripts
+[${GetCurrentResourceName()}] Failed to verify SnailyCAD version. Please make sure you have correctly configured the SnailyCAD URL and API key in your server.cfg. Read more here: https://docs.snailycad.org/docs/fivem-integrations/scripts
 ---------------------------------------`);
   }
 }
