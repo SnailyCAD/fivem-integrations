@@ -11,6 +11,7 @@ export interface NuiMessage {
     statusCodes?: any[];
     unitId?: string;
     source?: number;
+    calls?: any[];
   };
 }
 
@@ -50,6 +51,20 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
       if (setStatusFlowElement && unitId && source) {
         setStatusFlowElement.classList.remove("hidden");
         handleSetStatusFlow({ statusCodes, source, unitId });
+      }
+
+      break;
+    }
+    case ClientEvents.RequestCall911AttachFlow: {
+      const call911AttachFlowElement = document.getElementById("call-911-attach-flow");
+      const unitId = event.data.data?.unitId;
+      const source = event.data.data?.source;
+      const calls = event.data.data?.calls ?? [];
+
+      if (call911AttachFlowElement && unitId && source) {
+        call911AttachFlowElement.classList.remove("hidden");
+        // todo:
+        handleCall911AttachFlow({ calls, source, unitId });
       }
 
       break;

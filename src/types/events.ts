@@ -93,6 +93,8 @@ export enum NuiEvents {
   /** the player clicked on the close button in the modal */
   CloseCall911AttachFlow = "sna-sync-nui:close-call-911-attach-flow",
 
+  OnCall911Attach = "sna-sync-nui:call-911-attach",
+
   /** a connection was established to the SnailyCAD API. */
   Connected = "sna-sync-nui:connected",
 
