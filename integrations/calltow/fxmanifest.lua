@@ -1,7 +1,7 @@
 fx_version "cerulean"
 game "gta5"
 
-author "Dev-CasperTheGhost"
+author "Casper Iversen"
 description "/calltow command that connects to SnailyCADv4"
 version "0.5.0"
 

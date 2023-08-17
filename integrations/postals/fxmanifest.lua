@@ -1,7 +1,7 @@
 fx_version "cerulean"
 game "gta5"
 
-author "Dev-CasperTheGhost"
+author "Casper Iversen"
 description "This allow you to define custom postals"
 version "0.5.0"
 

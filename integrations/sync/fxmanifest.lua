@@ -1,7 +1,7 @@
 fx_version "cerulean"
 game "gta5"
 
-author "Dev-CasperTheGhost"
+author "Casper Iversen"
 description "Sync SnailyCAD's signal 100s with FiveM."
 version "0.5.0"
 

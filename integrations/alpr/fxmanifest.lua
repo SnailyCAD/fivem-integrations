@@ -1,7 +1,7 @@
 fx_version "cerulean"
 game "gta5"
 
-author "Dev-CasperTheGhost"
+author "Casper Iversen"
 description "ALPR integration with support for Wraith ARS 2X"
 version "0.5.0"
 
