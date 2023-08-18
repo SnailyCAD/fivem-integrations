@@ -57,36 +57,65 @@ RegisterCommand(
     }
 
     const identifiers = getPlayerIds(source, "array");
-    emitNet(ClientEvents.RequestCall911AttachFlow, source, data.unit.id, source, identifiers);
+
+    const { data: callData } = await cadRequest<{ calls: any[] }>({
+      method: "GET",
+      path: "/911-calls",
+      headers: {
+        userApiToken: getPlayerApiToken(source),
+      },
+    });
+
+    emitNet(
+      ClientEvents.RequestCall911AttachFlow,
+      source,
+      data.unit.id,
+      source,
+      identifiers,
+      callData?.calls ?? [],
+    );
   },
   false,
 );
 
-onNet(ServerEvents.OnCall911Attach, async (source: number, unitId: string, callId: string) => {
-  const { data: updatedCall } = await cadRequest<{ id: string; caseNumber: number }>({
-    method: "POST",
-    path: `/911-calls/assign/${callId}`,
-    data: {
-      unit: unitId,
-    },
-    headers: {
-      userApiToken: getPlayerApiToken(source),
-    },
-  });
-
-  if (!updatedCall?.id) {
-    emitNet("chat:addMessage", source, {
-      args: [prependSnailyCAD("An error occurred while attaching you to the call.")],
+onNet(
+  ServerEvents.OnCall911Attach,
+  async (source: number, type: "assign" | "unassign", unitId: string, callId: string) => {
+    const { data: updatedCall } = await cadRequest<{ id: string; caseNumber: number }>({
+      method: "POST",
+      path: `/911-calls/${type}/${callId}`,
+      data: {
+        unit: unitId,
+      },
+      headers: {
+        userApiToken: getPlayerApiToken(source),
+      },
     });
 
-    return;
-  }
+    if (!updatedCall?.id) {
+      emitNet("chat:addMessage", source, {
+        args: [prependSnailyCAD("An error occurred while attaching you to the call.")],
+      });
 
-  emitNet("chat:addMessage", source, {
-    args: [
-      prependSnailyCAD(
-        `Successfully attached you to the call with case number: #${updatedCall.caseNumber}.`,
-      ),
-    ],
-  });
-});
+      return;
+    }
+
+    if (type === "assign") {
+      emitNet("chat:addMessage", source, {
+        args: [
+          prependSnailyCAD(
+            `Successfully attached yourself to a call with case number: #${updatedCall.caseNumber}.`,
+          ),
+        ],
+      });
+    } else {
+      emitNet("chat:addMessage", source, {
+        args: [
+          prependSnailyCAD(
+            `Successfully removed yourself from a call with case number: #${updatedCall.caseNumber}.`,
+          ),
+        ],
+      });
+    }
+  },
+);

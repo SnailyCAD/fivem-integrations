@@ -2,6 +2,7 @@ import { Socket, io } from "socket.io-client";
 import { handleAuthenticationFlow } from "./flows/authentication";
 import { handleSetStatusFlow } from "./flows/set-status";
 import { ClientEvents, NuiEvents } from "./types";
+import { handleCall911AttachFlow } from "./flows/911-call-attach";
 
 export interface NuiMessage {
   action: string;
@@ -63,7 +64,6 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
 
       if (call911AttachFlowElement && unitId && source) {
         call911AttachFlowElement.classList.remove("hidden");
-        // todo:
         handleCall911AttachFlow({ calls, source, unitId });
       }
 
