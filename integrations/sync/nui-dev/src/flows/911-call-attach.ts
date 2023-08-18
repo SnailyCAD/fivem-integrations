@@ -1,5 +1,6 @@
 import { fetchNUI } from "../main";
 import { NuiEvents } from "../types";
+import { slateDataToString } from "../utils/slate-data-to-string";
 
 interface HandleCall911AttachFlowOptions {
   calls: any[];
@@ -43,7 +44,7 @@ function createTableRow(call: any, options: Omit<HandleCall911AttachFlowOptions,
 
   const assignToCallButton = document.createElement("button");
   assignToCallButton.className =
-    "mt-2 cursor-pointer rounded-md border border-quinary bg-secondary p-1 px-4 text-white transition-colors hover:brightness-150 disabled:cursor-not-allowed disabled:opacity-60";
+    "mt-2 cursor-pointer rounded-md border border-quinary bg-secondary p-0.5 px-2 text-white transition-colors hover:brightness-150 disabled:cursor-not-allowed disabled:opacity-60";
 
   assignToCallButton.innerText = isUnitAttached ? "Unassign from call" : "Assign to call";
   assignToCallButton.addEventListener("click", async () => {
@@ -55,11 +56,15 @@ function createTableRow(call: any, options: Omit<HandleCall911AttachFlowOptions,
     });
   });
 
+  const callDescription = call.descriptionData
+    ? slateDataToString(call.descriptionData)
+    : call.description;
+
   tableRow.innerHTML = `<tr>
     <td class="m-0 p-3 text-left">#${call.caseNumber}</td>
     <td class="m-0 p-3 text-left">${call.location}</td>
     <td class="m-0 p-3 text-left">${call.name}</td>
-    <td class="m-0 p-3 text-left">${call.description}</td>
+    <td class="m-0 p-3 text-left">${callDescription || "None"}</td>
   </tr>`;
 
   if (isUnitAttached) {
