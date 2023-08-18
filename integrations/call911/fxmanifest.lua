@@ -3,7 +3,7 @@ game "gta5"
 
 author "Casper Iversen"
 description "/call911 command that connects to SnailyCADv4"
-version "0.5.0"
+version "0.6.0"
 
 server_scripts {"server/server.js"}
 client_scripts {"client/client.js"}
