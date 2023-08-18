@@ -1,3 +1,9 @@
+## 0.6.0
+
+- Ability to assign yourself to a call using `/sn-attach <case-number>`.
+- Ability to view all active calls and assign/unassign yourself to/from a call using `/sn-attach`.
+- Update dependencies
+
 ## 0.5.0
 
 - Add `sn-panic-button` command. This allows players to toggle panic button state on their active unit.
