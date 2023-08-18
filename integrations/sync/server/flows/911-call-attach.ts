@@ -33,11 +33,13 @@ RegisterCommand(
 
     const [caseNumber] = extraArgs ?? [];
     if (caseNumber) {
-      console.log("caseNumber", caseNumber);
+      const caseNumberWithoutHash = caseNumber.startsWith("#")
+        ? caseNumber.replace("#", "")
+        : caseNumber;
 
       const { data: call } = await cadRequest<{ id: string }>({
         method: "GET",
-        path: `/911-calls/${caseNumber}`,
+        path: `/911-calls/${caseNumberWithoutHash}`,
         headers: {
           userApiToken: getPlayerApiToken(source),
         },

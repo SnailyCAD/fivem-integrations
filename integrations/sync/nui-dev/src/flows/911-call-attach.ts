@@ -30,8 +30,6 @@ export async function handleCall911AttachFlow(options: HandleCall911AttachFlowOp
 
   options.calls.forEach((call) => {
     const tableRow = createTableRow(call, options);
-    console.log(tableRow);
-
     tableBody.appendChild(tableRow);
   });
 }
