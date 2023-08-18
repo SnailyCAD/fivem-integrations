@@ -84,3 +84,4 @@ function formatDate(date: Date) {
 import { NuiEvents, SnCommands } from "~/types/events";
 import "./flows/auth";
 import "./flows/unit-status";
+import "./flows/911-call-attach";

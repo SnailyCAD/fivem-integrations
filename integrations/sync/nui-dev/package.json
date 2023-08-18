@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "html-minifier": "^4.0.0",
+    "slate": "^0.94.1",
     "socket.io-client": "^4.6.2"
   }
 }
