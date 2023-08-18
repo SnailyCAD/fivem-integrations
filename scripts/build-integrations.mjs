@@ -52,4 +52,11 @@ for (const integrationKey of INTEGRATIONS_SOURCE) {
   const manifest = await fs.readFile(fxmanifest);
 
   fs.writeFile(path.resolve(distDir, "fxmanifest.lua"), manifest);
+
+  const documentationUrl = path.resolve(integrationPath, "documentation.url");
+  const documentationUrlContents = await fs.readFile(documentationUrl).catch(() => null);
+
+  if (documentationUrlContents) {
+    fs.writeFile(path.resolve(distDir, "documentation.url"), documentationUrlContents);
+  }
 }

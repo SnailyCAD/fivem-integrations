@@ -2,7 +2,7 @@ fx_version "cerulean"
 game "gta5"
 
 author "Casper Iversen"
-description "Sync SnailyCAD's signal 100s with FiveM."
+description "Sync SnailyCAD with FiveM."
 version "0.5.0"
 
 ui_page "nui/index.html"

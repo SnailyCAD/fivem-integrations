@@ -1,13 +1,14 @@
 ## 0.6.0
 
+- Add `documentation.url` shortcuts to the resources.
 - Ability to assign yourself to a call using `/sn-attach <case-number>`.
 - Ability to view all active calls and assign/unassign yourself to/from a call using `/sn-attach`.
-- Update dependencies
+- Update dependencies.
 
 ## 0.5.0
 
 - Add `sn-panic-button` command. This allows players to toggle panic button state on their active unit.
-- Update older commands to use the new SnailyCAD format. (`sn-call911`, `sn-calltow`, `sn-calltaxi`)
+- Update older commands to use the new SnailyCAD format. (`sn-call911`, `sn-calltow`, `sn-calltaxi`).
 - Add chat suggestions for other commands (`sn-call911`, `sn-calltow`, `sn-calltaxi`).
 - Append correct version to the `fxmanifest.lua` files.
 
