@@ -56,6 +56,9 @@ export enum ServerEvents {
    */
   OnCall911Attach = "sna-sync:on-call-911-attach",
 
+  /**
+   * the client immediately sends their position back to the server
+   */
   OnTrafficStopClientPosition = "sna-sync:on-traffic-stop-client-position",
 }
 
@@ -79,6 +82,9 @@ export enum ClientEvents {
    */
   RequestCall911AttachFlow = "sna-sync:request-call-911-attach-flow",
 
+  /**
+   * the server is requesting the player's position for the traffic stop.
+   */
   RequestTrafficStopFlow = "sna-sync:request-traffic-stop-flow",
 }
 
