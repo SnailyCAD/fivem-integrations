@@ -9,6 +9,7 @@ interface CadRequestOptions<
   method: "POST" | "GET" | "PUT";
   data?: TData;
   responseType?: ResponseType;
+  isFromDispatch?: boolean;
   headers?: {
     userApiToken?: string;
   };
@@ -27,6 +28,7 @@ export async function cadRequest<
 }> {
   const url = GetConvar("snailycad_url", "null");
   const apiKey = GetConvar("snailycad_api_key", "null");
+  const isFromDispatch = options.isFromDispatch ?? true;
 
   if (url === "null") {
     console.warn("No `snailycad_url` convar was found in your server.cfg");
@@ -44,7 +46,7 @@ export async function cadRequest<
       method: options.method,
       body: options.data ? JSON.stringify(options.data) : undefined,
       headers: {
-        "is-from-dispatch": "true",
+        "is-from-dispatch": isFromDispatch ? "true" : undefined,
         "content-type": "application/json",
         ...tokenHeader,
       },

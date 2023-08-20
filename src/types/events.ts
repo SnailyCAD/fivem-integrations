@@ -35,6 +35,7 @@ export enum SnCommands {
   SetStatus = "sn-set-status",
   PanicButton = "sn-panic-button",
   AttachTo911Call = "sn-attach",
+  TrafficStop = "sn-traffic-stop",
 }
 
 export enum ServerEvents {
@@ -54,6 +55,11 @@ export enum ServerEvents {
    * want to send an API request to the SnailyCAD API on the server-side.
    */
   OnCall911Attach = "sna-sync:on-call-911-attach",
+
+  /**
+   * the client immediately sends their position back to the server
+   */
+  OnTrafficStopClientPosition = "sna-sync:on-traffic-stop-client-position",
 }
 
 export enum ClientEvents {
@@ -75,6 +81,11 @@ export enum ClientEvents {
    * active.
    */
   RequestCall911AttachFlow = "sna-sync:request-call-911-attach-flow",
+
+  /**
+   * the server is requesting the player's position for the traffic stop.
+   */
+  RequestTrafficStopFlow = "sna-sync:request-traffic-stop-flow",
 }
 
 export enum NuiEvents {
