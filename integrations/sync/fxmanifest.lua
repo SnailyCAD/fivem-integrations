@@ -3,7 +3,7 @@ game "gta5"
 
 author "Casper Iversen"
 description "Sync SnailyCAD with FiveM."
-version "0.6.0"
+version "0.7.0"
 
 ui_page "nui/index.html"
 

@@ -1,3 +1,7 @@
+## 0.7.0
+
+- Add `sn-traffic-stop` command. This allows units to create a 911 call for a traffic stop. Their current location is automatically attached and they're automatically assigned to the call.
+
 ## 0.6.0
 
 - Add `documentation.url` shortcuts to the resources.
