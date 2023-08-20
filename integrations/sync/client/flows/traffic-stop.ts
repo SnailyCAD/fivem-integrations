@@ -4,11 +4,13 @@
 
 import { ClientEvents, ServerEvents, SnCommands } from "~/types/events";
 
-emit("chat:addSuggestion", `/${SnCommands.TrafficStop}`, "TODO", [
-  { name: "description", help: "The description of your traffic stop" },
-]);
+emit(
+  "chat:addSuggestion",
+  `/${SnCommands.TrafficStop}`,
+  "Create a call with your current position and be assigned as primary unit.",
+  [{ name: "description", help: "The description of your traffic stop" }],
+);
 
-// request to open the 911 calls modal
 onNet(
   ClientEvents.RequestTrafficStopFlow,
   (data: { unitId: string; source: number; name: string; description: string[] }) => {
