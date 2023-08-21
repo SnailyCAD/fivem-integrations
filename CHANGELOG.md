@@ -1,3 +1,7 @@
+## 0.7.1
+
+- Downgrade `sna-sync` to fxversion `bodacious` to allow HTTP connections to SnailyCAD inside NUI.
+
 ## 0.7.0
 
 - Add `sn-traffic-stop` command. This allows units to create a 911 call for a traffic stop. Their current location is automatically attached and they're automatically assigned to the call.
