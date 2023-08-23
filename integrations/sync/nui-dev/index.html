@@ -41,17 +41,13 @@
         </header>
 
         <form id="authentication-flow-form" class="mt-3">
-          <div>
-            <label for="api_token" htmlFor="api_token" class="mb-2">API Token</label>
-            <input
-              name="api_token"
-              id="api_token"
-              type="password"
-              class="bg-secondary border-quinary w-full rounded-md border p-1.5 px-3 text-white outline-none transition-colors focus:border-gray-500 disabled:cursor-not-allowed disabled:opacity-80"
-            />
-
-            <span id="api_token_hint" class="hidden font-medium"></span>
-          </div>
+          <label for="api_token" htmlFor="api_token" class="mb-2">API Token</label>
+          <input
+            name="api_token"
+            id="api_token"
+            type="password"
+            class="bg-secondary border-quinary w-full rounded-md border p-1.5 px-3 text-white outline-none transition-colors focus:border-gray-500 disabled:cursor-not-allowed disabled:opacity-80"
+          />
 
           <button
             class="bg-secondary border-quinary mt-2 cursor-pointer rounded-md border p-1 px-4 text-white transition-colors hover:brightness-150 disabled:cursor-not-allowed disabled:opacity-60"
@@ -185,6 +181,11 @@
         Cancel
       </button>
     </div>
+
+    <div
+      id="notification-portal"
+      class="fixed z-[999] inset-5 top-14 flex flex-col items-end"
+    ></div>
 
     <script type="module" src="/src/main.ts"></script>
   </body>

@@ -54,17 +54,45 @@ RegisterCommand(
     CancelEvent();
 
     const identifiers = getPlayerIds(source, "array");
-    emitNet(ClientEvents.RequestAuthFlow, source, identifiers);
+    emitNet(ClientEvents.RequestAuthFlow, source, identifiers, source);
   },
   false,
 );
 
-onNet(ServerEvents.OnUserSave, async (userData: { token: string }) => {
-  const identifiers = getPlayerIds(source, "object");
-  if (!identifiers.license) {
-    console.error("no license found");
-    return;
-  }
+onNet(
+  ServerEvents.OnVerifyUserAPITokenRequest,
+  async (userData: { source: number; token: string }) => {
+    const { data, errorMessage } = await cadRequest({
+      method: "POST",
+      path: "/user",
+      headers: {
+        userApiToken: userData.token,
+      },
+    });
 
-  SetResourceKvp(`snailycad:${identifiers.license}:token`, userData.token);
-});
+    const hasErrors = errorMessage === "BAD_REQUEST" || errorMessage === "invalidToken";
+
+    console.log("errorMessage", errorMessage);
+    console.log("json", JSON.stringify(data, null, 2));
+
+    if (hasErrors) {
+      emitNet("chat:addMessage", userData.source, {
+        args: [prependSnailyCAD("An invalid token was provided.")],
+      });
+
+      return;
+    }
+
+    const identifiers = getPlayerIds(userData.source, "object");
+    if (!identifiers.license) {
+      console.error("no license found");
+      return;
+    }
+
+    SetResourceKvp(`snailycad:${identifiers.license}:token`, userData.token);
+
+    emitNet("chat:addMessage", userData.source, {
+      args: [prependSnailyCAD("Successfully authenticated with SnailyCAD.")],
+    });
+  },
+);

@@ -30,57 +30,6 @@ on(`__cfx_nui:${NuiEvents.ConnectionError}`, (data: Partial<Error> | null, cb: F
   cb({ ok: true });
 });
 
-/**
- * event: Signal 100 toggled
- * listen for the `fetch` event from the NUI side. When there are changes to the signal 100,
- * we will send a message to the chat.
- */
-RegisterNuiCallbackType(NuiEvents.Signal100);
-on(`__cfx_nui:${NuiEvents.Signal100}`, (data: { enabled: boolean }, cb: Function) => {
-  const formattedDate = formatDate(new Date());
-
-  emit("chat:addMessage", {
-    color: [255, 0, 0],
-    args: [
-      "SnailyCAD",
-      `^5${formattedDate} ^7- Signal 100 is now ^*${data.enabled ? "enabled" : "disabled"}`,
-    ],
-  });
-
-  cb({ ok: true });
-});
-
-/**
- * event: AOP changed
- * listen for the `fetch` event from the NUI side. When there are changes to the signal 100,
- * we will send a message to the chat.
- */
-RegisterNuiCallbackType(NuiEvents.UpdateAreaOfPlay);
-on(
-  `__cfx_nui:${NuiEvents.UpdateAreaOfPlay}`,
-  (data: { areaOfPlay: string | null }, cb: Function) => {
-    const formattedDate = formatDate(new Date());
-
-    if (data.areaOfPlay) {
-      emit("chat:addMessage", {
-        color: [255, 0, 0],
-        args: ["SnailyCAD", `^5${formattedDate} ^7- Area of play changed: ^*${data.areaOfPlay}`],
-      });
-    }
-
-    cb({ ok: true });
-  },
-);
-
-function formatDate(date: Date) {
-  return date.toLocaleTimeString("en-US", {
-    hour12: false,
-    hour: "numeric",
-    minute: "numeric",
-    second: "numeric",
-  });
-}
-
 import { NuiEvents, SnCommands } from "~/types/events";
 import "./flows/auth";
 import "./flows/unit-status";

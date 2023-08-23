@@ -20,7 +20,7 @@ emit(
 );
 
 // request to show the authentication flow modal
-onNet(ClientEvents.RequestAuthFlow, (identifiers: string[]) => {
+onNet(ClientEvents.RequestAuthFlow, (identifiers: string[], source: number) => {
   SendNuiMessage(
     JSON.stringify({
       action: ClientEvents.RequestAuthFlow,
@@ -30,10 +30,9 @@ onNet(ClientEvents.RequestAuthFlow, (identifiers: string[]) => {
   SetNuiFocus(true, true);
 });
 
-// the user has logged in successfully
-RegisterNuiCallbackType(NuiEvents.OnAuthenticationFlowSuccess);
-on(`__cfx_nui:${NuiEvents.OnAuthenticationFlowSuccess}`, (data: unknown, cb: Function) => {
-  emitNet(ServerEvents.OnUserSave, data);
+RegisterNuiCallbackType(NuiEvents.OnVerifyUserAPITokenRequest);
+on(`__cfx_nui:${NuiEvents.OnVerifyUserAPITokenRequest}`, (data: unknown, cb: Function) => {
+  emitNet(ServerEvents.OnVerifyUserAPITokenRequest, data);
   cb({ ok: true });
 });
 
