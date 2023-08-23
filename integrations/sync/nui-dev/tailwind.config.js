@@ -12,16 +12,11 @@ export default {
       },
       animation: {
         enter: "enter 200ms ease-out",
-        leave: "leave 150ms ease-in forwards",
       },
       keyframes: {
         enter: {
           "0%": { transform: "translateY(-4px)", opacity: 0 },
           "100%": { transform: "translateY(0px)", opacity: 1 },
-        },
-        leave: {
-          "0%": { transform: "translateY(0px)", opacity: 1 },
-          "100%": { transform: "translateY(-4px)", opacity: 0 },
         },
       },
     },
