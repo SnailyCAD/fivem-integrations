@@ -24,13 +24,13 @@ declare global {
 }
 
 window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
+  const apiURL = event.data.data?.url;
+  if (!apiURL) {
+    return;
+  }
+
   switch (event.data.action) {
     case "sn:initialize": {
-      const apiURL = event.data.data?.url;
-      if (!apiURL) {
-        return;
-      }
-
       onSpawn(apiURL);
       break;
     }
@@ -41,7 +41,7 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
       const authenticationFlowElement = document.getElementById("authentication-flow");
       if (authenticationFlowElement && identifiers && typeof source !== "undefined") {
         authenticationFlowElement.classList.remove("hidden");
-        handleAuthenticationFlow(source);
+        handleAuthenticationFlow(apiURL, identifiers);
       }
       break;
     }
