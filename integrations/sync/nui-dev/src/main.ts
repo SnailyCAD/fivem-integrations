@@ -35,11 +35,10 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
       break;
     }
     case ClientEvents.RequestAuthFlow: {
-      const source = event.data.data?.source;
       const identifiers = event.data.data?.identifiers;
 
       const authenticationFlowElement = document.getElementById("authentication-flow");
-      if (authenticationFlowElement && identifiers && typeof source !== "undefined") {
+      if (authenticationFlowElement && identifiers) {
         authenticationFlowElement.classList.remove("hidden");
         handleAuthenticationFlow(apiURL, identifiers);
       }
