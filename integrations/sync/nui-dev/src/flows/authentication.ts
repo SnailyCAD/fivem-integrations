@@ -1,20 +1,17 @@
+import { handleClientCadRequest } from "../fetch.client";
 import { fetchNUI } from "../main";
 import { NuiEvents } from "../types";
 
-async function closeAuthenticationFlow() {
-  const authenticationFlowElement = document.getElementById("authentication-flow");
-  await fetchNUI(NuiEvents.CloseAuthenticationFlow, {});
-
-  if (authenticationFlowElement) {
-    authenticationFlowElement.classList.add("hidden");
-  }
-}
-
-export async function handleAuthenticationFlow(source: number) {
+export async function handleAuthenticationFlow(apiUrl: string, identifiers: string[]) {
   const closeAuthenticationFlowButton = document.getElementById("close-authentication-flow");
   if (closeAuthenticationFlowButton) {
     closeAuthenticationFlowButton.addEventListener("click", async () => {
-      closeAuthenticationFlow();
+      const authenticationFlowElement = document.getElementById("authentication-flow");
+      await fetchNUI(NuiEvents.CloseAuthenticationFlow, {});
+
+      if (authenticationFlowElement) {
+        authenticationFlowElement.classList.add("hidden");
+      }
     });
   }
 
@@ -27,11 +24,34 @@ export async function handleAuthenticationFlow(source: number) {
       const tokenElement = elements.namedItem("api_token") as HTMLInputElement | null;
       if (!tokenElement) return;
 
-      closeAuthenticationFlow();
-      fetchNUI(NuiEvents.OnVerifyUserAPITokenRequest, {
+      const response = await handleClientCadRequest(apiUrl, "/user/api-token/validate", "POST", {
         token: tokenElement.value,
-        source,
+        identifiers,
       });
+
+      const json = await response.json(); // basic user data
+      const hasErrors = json.name === "BAD_REQUEST" || json.status === 400;
+
+      const errorHintElement = document.getElementById("api_token_hint");
+      if (errorHintElement) {
+        if (hasErrors) {
+          errorHintElement.innerText =
+            json.message === "invalidToken" ? "An invalid token was provided." : json.message;
+          errorHintElement.classList.add("text-red-400");
+          errorHintElement.classList.remove("hidden", "text-green-400");
+          return;
+        }
+
+        errorHintElement.classList.remove("hidden", "text-red-400");
+        errorHintElement.classList.add("text-green-400");
+        errorHintElement.innerText = "Successfully authenticated. You can now close this window.";
+      }
+
+      if (!hasErrors) {
+        fetchNUI(NuiEvents.OnAuthenticationFlowSuccess, {
+          token: tokenElement.value,
+        });
+      }
     });
   }
 }
