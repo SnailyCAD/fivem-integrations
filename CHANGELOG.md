@@ -1,3 +1,7 @@
+## 0.8.0
+
+- Automatically set a unit off-duty when they leave the server. [(Disabled by default)](https://docs.snailycad.org/docs/fivem-integrations/scripts/sna-sync#configuration)
+
 ## 0.7.1
 
 - Downgrade `sna-sync` to fxversion `bodacious` to allow HTTP connections to SnailyCAD inside NUI.
