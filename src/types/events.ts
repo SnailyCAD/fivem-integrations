@@ -40,6 +40,11 @@ export enum SnCommands {
 
 export enum ServerEvents {
   /**
+   * the user has successfully authenticated with SnailyCAD's API.
+   * We now want to request to save the user token in KVP storage */
+  OnUserSave = "sna-sync:on-user-save",
+
+  /**
    * the user has selected a status code, we now want to send
    * an API request to the SnailyCAD API on the server-side.
    */
@@ -55,11 +60,6 @@ export enum ServerEvents {
    * the client immediately sends their position back to the server
    */
   OnTrafficStopClientPosition = "sna-sync:on-traffic-stop-client-position",
-
-  /** the player entered their API token, we now want to send an API request
-   * to verify if the token is valid.
-   */
-  OnVerifyUserAPITokenRequest = "sna-sync:verify-user-api-token-request",
 }
 
 export enum ClientEvents {
@@ -92,6 +92,9 @@ export enum NuiEvents {
   /** the player clicked on the close button in the modal */
   CloseAuthenticationFlow = "sna-sync-nui:close-authentication-flow",
 
+  /** the player successfully authenticated with SnailyCAD's API */
+  OnAuthenticationFlowSuccess = "sna-sync-nui:authentication-flow-success",
+
   /** the player clicked on the close button in the modal */
   CloseSetStatusFlow = "sna-sync-nui:close-set-status-flow",
 
@@ -102,8 +105,6 @@ export enum NuiEvents {
   CloseCall911AttachFlow = "sna-sync-nui:close-call-911-attach-flow",
 
   OnCall911Attach = "sna-sync-nui:call-911-attach",
-
-  OnVerifyUserAPITokenRequest = "sna-sync-nui:verify-user-api-token-request",
 
   /** a connection was established to the SnailyCAD API. */
   Connected = "sna-sync-nui:connected",
