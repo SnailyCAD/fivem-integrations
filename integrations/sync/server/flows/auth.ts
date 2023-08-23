@@ -44,6 +44,8 @@ RegisterCommand(
         ),
       ],
     });
+
+    CancelEvent();
   },
   false,
 );
@@ -55,6 +57,8 @@ RegisterCommand(
 
     const identifiers = getPlayerIds(source, "array");
     emitNet(ClientEvents.RequestAuthFlow, source, identifiers, source);
+
+    CancelEvent();
   },
   false,
 );
@@ -62,7 +66,7 @@ RegisterCommand(
 onNet(
   ServerEvents.OnVerifyUserAPITokenRequest,
   async (userData: { source: number; token: string }) => {
-    const { data, errorMessage } = await cadRequest({
+    const { data } = await cadRequest<any>({
       method: "POST",
       path: "/user",
       headers: {
@@ -70,9 +74,8 @@ onNet(
       },
     });
 
-    const hasErrors = errorMessage === "BAD_REQUEST" || errorMessage === "invalidToken";
+    const hasErrors = !data.id || data.status === 403;
 
-    console.log("errorMessage", errorMessage);
     console.log("json", JSON.stringify(data, null, 2));
 
     if (hasErrors) {
@@ -94,5 +97,7 @@ onNet(
     emitNet("chat:addMessage", userData.source, {
       args: [prependSnailyCAD("Successfully authenticated with SnailyCAD.")],
     });
+
+    CancelEvent();
   },
 );

@@ -102,6 +102,8 @@ RegisterCommand(
         prependSnailyCAD(`Your active unit is ^5${unitName} ^7with status of ^5${unitStatus}^7.`),
       ],
     });
+
+    CancelEvent();
   },
   false,
 );
@@ -159,6 +161,7 @@ RegisterCommand(
       }
 
       emit(ServerEvents.OnSetUnitStatus, source, data.unit.id, nearestStatusCode.id);
+      CancelEvent();
 
       return;
     }
@@ -172,6 +175,8 @@ RegisterCommand(
       identifiers,
       statusCodes,
     );
+
+    CancelEvent();
   },
   false,
 );

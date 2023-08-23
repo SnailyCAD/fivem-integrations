@@ -52,6 +52,8 @@ RegisterCommand(
       description,
       name,
     });
+
+    CancelEvent();
   },
   false,
 );
@@ -105,5 +107,7 @@ onNet(
         ),
       ],
     });
+
+    CancelEvent();
   },
 );
