@@ -1,3 +1,12 @@
+## 0.10.0
+
+- feat: use custom SnailyCAD notification system for ALPR results (`sna-alpr`).
+
+> [!WARNING]
+> SnailyCAD's ALPR integration (`sna-alpr`) now requires `sna-sync` to be installed and started in your FXServer.
+
+- chore: use official SnailyCAD util packages.
+
 ## 0.9.1
 
 - fix: ALPR BOLO results
