@@ -4,7 +4,7 @@ interface CreateNotificationOptions {
   title: string;
   message: string;
   type?: "success" | "error";
-  timestamp?: number;
+  timeout?: number;
 }
 
 const notificationPortal = document.getElementById("notification-portal");
@@ -39,10 +39,12 @@ export function createNotification(options: CreateNotificationOptions) {
 
   notifications.push(element);
 
+  const timeout = options.timeout ?? NOTIFICATION_TIMEOUT_IN_MS;
+
   setTimeout(() => {
     element.remove();
     notifications.splice(notifications.indexOf(element), 1);
-  }, NOTIFICATION_TIMEOUT_IN_MS);
+  }, timeout);
 }
 
 function formatDate(date: Date) {

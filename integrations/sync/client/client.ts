@@ -13,6 +13,18 @@ onNet("playerSpawned", () => {
   SendNuiMessage(JSON.stringify({ action: "sn:initialize", data: { url: API_URL } }));
 });
 
+on(
+  ClientEvents.CreateNotification,
+  (options: { timeout?: number; title: string; message: string }) => {
+    SendNuiMessage(
+      JSON.stringify({
+        action: ClientEvents.CreateNotification,
+        data: { ...options, url: API_URL },
+      }),
+    );
+  },
+);
+
 /**
  * event: connected
  * simply send a message back to the NUI side to confirm that we are connected.
@@ -30,7 +42,7 @@ on(`__cfx_nui:${NuiEvents.ConnectionError}`, (data: Partial<Error> | null, cb: F
   cb({ ok: true });
 });
 
-import { NuiEvents, SnCommands } from "~/types/events";
+import { ClientEvents, NuiEvents, SnCommands } from "~/types/events";
 import "./flows/auth";
 import "./flows/unit-status";
 import "./flows/911-call-attach";

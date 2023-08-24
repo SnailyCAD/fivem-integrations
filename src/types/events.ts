@@ -86,6 +86,8 @@ export enum ClientEvents {
    * the server is requesting the player's position for the traffic stop.
    */
   RequestTrafficStopFlow = "sna-sync:request-traffic-stop-flow",
+
+  CreateNotification = "sna-sync:create-notification",
 }
 
 export enum NuiEvents {

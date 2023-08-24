@@ -1,33 +1,28 @@
-import { TextureTypes } from "~/types/texture-types";
-import { createNotification } from "~/utils/notification";
 import { GetBolosData, PostLeoSearchVehicleData } from "@snailycad/types/api";
-import { Events } from "~/types/events";
+import { ClientEvents, Events } from "~/types/events";
 
 onNet(Events.ALPRCadBoloResults, (plate: string, body?: GetBolosData | "failed") => {
   if (!body || body === "failed") return;
 
   if (body.bolos.length > 0) {
-    createNotification({
-      title: "BOLO Results",
+    emit(ClientEvents.CreateNotification, {
+      title: "Active Bolo Notice",
       message: `${plate} has an active BOLO. Open SnailyCAD for more details.`,
-      picture: TextureTypes.CHAR_CALL911,
     });
   }
 });
 
 onNet(Events.ALPRCadPlateResults, (plate: string, body?: PostLeoSearchVehicleData[] | "failed") => {
   if (!body || body === "failed") {
-    return createNotification({
-      picture: TextureTypes.CHAR_CALL911,
-      message: "Unable to fetch plate search results: failed to fetch",
+    return emit(ClientEvents.CreateNotification, {
+      message: "Unable to fetch plate search results: failed to fetch.",
       title: "Plate Search Results",
     });
   }
 
   const [vehicle] = body;
   if (!vehicle) {
-    return createNotification({
-      picture: TextureTypes.CHAR_CALL911,
+    return emit(ClientEvents.CreateNotification, {
       message: `Plate is not registered: ${plate}`,
       title: "Plate Search Results",
     });
@@ -35,28 +30,28 @@ onNet(Events.ALPRCadPlateResults, (plate: string, body?: PostLeoSearchVehicleDat
 
   const owner = vehicle.citizen ? `${vehicle.citizen.name} ${vehicle.citizen.surname}` : "Unknown";
   const message = [
-    `Plate: ${plate}`,
-    `Model: ${vehicle.model.value.value}`,
-    `Color: ${vehicle.color}`,
-    `VIN Number: ${vehicle.vinNumber}`,
-    `Owner: ${owner}`,
+    `<li><b>Plate:</b> ${plate}</li>`,
+    `<li><b>Model:</b> ${vehicle.model.value.value}</li>`,
+    `<li><b>Color:</b> ${vehicle.color}</li>`,
+    `<li><b>VIN Number:</b> ${vehicle.vinNumber}</li>`,
+    `<li><b>Owner:</b> ${owner}</li>`,
   ];
 
-  createNotification({
-    picture: TextureTypes.CHAR_CALL911,
+  emit(ClientEvents.CreateNotification, {
     message: message.join("\n"),
     title: "Plate Search Results",
+    timeout: 17_000,
   });
 
-  // todo: type will be fixed in a later version
-  const warrants = (vehicle.citizen as any)?.warrants?.filter((v: any) => v.status === "ACTIVE");
-  const hasWarrants = warrants?.length > 0;
+  const warrants = vehicle.citizen?.warrants?.filter((v: any) => v.status === "ACTIVE") ?? [];
+  const hasWarrants = warrants.length > 0;
 
   if (hasWarrants) {
-    createNotification({
-      picture: TextureTypes.CHAR_CALL911,
-      message: "This vehicle owner has active warrants",
-      title: "Active Warrants",
+    const citizenFullName = `${vehicle.citizen?.name} ${vehicle.citizen?.surname}`;
+
+    emit(ClientEvents.CreateNotification, {
+      title: "Active Warrants Notice",
+      message: `This vehicle - ${citizenFullName} - owner has active warrants.`,
     });
   }
 });

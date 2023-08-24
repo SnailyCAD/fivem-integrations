@@ -8,12 +8,15 @@ dependencies:
   '@octokit/action':
     specifier: ^6.0.5
     version: 6.0.5
+  '@snailycad/config':
+    specifier: 1.68.3
+    version: 1.68.3
   '@snailycad/permissions':
-    specifier: ^1.68.1
-    version: 1.68.1
+    specifier: 1.68.3
+    version: 1.68.3
   '@snailycad/types':
-    specifier: ^1.68.1
-    version: 1.68.1
+    specifier: 1.68.3
+    version: 1.68.3
   archiver:
     specifier: ^6.0.0
     version: 6.0.0
@@ -522,12 +525,16 @@ packages:
       tslib: 2.6.1
     dev: true
 
-  /@snailycad/permissions@1.68.1:
-    resolution: {integrity: sha512-l6EMS+p+qFNqdMADoIrP5wxQgf+ZSTqXh7kTZG/Qr8UEWQMRHOsVjIA7rphLCZa6CCI9OgYOjTmW0zTqyLtSfg==}
+  /@snailycad/config@1.68.3:
+    resolution: {integrity: sha512-md62CbeIZuG/XBzSpBNZzjwU73Fyl06GOYxLjwjh3mc/6ZvQfj2FUeTzUjMEzD46QIVHovlCvEQkLHFM/wq+zA==}
     dev: false
 
-  /@snailycad/types@1.68.1:
-    resolution: {integrity: sha512-RvVhRIO5nQwnawCdf5f4K21+ST8AgZtb94QikcWLlRMhD3R78P9ukK8yk522zwYfVQDkArRmjlpEVaEHHdZo5Q==}
+  /@snailycad/permissions@1.68.3:
+    resolution: {integrity: sha512-83xTqqtRbV7pMrVZT0hXOMY3hO3fgGC95TLE5792eVDLV+22cB0+XqSTHHNZyK3DFOPyKxpIjLlNbPZ72oPy+w==}
+    dev: false
+
+  /@snailycad/types@1.68.3:
+    resolution: {integrity: sha512-GS3SMjUQuUrGKq7yzr1RBSf6gjA5EomncHdWTYLaQ6CefpNWc1zFWPsnV7ccRvQS2GFgVHij08pCiLGpbiBjbw==}
     dev: false
 
   /@types/archiver@5.3.2:

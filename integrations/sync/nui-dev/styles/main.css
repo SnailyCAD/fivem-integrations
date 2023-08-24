@@ -37,3 +37,7 @@ body {
     sans-serif;
   overflow: hidden;
 }
+
+li {
+  list-style-type: none;
+}
