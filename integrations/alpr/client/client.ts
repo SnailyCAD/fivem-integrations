@@ -48,9 +48,8 @@ onNet(Events.ALPRCadPlateResults, (plate: string, body?: PostLeoSearchVehicleDat
     title: "Plate Search Results",
   });
 
-  // todo: type will be fixed in a later version
-  const warrants = (vehicle.citizen as any)?.warrants?.filter((v: any) => v.status === "ACTIVE");
-  const hasWarrants = warrants?.length > 0;
+  const warrants = vehicle.citizen?.warrants?.filter((v: any) => v.status === "ACTIVE") ?? [];
+  const hasWarrants = warrants.length > 0;
 
   if (hasWarrants) {
     createNotification({
