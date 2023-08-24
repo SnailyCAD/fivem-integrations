@@ -1,3 +1,10 @@
+## 0.9.0
+
+- Custom In-Game notification system. This is in beta and will be improved over time.
+
+> [!WARNING]
+> Requires SnailyCAD version `1.68.1` or higher.
+
 ## 0.8.0
 
 - Automatically set a unit off-duty when they leave the server. [(Disabled by default)](https://docs.snailycad.org/docs/fivem-integrations/scripts/sna-sync#configuration)
