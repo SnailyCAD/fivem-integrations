@@ -5,10 +5,16 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@snailycad/config':
+    specifier: ^1.68.2
+    version: 1.68.2
   '@snailycad/permissions':
     specifier: ^1.68.2
     version: 1.68.2
   '@snailycad/types':
+    specifier: ^1.68.2
+    version: 1.68.2
+  '@snailycad/utils':
     specifier: ^1.68.2
     version: 1.68.2
   html-minifier:
@@ -298,12 +304,20 @@ packages:
       fastq: 1.15.0
     dev: true
 
+  /@snailycad/config@1.68.2:
+    resolution: {integrity: sha512-P0GSFjEjZT+3w3FFG+xUTNGnzZcE+T9835OrM1xOe5eQTmrQVG2vObymXZVA4PRcLEFvAtVEHfKkKw0b5walZg==}
+    dev: false
+
   /@snailycad/permissions@1.68.2:
     resolution: {integrity: sha512-dBg2nW8g+V8KigCgXg9s1GwxF3o8VfzDXkcn2zEcCWVXW6fXvIf5ahpD51ovwkuD2f76R74S1wUm4Hw8uX+GhA==}
     dev: false
 
   /@snailycad/types@1.68.2:
     resolution: {integrity: sha512-IiTjA52J0OZP4UufncuGeUURS8fKDbz/IkenOHcw3biucpIRGmqqb8cXn9sWIPFi+UoXPPO32I0F/4B0+nIf7w==}
+    dev: false
+
+  /@snailycad/utils@1.68.2:
+    resolution: {integrity: sha512-GCknWuXMllZUxUx1wawhOhUQsKfVEeJPMKjPWubm4RkxPLruyzSpN4Yqb6kAML6vZ6mk55OpS7SSj6PYgLdhwQ==}
     dev: false
 
   /@socket.io/component-emitter@3.1.0:

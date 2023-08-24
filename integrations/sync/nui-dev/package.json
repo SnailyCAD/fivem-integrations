@@ -17,6 +17,8 @@
   "dependencies": {
     "@snailycad/permissions": "^1.68.2",
     "@snailycad/types": "^1.68.2",
+    "@snailycad/config": "^1.68.2",
+    "@snailycad/utils": "^1.68.2",
     "html-minifier": "^4.0.0",
     "slate": "^0.94.1",
     "socket.io-client": "^4.6.2"

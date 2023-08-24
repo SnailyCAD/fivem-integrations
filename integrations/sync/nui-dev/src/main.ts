@@ -5,6 +5,7 @@ import { ClientEvents, NuiEvents } from "./types";
 import { handleCall911AttachFlow } from "./flows/911-call-attach";
 import { createNotification } from "./flows/notification";
 import { AssignedUnit, Call911, StatusValue } from "@snailycad/types";
+import { SocketEvents } from "@snailycad/config";
 
 export interface NuiMessage {
   action: string;
@@ -85,7 +86,7 @@ function onSpawn(apiURL: string) {
   socket.on("connect", () => fetchNUI(NuiEvents.Connected, { socketId: socket.id }));
   socket.on("connect_error", (error) => fetchNUI(NuiEvents.ConnectionError, { error }));
 
-  socket.on("Signal100", (enabled) => {
+  socket.on(SocketEvents.Signal100, (enabled: boolean) => {
     if (enabled) {
       createNotification({
         timestamp: Date.now(),
@@ -100,14 +101,14 @@ function onSpawn(apiURL: string) {
       });
     }
   });
-  socket.on("UpdateAreaOfPlay", (areaOfPlay: string | null) =>
+  socket.on(SocketEvents.UpdateAreaOfPlay, (areaOfPlay: string | null) =>
     createNotification({
       timestamp: Date.now(),
       message: `Area of play has been updated to: ${areaOfPlay ?? "None"}`,
       title: "AOP Changed",
     }),
   );
-  socket.on("PANIC_BUTTON_ON", (unit: { formattedUnitData: string }) => {
+  socket.on(SocketEvents.PANIC_BUTTON_ON, (unit: { formattedUnitData: string }) => {
     createNotification({
       timestamp: Date.now(),
       message: `${unit.formattedUnitData} has pressed their panic button.`,

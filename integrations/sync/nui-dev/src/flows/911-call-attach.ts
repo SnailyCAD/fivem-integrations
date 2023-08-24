@@ -1,7 +1,7 @@
 import { AssignedUnit, Call911 } from "@snailycad/types";
 import { fetchNUI } from "../main";
 import { NuiEvents } from "../types";
-import { slateDataToString } from "../utils/slate-data-to-string";
+import { slateDataToString } from "@snailycad/utils/editor";
 
 interface HandleCall911AttachFlowOptions {
   calls: (Call911 & { assignedUnits?: AssignedUnit[] })[];
