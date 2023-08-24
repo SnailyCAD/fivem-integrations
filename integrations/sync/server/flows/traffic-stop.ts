@@ -1,9 +1,9 @@
 import { cadRequest } from "~/utils/fetch.server";
 import { getPlayerApiToken, prependSnailyCAD } from "../server";
 import { ClientEvents, ServerEvents, SnCommands } from "~/types/events";
-import { User } from "./auth";
 import { getPlayerIds } from "~/utils/get-player-ids.server";
 import { getPostal } from "~/utils/postal/getPostal";
+import { GetUserData, Post911CallsData } from "@snailycad/types/api";
 
 const usePostal = GetConvar("snailycad_use_postal", "false") === "true";
 
@@ -12,7 +12,7 @@ RegisterCommand(
   async (source: number, description: string[]) => {
     CancelEvent();
 
-    const { data } = await cadRequest<User & { unit: any }>({
+    const { data } = await cadRequest<GetUserData>({
       method: "POST",
       path: "/user?includeActiveUnit=true",
       headers: {
@@ -70,7 +70,7 @@ onNet(
   }) => {
     const postal = usePostal ? await getPostal(data.position) : null;
 
-    const { data: updatedCall } = await cadRequest<{ id: string; caseNumber: number }>({
+    const { data: updatedCall } = await cadRequest<Post911CallsData>({
       method: "POST",
       path: "/911-calls",
       isFromDispatch: false,

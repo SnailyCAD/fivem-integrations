@@ -1,5 +1,6 @@
 import { cadRequest } from "~/utils/fetch.server";
 import { Events } from "~/types/events";
+import { GetBolosData, PostLeoSearchVehicleData } from "@snailycad/types/api";
 
 onNet(Events.WraithPlateLocked, async (_cam: "front" | "rear", plate: string) => {
   const player = source;
@@ -17,35 +18,25 @@ onNet(Events.WraithPlateLocked, async (_cam: "front" | "rear", plate: string) =>
 });
 
 async function fetchVehicleSearch(plate: string) {
-  try {
-    const { data } = await cadRequest({
-      path: "/search/vehicle?includeMany=true",
-      method: "POST",
-      data: {
-        plateOrVin: plate,
-      },
-    });
+  const { data } = await cadRequest<PostLeoSearchVehicleData[]>({
+    path: "/search/vehicle?includeMany=true",
+    method: "POST",
+    data: {
+      plateOrVin: plate,
+    },
+  });
 
-    return Array.isArray(data) ? data : [];
-  } catch (err) {
-    console.error(err);
-    return "failed";
-  }
+  return data ?? "failed";
 }
 
 async function fetchBoloSearch(plate: string) {
-  try {
-    const { data } = await cadRequest({
-      path: `/bolos?query=${plate}`,
-      method: "GET",
-      data: {
-        plateOrVin: plate,
-      },
-    });
+  const { data } = await cadRequest<GetBolosData>({
+    path: `/bolos?query=${plate}`,
+    method: "GET",
+    data: {
+      plateOrVin: plate,
+    },
+  });
 
-    return Array.isArray(data) ? data : [];
-  } catch (err) {
-    console.error(err);
-    return "failed";
-  }
+  return data ?? "failed";
 }

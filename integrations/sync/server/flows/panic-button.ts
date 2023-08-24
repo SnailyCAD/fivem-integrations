@@ -1,14 +1,18 @@
 import { cadRequest } from "~/utils/fetch.server";
 import { getPlayerApiToken, prependSnailyCAD } from "../server";
 import { SnCommands } from "~/types/events";
-import { User } from "./auth";
+import {
+  GetUserData,
+  PostEmsFdTogglePanicButtonData,
+  PostLeoTogglePanicButtonData,
+} from "@snailycad/types/api";
 
 RegisterCommand(
   SnCommands.PanicButton,
   async (source: number) => {
     CancelEvent();
 
-    const { data } = await cadRequest<User & { unit: any }>({
+    const { data } = await cadRequest<GetUserData>({
       method: "POST",
       path: "/user?includeActiveUnit=true",
       headers: {
@@ -34,7 +38,9 @@ RegisterCommand(
     const path = isOfficer ? "/leo/panic-button" : "/ems-fd/panic-button";
     const dataKey = isOfficer ? "officerId" : "deputyId";
 
-    const { data: updatedUnit } = await cadRequest<{ id: string; status: any }>({
+    const { data: updatedUnit } = await cadRequest<
+      PostLeoTogglePanicButtonData | PostEmsFdTogglePanicButtonData
+    >({
       method: "POST",
       path,
       data: {

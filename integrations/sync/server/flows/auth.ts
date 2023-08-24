@@ -2,26 +2,17 @@ import { cadRequest } from "~/utils/fetch.server";
 import { getPlayerIds } from "~/utils/get-player-ids.server";
 import { getPlayerApiToken, prependSnailyCAD } from "../server";
 import { ClientEvents, ServerEvents, SnCommands } from "~/types/events";
-
-// todo: add general docs for this plugin.
+import { GetUserData } from "@snailycad/types/api";
 
 /**
  * authentication flow
  */
-export interface User {
-  id: string;
-  username: string;
-  steamId: string | null;
-  discordId: string | null;
-  permissions: string[];
-}
-
 RegisterCommand(
   SnCommands.WhoAmI,
   async (source: number) => {
     CancelEvent();
 
-    const { data } = await cadRequest<User>({
+    const { data } = await cadRequest<GetUserData>({
       method: "POST",
       path: "/user",
       headers: {

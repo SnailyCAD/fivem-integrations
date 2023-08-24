@@ -1,9 +1,10 @@
+import { AssignedUnit, Call911 } from "@snailycad/types";
 import { fetchNUI } from "../main";
 import { NuiEvents } from "../types";
 import { slateDataToString } from "../utils/slate-data-to-string";
 
 interface HandleCall911AttachFlowOptions {
-  calls: any[];
+  calls: (Call911 & { assignedUnits?: AssignedUnit[] })[];
   source: number;
   unitId: string;
 }
@@ -34,10 +35,13 @@ export async function handleCall911AttachFlow(options: HandleCall911AttachFlowOp
   });
 }
 
-function createTableRow(call: any, options: Omit<HandleCall911AttachFlowOptions, "calls">) {
+function createTableRow(
+  call: Call911 & { assignedUnits?: AssignedUnit[] },
+  options: Omit<HandleCall911AttachFlowOptions, "calls">,
+) {
   const tableRow = document.createElement("tr");
   const isUnitAttached = call.assignedUnits?.some(
-    (assignedUnit: any) => assignedUnit?.unit?.id === options.unitId,
+    (assignedUnit) => assignedUnit.unit?.id === options.unitId,
   );
 
   const assignToCallButton = document.createElement("button");

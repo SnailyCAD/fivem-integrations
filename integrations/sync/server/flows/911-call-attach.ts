@@ -1,15 +1,20 @@
 import { cadRequest } from "~/utils/fetch.server";
 import { getPlayerApiToken, prependSnailyCAD } from "../server";
 import { ClientEvents, ServerEvents, SnCommands } from "~/types/events";
-import { User } from "./auth";
 import { getPlayerIds } from "~/utils/get-player-ids.server";
+import {
+  Get911CallByIdData,
+  Get911CallsData,
+  GetUserData,
+  Post911CallAssignUnAssign,
+} from "@snailycad/types/api";
 
 RegisterCommand(
   SnCommands.AttachTo911Call,
   async (source: number, extraArgs?: string[]) => {
     CancelEvent();
 
-    const { data } = await cadRequest<User & { unit: any }>({
+    const { data } = await cadRequest<GetUserData>({
       method: "POST",
       path: "/user?includeActiveUnit=true",
       headers: {
@@ -37,7 +42,7 @@ RegisterCommand(
         ? caseNumber.replace("#", "")
         : caseNumber;
 
-      const { data: call } = await cadRequest<{ id: string }>({
+      const { data: call } = await cadRequest<Get911CallByIdData>({
         method: "GET",
         path: `/911-calls/${caseNumberWithoutHash}`,
         headers: {
@@ -60,7 +65,7 @@ RegisterCommand(
 
     const identifiers = getPlayerIds(source, "array");
 
-    const { data: callData } = await cadRequest<{ calls: any[] }>({
+    const { data: callData } = await cadRequest<Get911CallsData>({
       method: "GET",
       path: "/911-calls",
       headers: {
@@ -83,7 +88,7 @@ RegisterCommand(
 onNet(
   ServerEvents.OnCall911Attach,
   async (source: number, type: "assign" | "unassign", unitId: string, callId: string) => {
-    const { data: updatedCall } = await cadRequest<{ id: string; caseNumber: number }>({
+    const { data: updatedCall } = await cadRequest<Post911CallAssignUnAssign>({
       method: "POST",
       path: `/911-calls/${type}/${callId}`,
       data: {

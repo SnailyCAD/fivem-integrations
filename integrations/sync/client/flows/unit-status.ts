@@ -2,6 +2,7 @@
  * unit status flow
  */
 
+import { StatusValue } from "@snailycad/types";
 import { ClientEvents, NuiEvents, ServerEvents, SnCommands } from "~/types/events";
 
 const API_URL = GetConvar("snailycad_url", "null");
@@ -21,7 +22,7 @@ emit(
 // request to open the set status modal
 onNet(
   ClientEvents.RequestSetStatusFlow,
-  (unitId: string, source: number, identifiers: string[], statusCodes: any[]) => {
+  (unitId: string, source: number, identifiers: string[], statusCodes: StatusValue[]) => {
     SendNuiMessage(
       JSON.stringify({
         action: ClientEvents.RequestSetStatusFlow,
