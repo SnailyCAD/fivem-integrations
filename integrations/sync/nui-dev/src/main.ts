@@ -16,6 +16,9 @@ export interface NuiMessage {
     unitId?: string;
     source?: number;
     calls?: (Call911 & { assignedUnits?: AssignedUnit[] })[];
+    message?: string;
+    title?: string;
+    timeout?: number;
   };
 }
 
@@ -34,6 +37,17 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
   switch (event.data.action) {
     case "sn:initialize": {
       onSpawn(apiURL);
+      break;
+    }
+    case ClientEvents.CreateNotification: {
+      const title = event.data.data?.title;
+      const message = event.data.data?.message;
+      const timeout = event.data.data?.timeout;
+
+      if (title && message) {
+        createNotification({ timeout, title, message });
+      }
+
       break;
     }
     case ClientEvents.RequestAuthFlow: {
@@ -89,13 +103,11 @@ function onSpawn(apiURL: string) {
   socket.on(SocketEvents.Signal100, (enabled: boolean) => {
     if (enabled) {
       createNotification({
-        timestamp: Date.now(),
         message: "Signal 100 is now enabled.",
         title: "Signal 100 Enabled",
       });
     } else {
       createNotification({
-        timestamp: Date.now(),
         message: "Signal 100 is now disabled.",
         title: "Signal 100 Disabled",
       });
@@ -103,14 +115,12 @@ function onSpawn(apiURL: string) {
   });
   socket.on(SocketEvents.UpdateAreaOfPlay, (areaOfPlay: string | null) =>
     createNotification({
-      timestamp: Date.now(),
       message: `Area of play has been updated to: ${areaOfPlay ?? "None"}`,
       title: "AOP Changed",
     }),
   );
   socket.on(SocketEvents.PANIC_BUTTON_ON, (unit: { formattedUnitData: string }) => {
     createNotification({
-      timestamp: Date.now(),
       message: `${unit.formattedUnitData} has pressed their panic button.`,
       title: "Panic Button Enabled",
     });
