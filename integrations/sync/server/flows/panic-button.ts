@@ -64,6 +64,8 @@ RegisterCommand(
         ),
       ],
     });
+
+    CancelEvent();
   },
   false,
 );

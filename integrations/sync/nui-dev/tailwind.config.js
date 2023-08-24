@@ -10,6 +10,15 @@ export default {
         quaternary: "#2f2e34",
         quinary: "#454349",
       },
+      animation: {
+        enter: "enter 200ms ease-out",
+      },
+      keyframes: {
+        enter: {
+          "0%": { transform: "translateY(-4px)", opacity: 0 },
+          "100%": { transform: "translateY(0px)", opacity: 1 },
+        },
+      },
     },
   },
   plugins: [],

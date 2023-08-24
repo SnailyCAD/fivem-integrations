@@ -44,6 +44,8 @@ RegisterCommand(
         ),
       ],
     });
+
+    CancelEvent();
   },
   false,
 );
@@ -55,6 +57,8 @@ RegisterCommand(
 
     const identifiers = getPlayerIds(source, "array");
     emitNet(ClientEvents.RequestAuthFlow, source, identifiers);
+
+    CancelEvent();
   },
   false,
 );

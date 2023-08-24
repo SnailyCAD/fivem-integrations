@@ -11,7 +11,7 @@
 }
 
 :root {
-  font-size: 17px;
+  font-size: calc(0.35 * (1.5vh + 1.1vw));
 }
 
 html,
