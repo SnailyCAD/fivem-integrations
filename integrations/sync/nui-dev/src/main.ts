@@ -106,8 +106,12 @@ function onSpawn(apiURL: string) {
       title: "AOP Changed",
     }),
   );
-  socket.on("PanicButton", () => {
-    // todo
+  socket.on("PANIC_BUTTON_ON", (unit: any) => {
+    createNotification({
+      timestamp: Date.now(),
+      message: `${unit.formattedUnitData} has pressed their panic button.`,
+      title: "Panic Button Enabled",
+    });
   });
 }
 
