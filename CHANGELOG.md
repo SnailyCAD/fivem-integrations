@@ -1,3 +1,8 @@
+## 0.9.1
+
+- fix: ALPR BOLO results
+- feat: type-safety with official SnailyCAD types
+
 ## 0.9.0
 
 - Custom In-Game notification system. This is in beta and will be improved over time.
