@@ -4,16 +4,17 @@ import { handleSetStatusFlow } from "./flows/set-status";
 import { ClientEvents, NuiEvents } from "./types";
 import { handleCall911AttachFlow } from "./flows/911-call-attach";
 import { createNotification } from "./flows/notification";
+import { AssignedUnit, Call911, StatusValue } from "@snailycad/types";
 
 export interface NuiMessage {
   action: string;
   data?: {
     url: string;
     identifiers?: string[];
-    statusCodes?: any[];
+    statusCodes?: StatusValue[];
     unitId?: string;
     source?: number;
-    calls?: any[];
+    calls?: (Call911 & { assignedUnits?: AssignedUnit[] })[];
   };
 }
 
@@ -106,7 +107,7 @@ function onSpawn(apiURL: string) {
       title: "AOP Changed",
     }),
   );
-  socket.on("PANIC_BUTTON_ON", (unit: any) => {
+  socket.on("PANIC_BUTTON_ON", (unit: { formattedUnitData: string }) => {
     createNotification({
       timestamp: Date.now(),
       message: `${unit.formattedUnitData} has pressed their panic button.`,

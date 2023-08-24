@@ -1,12 +1,13 @@
 import { cadRequest } from "~/utils/fetch.server";
 import { Events, SnCommands } from "~/types/events";
 import { getPostal } from "~/utils/postal/getPostal";
+import { Post911CallsData } from "@snailycad/types/api";
 
 const usePostal = GetConvar("snailycad_use_postal", "false") === "true";
 
 RegisterCommand(
   SnCommands.Call911,
-  (source: string, args: any[]) => {
+  (source: string, args: string[]) => {
     CancelEvent();
 
     const name = GetPlayerName(source);
@@ -24,7 +25,7 @@ onNet(
   async ({ source: player, street, name, description, position }: any) => {
     const postal = usePostal ? await getPostal(position) : null;
 
-    const { data } = await cadRequest<{ id: string }>({
+    const { data } = await cadRequest<Post911CallsData>({
       path: "/911-calls",
       method: "POST",
       data: {

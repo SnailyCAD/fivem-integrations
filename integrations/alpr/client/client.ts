@@ -1,12 +1,12 @@
 import { TextureTypes } from "~/types/texture-types";
 import { createNotification } from "~/utils/notification";
+import { GetBolosData, PostLeoSearchVehicleData } from "@snailycad/types/api";
 import { Events } from "~/types/events";
 
-onNet(Events.ALPRCadBoloResults, (plate: string, body: unknown) => {
-  if (body === "failed") return;
-  if (!Array.isArray(body)) return;
+onNet(Events.ALPRCadBoloResults, (plate: string, body?: GetBolosData | "failed") => {
+  if (!body || body === "failed") return;
 
-  if (body.length > 0) {
+  if (body.bolos.length > 0) {
     createNotification({
       title: "BOLO Results",
       message: `${plate} has an active BOLO. Open SnailyCAD for more details.`,
@@ -15,8 +15,8 @@ onNet(Events.ALPRCadBoloResults, (plate: string, body: unknown) => {
   }
 });
 
-onNet(Events.ALPRCadPlateResults, (plate: string, body?: unknown) => {
-  if (body === "failed") {
+onNet(Events.ALPRCadPlateResults, (plate: string, body?: PostLeoSearchVehicleData[] | "failed") => {
+  if (!body || body === "failed") {
     return createNotification({
       picture: TextureTypes.CHAR_CALL911,
       message: "Unable to fetch plate search results: failed to fetch",
@@ -24,7 +24,7 @@ onNet(Events.ALPRCadPlateResults, (plate: string, body?: unknown) => {
     });
   }
 
-  const [vehicle] = Array.isArray(body) ? body : [body];
+  const [vehicle] = body;
   if (!vehicle) {
     return createNotification({
       picture: TextureTypes.CHAR_CALL911,
@@ -33,12 +33,13 @@ onNet(Events.ALPRCadPlateResults, (plate: string, body?: unknown) => {
     });
   }
 
+  const owner = vehicle.citizen ? `${vehicle.citizen.name} ${vehicle.citizen.surname}` : "Unknown";
   const message = [
     `Plate: ${plate}`,
-    `Model: ${vehicle.model.value?.value ?? "N/A"}`,
+    `Model: ${vehicle.model.value.value}`,
     `Color: ${vehicle.color}`,
     `VIN Number: ${vehicle.vinNumber}`,
-    `Owner: ${vehicle.citizen.name} ${vehicle.citizen.surname}`,
+    `Owner: ${owner}`,
   ];
 
   createNotification({
@@ -47,7 +48,8 @@ onNet(Events.ALPRCadPlateResults, (plate: string, body?: unknown) => {
     title: "Plate Search Results",
   });
 
-  const warrants = vehicle.citizen?.warrants?.filter((v: any) => v.status === "ACTIVE");
+  // todo: type will be fixed in a later version
+  const warrants = (vehicle.citizen as any)?.warrants?.filter((v: any) => v.status === "ACTIVE");
   const hasWarrants = warrants?.length > 0;
 
   if (hasWarrants) {

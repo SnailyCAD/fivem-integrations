@@ -2,8 +2,14 @@ import { cadRequest } from "~/utils/fetch.server";
 import { getPlayerApiToken, prependSnailyCAD } from "../server";
 import { getPlayerIds } from "~/utils/get-player-ids.server";
 import { ClientEvents, ServerEvents, SnCommands } from "~/types/events";
-
-// todo: publish `@snailycad/types` package to npm
+import { GetUserData, GetValuesData, PutDispatchStatusByUnitId } from "@snailycad/types/api";
+import {
+  CombinedEmsFdUnit,
+  CombinedLeoUnit,
+  EmsFdDeputy,
+  Officer,
+  StatusValue,
+} from "@snailycad/types";
 
 /**
  * when a player leaves the server, we want to set their status to off-duty
@@ -16,7 +22,7 @@ onNet("playerDropped", async () => {
   const player = global.source;
   const userApiToken = getPlayerApiToken(player);
 
-  const { data } = await cadRequest<User & { unit: any }>({
+  const { data } = await cadRequest<GetUserData>({
     method: "POST",
     path: "/user?includeActiveUnit=true",
     headers: {
@@ -27,7 +33,7 @@ onNet("playerDropped", async () => {
   // no active unit? => no need to continue
   if (!data?.unit) return;
 
-  const { data: values } = await cadRequest<{ type: string; values: any[] }[]>({
+  const { data: values } = await cadRequest<GetValuesData>({
     method: "GET",
     path: "/admin/values/codes_10?includeAll=true",
     headers: {
@@ -35,11 +41,12 @@ onNet("playerDropped", async () => {
     },
   });
 
-  const all10Codes = values?.find((v) => v.type === "CODES_10") ?? null;
-  const offDutyCode = all10Codes?.values.find((v) => v.shouldDo === "SET_OFF_DUTY") ?? null;
+  const all10Codes =
+    (values?.find((v) => v.type === "CODES_10")?.values as StatusValue[] | undefined) ?? null;
+  const offDutyCode = all10Codes?.find((v) => v.shouldDo === "SET_OFF_DUTY") ?? null;
 
   if (offDutyCode) {
-    await cadRequest<{ id: string } & Record<string, any>>({
+    await cadRequest<PutDispatchStatusByUnitId>({
       method: "PUT",
       path: `/dispatch/status/${data.unit.id}`,
       headers: {
@@ -68,7 +75,7 @@ RegisterCommand(
   async (source: number) => {
     CancelEvent();
 
-    const { data } = await cadRequest<User & { unit: any }>({
+    const { data } = await cadRequest<GetUserData>({
       method: "POST",
       path: "/user?includeActiveUnit=true",
       headers: {
@@ -95,7 +102,7 @@ RegisterCommand(
     }
 
     const unitName = getUnitName(data.unit);
-    const unitStatus = data.unit.status?.value?.value ?? "None";
+    const unitStatus = data.unit.status?.value.value ?? "None";
 
     emitNet("chat:addMessage", source, {
       args: [
@@ -113,7 +120,7 @@ RegisterCommand(
   async (source: number, extraArgs?: string[]) => {
     CancelEvent();
 
-    const { data } = await cadRequest<User & { unit: any }>({
+    const { data } = await cadRequest<GetUserData>({
       method: "POST",
       path: "/user?includeActiveUnit=true",
       headers: {
@@ -135,7 +142,7 @@ RegisterCommand(
       return;
     }
 
-    const { data: values } = await cadRequest<{ type: string; values: any[] }[]>({
+    const { data: values } = await cadRequest<GetValuesData>({
       method: "GET",
       path: "/admin/values/codes_10?includeAll=true",
       headers: {
@@ -143,8 +150,9 @@ RegisterCommand(
       },
     });
 
-    const all10Codes = values?.find((v) => v.type === "CODES_10") ?? null;
-    const statusCodes = all10Codes?.values.filter((v) => v.type === "STATUS_CODE") ?? [];
+    const all10Codes =
+      (values?.find((v) => v.type === "CODES_10")?.values as StatusValue[] | undefined) ?? null;
+    const statusCodes = all10Codes?.filter((v) => v.type === "STATUS_CODE") ?? [];
 
     const [statusCode] = extraArgs ?? [];
 
@@ -184,7 +192,7 @@ RegisterCommand(
 onNet(
   ServerEvents.OnSetUnitStatus,
   async (source: number, unitId: string, statusCodeId: string) => {
-    const { data: updatedUnit } = await cadRequest<{ id: string } & Record<string, any>>({
+    const { data: updatedUnit } = await cadRequest<PutDispatchStatusByUnitId>({
       method: "PUT",
       path: `/dispatch/status/${unitId}`,
       headers: {
@@ -211,8 +219,7 @@ onNet(
   },
 );
 
-function getUnitName(unit: any) {
+function getUnitName(unit: CombinedEmsFdUnit | CombinedLeoUnit | Officer | EmsFdDeputy) {
   if ("deputies" in unit || "officers" in unit) return "";
-  if (!unit.citizen) return "Unknown";
   return `${unit.citizen.name} ${unit.citizen.surname}`;
 }

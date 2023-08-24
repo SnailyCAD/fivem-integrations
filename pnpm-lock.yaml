@@ -8,6 +8,12 @@ dependencies:
   '@octokit/action':
     specifier: ^6.0.5
     version: 6.0.5
+  '@snailycad/permissions':
+    specifier: ^1.68.1
+    version: 1.68.1
+  '@snailycad/types':
+    specifier: ^1.68.1
+    version: 1.68.1
   archiver:
     specifier: ^6.0.0
     version: 6.0.0
@@ -515,6 +521,14 @@ packages:
       picocolors: 1.0.0
       tslib: 2.6.1
     dev: true
+
+  /@snailycad/permissions@1.68.1:
+    resolution: {integrity: sha512-l6EMS+p+qFNqdMADoIrP5wxQgf+ZSTqXh7kTZG/Qr8UEWQMRHOsVjIA7rphLCZa6CCI9OgYOjTmW0zTqyLtSfg==}
+    dev: false
+
+  /@snailycad/types@1.68.1:
+    resolution: {integrity: sha512-RvVhRIO5nQwnawCdf5f4K21+ST8AgZtb94QikcWLlRMhD3R78P9ukK8yk522zwYfVQDkArRmjlpEVaEHHdZo5Q==}
+    dev: false
 
   /@types/archiver@5.3.2:
     resolution: {integrity: sha512-IctHreBuWE5dvBDz/0WeKtyVKVRs4h75IblxOACL92wU66v+HGAfEYAOyXkOFphvRJMhuXdI9huDXpX0FC6lCw==}

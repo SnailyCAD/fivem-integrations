@@ -1,8 +1,9 @@
 import { fetchNUI } from "../main";
 import { NuiEvents } from "../types";
+import { StatusValue } from "@snailycad/types";
 
 interface HandleSetStatusFlowOptions {
-  statusCodes: any[];
+  statusCodes: StatusValue[];
   source: number;
   unitId: string;
 }

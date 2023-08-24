@@ -2,6 +2,7 @@
  * unit status flow
  */
 
+import { AssignedUnit, Call911 } from "@snailycad/types";
 import { ClientEvents, NuiEvents, ServerEvents, SnCommands } from "~/types/events";
 
 const API_URL = GetConvar("snailycad_url", "null");
@@ -16,7 +17,12 @@ emit(
 // request to open the 911 calls modal
 onNet(
   ClientEvents.RequestCall911AttachFlow,
-  (unitId: string, source: number, identifiers: string[], calls: any[]) => {
+  (
+    unitId: string,
+    source: number,
+    identifiers: string[],
+    calls: (Call911 & { assignedUnits?: AssignedUnit[] })[],
+  ) => {
     SendNuiMessage(
       JSON.stringify({
         action: ClientEvents.RequestCall911AttachFlow,
