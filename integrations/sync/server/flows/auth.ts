@@ -24,19 +24,12 @@ RegisterCommand(
       emitNet("chat:addMessage", source, {
         args: [prependSnailyCAD("Please make sure you're authenticated. Use: ^5/sn-auth^7.")],
       });
-      // todo: send client event that user doesn't exist
       return;
     }
 
     emitNet("chat:addMessage", source, {
-      args: [
-        prependSnailyCAD(
-          `Your SnailyCAD username is ^5${data.username} ^7and user ID is ^5${data.id}^7.`,
-        ),
-      ],
+      args: [prependSnailyCAD(`Your SnailyCAD username is ^5${data.username}^7.`)],
     });
-
-    CancelEvent();
   },
   false,
 );
@@ -46,15 +39,14 @@ RegisterCommand(
   (source: number) => {
     CancelEvent();
 
-    const identifiers = getPlayerIds(source, "array");
-    emitNet(ClientEvents.RequestAuthFlow, source, identifiers);
-
-    CancelEvent();
+    emitNet(ClientEvents.RequestAuthFlow, source);
   },
   false,
 );
 
 onNet(ServerEvents.OnUserSave, async (userData: { token: string }) => {
+  CancelEvent();
+
   const identifiers = getPlayerIds(source, "object");
   if (!identifiers.license) {
     console.error("no license found");

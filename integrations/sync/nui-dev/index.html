@@ -11,186 +11,20 @@
     />
     <link rel="stylesheet" href="/styles/main.css" />
   </head>
-  <body>
+  <body class="antialiased dark">
+    <div
+      id="root"
+      class="h-screen w-screen text-white flex justify-center items-center overflow-hidden"
+    ></div>
+
     <div id="app" class="text-white">
       <div
         id="notification-portal"
         class="fixed inset-5 gap-y-2 top-[56px] flex flex-col items-end pointer-events-none z-[999]"
       ></div>
-
-      <div id="authentication-flow" class="max-w-4xl rounded-md bg-primary p-8 hidden">
-        <header class="mb-2">
-          <div class="flex items-center justify-between mb-3">
-            <h1 class="text-2xl font-bold text-white">
-              SnailyCAD Personal API Token Authentication
-            </h1>
-            <button
-              id="close-authentication-flow"
-              class="bg-secondary border-quinary cursor-pointer rounded-md border p-1.5 text-white transition-colors hover:brightness-150 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-x"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
-                />
-              </svg>
-            </button>
-          </div>
-
-          <p>
-            Use your Personal API Token found at your CAD URL -> Account -> API Token. This will
-            allow you to interact with the CAD from within FiveM.
-          </p>
-        </header>
-
-        <form id="authentication-flow-form" class="mt-3">
-          <label for="api_token" htmlFor="api_token" class="mb-2">Personal API Token</label>
-          <input
-            name="api_token"
-            id="api_token"
-            type="password"
-            class="bg-secondary border-quinary w-full rounded-md border p-1.5 px-3 text-white outline-none transition-colors focus:border-gray-500 disabled:cursor-not-allowed disabled:opacity-80"
-          />
-
-          <button
-            class="bg-secondary border-quinary mt-2 cursor-pointer rounded-md border p-1 px-4 text-white transition-colors hover:brightness-150 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            Authenticate
-          </button>
-        </form>
-      </div>
-
-      <div id="set-status-flow" class="max-w-lg hidden rounded-md bg-primary p-8">
-        <header class="mb-2">
-          <div class="mb-3 flex items-center justify-between">
-            <h1 class="text-2xl font-bold text-white">Set Status</h1>
-            <button
-              id="close-set-status-flow"
-              class="cursor-pointer rounded-md border border-quinary bg-secondary p-1.5 text-white transition-colors hover:brightness-150 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-x"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
-                />
-              </svg>
-            </button>
-          </div>
-
-          <p class="text-neutral-200">Set the status for your active unit. (A-B Alexander Doe)</p>
-        </header>
-
-        <form id="set-status-flow-form" class="mt-3">
-          <div>
-            <label for="unit_status_select" class="mb-2 text-neutral-200">Status</label>
-            <select
-              name="unit_status_select"
-              id="unit_status_select"
-              class="w-full rounded-md border border-quinary bg-secondary p-1.5 px-3 text-white outline-none transition-colors focus:border-gray-500 disabled:cursor-not-allowed disabled:opacity-80"
-            ></select>
-
-            <span id="unit_status_hint" class="hidden font-medium"></span>
-          </div>
-
-          <p class="text-neutral-200 mt-2">
-            Additionally use
-            <code class="inline-block bg-secondary p-0.5">/sn-set-status &lt;status-code&gt;</code>
-          </p>
-
-          <button
-            class="mt-2 cursor-pointer rounded-md border border-quinary bg-secondary p-1 px-4 text-white transition-colors hover:brightness-150 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            Save
-          </button>
-        </form>
-      </div>
-    </div>
-
-    <div id="call-911-attach-flow" class="max-w-7xl hidden rounded-md bg-primary p-8">
-      <header class="mb-2">
-        <div class="mb-3 flex items-center justify-between">
-          <h1 class="text-2xl font-bold text-white">Active 911 Calls</h1>
-          <button
-            id="close-call-911-attach-flow"
-            class="cursor-pointer rounded-md border border-quinary bg-secondary p-1.5 text-white transition-colors hover:brightness-150 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-x"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
-              />
-            </svg>
-          </button>
-        </div>
-
-        <p class="text-neutral-200">
-          A list of all active 911 calls. Click on any of them to assign yourself to a call.
-          <br />
-          Additionally use
-          <code class="inline-block bg-secondary p-0.5">/sn-attach &lt;case-number&gt;</code>
-        </p>
-      </header>
-
-      <div class="thin-scrollbar mt-6 block max-w-full overflow-x-auto pb-5">
-        <table class="w-full whitespace-nowrap text-white">
-          <thead>
-            <th
-              class="select-none bg-gray-200 p-2 px-3 text-left text-sm font-semibold uppercase text-neutral-700 first:rounded-tl-md last:rounded-tr-md dark:bg-secondary dark:text-gray-400 lg:table-cell"
-            >
-              Case Number
-            </th>
-            <th
-              class="select-none bg-gray-200 p-2 px-3 text-left text-sm font-semibold uppercase text-neutral-700 first:rounded-tl-md last:rounded-tr-md dark:bg-secondary dark:text-gray-400 lg:table-cell"
-            >
-              Location
-            </th>
-            <th
-              class="select-none bg-gray-200 p-2 px-3 text-left text-sm font-semibold uppercase text-neutral-700 first:rounded-tl-md last:rounded-tr-md dark:bg-secondary dark:text-gray-400 lg:table-cell"
-            >
-              Caller
-            </th>
-            <th
-              class="select-none bg-gray-200 p-2 px-3 text-left text-sm font-semibold uppercase text-neutral-700 first:rounded-tl-md last:rounded-tr-md dark:bg-secondary dark:text-gray-400 lg:table-cell"
-            >
-              Description
-            </th>
-            <th
-              class="select-none bg-gray-200 p-2 px-3 text-left text-sm font-semibold uppercase text-neutral-700 first:rounded-tl-md last:rounded-tr-md dark:bg-secondary dark:text-gray-400 lg:table-cell"
-            >
-              Actions
-            </th>
-          </thead>
-
-          <tbody id="call-911-attach-flow-table-body"></tbody>
-        </table>
-      </div>
-
-      <button
-        id="cancel-call-911-attach-flow"
-        class="mt-2 cursor-pointer rounded-md border border-quinary bg-secondary p-1 px-4 text-white transition-colors hover:brightness-150 disabled:cursor-not-allowed disabled:opacity-60"
-      >
-        Cancel
-      </button>
     </div>
 
     <script type="module" src="/src/main.ts"></script>
+    <script type="module" src="/src/react.tsx"></script>
   </body>
 </html>

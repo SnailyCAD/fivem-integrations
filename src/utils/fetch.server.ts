@@ -56,7 +56,7 @@ export async function cadRequest<
     const json = await response.body[responseType]();
     return { data: json as ResponseType extends "text" ? string | null : T | null };
   } catch (error) {
-    console.error("SnailyCAD API error:", error);
+    console.error("SnailyCAD API error:", JSON.stringify(error, null, 2));
 
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
     return { data: null, error, errorMessage };

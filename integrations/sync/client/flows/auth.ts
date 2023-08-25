@@ -20,12 +20,9 @@ emit(
 );
 
 // request to show the authentication flow modal
-onNet(ClientEvents.RequestAuthFlow, (identifiers: string[]) => {
+onNet(ClientEvents.RequestAuthFlow, () => {
   SendNuiMessage(
-    JSON.stringify({
-      action: ClientEvents.RequestAuthFlow,
-      data: { url: API_URL, source, identifiers },
-    }),
+    JSON.stringify({ action: ClientEvents.RequestAuthFlow, data: { url: API_URL, source } }),
   );
   SetNuiFocus(true, true);
 });
@@ -34,12 +31,5 @@ onNet(ClientEvents.RequestAuthFlow, (identifiers: string[]) => {
 RegisterNuiCallbackType(NuiEvents.OnAuthenticationFlowSuccess);
 on(`__cfx_nui:${NuiEvents.OnAuthenticationFlowSuccess}`, (data: unknown, cb: Function) => {
   emitNet(ServerEvents.OnUserSave, data);
-  cb({ ok: true });
-});
-
-// the authentication flow has been closed
-RegisterNuiCallbackType(NuiEvents.CloseAuthenticationFlow);
-on(`__cfx_nui:${NuiEvents.CloseAuthenticationFlow}`, (_data: unknown, cb: Function) => {
-  SetNuiFocus(false, false);
   cb({ ok: true });
 });

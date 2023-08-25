@@ -1,6 +1,5 @@
 import { cadRequest } from "~/utils/fetch.server";
 import { getPlayerApiToken, prependSnailyCAD } from "../server";
-import { getPlayerIds } from "~/utils/get-player-ids.server";
 import { ClientEvents, ServerEvents, SnCommands } from "~/types/events";
 import { GetUserData, GetValuesData, PutDispatchStatusByUnitId } from "@snailycad/types/api";
 import {
@@ -62,14 +61,6 @@ onNet("playerDropped", async () => {
 /**
  * duty status
  */
-export interface User {
-  id: string;
-  username: string;
-  steamId: string | null;
-  discordId: string | null;
-  permissions: string[];
-}
-
 RegisterCommand(
   SnCommands.ActiveUnit,
   async (source: number) => {
@@ -109,8 +100,6 @@ RegisterCommand(
         prependSnailyCAD(`Your active unit is ^5${unitName} ^7with status of ^5${unitStatus}^7.`),
       ],
     });
-
-    CancelEvent();
   },
   false,
 );
@@ -120,11 +109,12 @@ RegisterCommand(
   async (source: number, extraArgs?: string[]) => {
     CancelEvent();
 
+    const userApiToken = getPlayerApiToken(source);
     const { data } = await cadRequest<GetUserData>({
       method: "POST",
       path: "/user?includeActiveUnit=true",
       headers: {
-        userApiToken: getPlayerApiToken(source),
+        userApiToken,
       },
     });
 
@@ -137,7 +127,11 @@ RegisterCommand(
 
     if (!data.unit) {
       emitNet("chat:addMessage", source, {
-        args: [prependSnailyCAD("No active unit found. Go on-duty first.")],
+        args: [
+          prependSnailyCAD(
+            "No active unit found. Go on-duty first in the SnailyCAD web interface.",
+          ),
+        ],
       });
       return;
     }
@@ -146,7 +140,7 @@ RegisterCommand(
       method: "GET",
       path: "/admin/values/codes_10?includeAll=true",
       headers: {
-        userApiToken: getPlayerApiToken(source),
+        userApiToken,
       },
     });
 
@@ -169,22 +163,18 @@ RegisterCommand(
       }
 
       emit(ServerEvents.OnSetUnitStatus, source, data.unit.id, nearestStatusCode.id);
-      CancelEvent();
 
       return;
     }
 
-    const identifiers = getPlayerIds(source, "array");
     emitNet(
       ClientEvents.RequestSetStatusFlow,
       source,
       data.unit.id,
       source,
-      identifiers,
+      userApiToken,
       statusCodes,
     );
-
-    CancelEvent();
   },
   false,
 );
@@ -192,6 +182,8 @@ RegisterCommand(
 onNet(
   ServerEvents.OnSetUnitStatus,
   async (source: number, unitId: string, statusCodeId: string) => {
+    CancelEvent();
+
     const { data: updatedUnit } = await cadRequest<PutDispatchStatusByUnitId>({
       method: "PUT",
       path: `/dispatch/status/${unitId}`,

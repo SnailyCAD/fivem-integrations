@@ -1,21 +1,14 @@
 import { Socket, io } from "socket.io-client";
-import { handleAuthenticationFlow } from "./flows/authentication";
-import { handleSetStatusFlow } from "./flows/set-status";
 import { ClientEvents, NuiEvents } from "./types";
-import { handleCall911AttachFlow } from "./flows/911-call-attach";
 import { createNotification } from "./flows/notification";
-import { AssignedUnit, Call911, StatusValue } from "@snailycad/types";
 import { SocketEvents } from "@snailycad/config";
 
 export interface NuiMessage {
   action: string;
   data?: {
     url: string;
-    identifiers?: string[];
-    statusCodes?: StatusValue[];
-    unitId?: string;
-    source?: number;
-    calls?: (Call911 & { assignedUnits?: AssignedUnit[] })[];
+
+    /** notification data */
     message?: string;
     title?: string;
     timeout?: number;
@@ -46,42 +39,6 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
 
       if (title && message) {
         createNotification({ timeout, title, message });
-      }
-
-      break;
-    }
-    case ClientEvents.RequestAuthFlow: {
-      const identifiers = event.data.data?.identifiers;
-
-      const authenticationFlowElement = document.getElementById("authentication-flow");
-      if (authenticationFlowElement && identifiers) {
-        authenticationFlowElement.classList.remove("hidden");
-        handleAuthenticationFlow(apiURL, identifiers);
-      }
-      break;
-    }
-    case ClientEvents.RequestSetStatusFlow: {
-      const setStatusFlowElement = document.getElementById("set-status-flow");
-      const statusCodes = event.data.data?.statusCodes ?? [];
-      const unitId = event.data.data?.unitId;
-      const source = event.data.data?.source;
-
-      if (setStatusFlowElement && unitId && source) {
-        setStatusFlowElement.classList.remove("hidden");
-        handleSetStatusFlow({ statusCodes, source, unitId });
-      }
-
-      break;
-    }
-    case ClientEvents.RequestCall911AttachFlow: {
-      const call911AttachFlowElement = document.getElementById("call-911-attach-flow");
-      const unitId = event.data.data?.unitId;
-      const source = event.data.data?.source;
-      const calls = event.data.data?.calls ?? [];
-
-      if (call911AttachFlowElement && unitId && source) {
-        call911AttachFlowElement.classList.remove("hidden");
-        handleCall911AttachFlow({ calls, source, unitId });
       }
 
       break;
@@ -139,6 +96,8 @@ export async function fetchNUI(eventName: NuiEvents, data = {}) {
 
     const resourceName = window.GetCurrentResourceName?.() ?? "sna-sync";
     const response = await fetch(`https://${resourceName}/${eventName}`, options);
+
+    console.log("[`sna-sync-nui`][outgoing]:", eventName);
 
     return response;
   } catch (err) {

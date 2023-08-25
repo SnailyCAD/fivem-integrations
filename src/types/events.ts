@@ -91,22 +91,10 @@ export enum ClientEvents {
 }
 
 export enum NuiEvents {
-  /** the player clicked on the close button in the modal */
-  CloseAuthenticationFlow = "sna-sync-nui:close-authentication-flow",
+  CloseNui = "sna-sync-nui:close-nui",
 
   /** the player successfully authenticated with SnailyCAD's API */
   OnAuthenticationFlowSuccess = "sna-sync-nui:authentication-flow-success",
-
-  /** the player clicked on the close button in the modal */
-  CloseSetStatusFlow = "sna-sync-nui:close-set-status-flow",
-
-  /** the player selected a new status code, sends the info to the server */
-  OnSetUnitStatus = "sna-sync-nui:set-unit-status",
-
-  /** the player clicked on the close button in the modal */
-  CloseCall911AttachFlow = "sna-sync-nui:close-call-911-attach-flow",
-
-  OnCall911Attach = "sna-sync-nui:call-911-attach",
 
   /** a connection was established to the SnailyCAD API. */
   Connected = "sna-sync-nui:connected",

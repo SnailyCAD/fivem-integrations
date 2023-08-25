@@ -1,7 +1,6 @@
 import { cadRequest } from "~/utils/fetch.server";
 import { getPlayerApiToken, prependSnailyCAD } from "../server";
 import { ClientEvents, ServerEvents, SnCommands } from "~/types/events";
-import { getPlayerIds } from "~/utils/get-player-ids.server";
 import { getPostal } from "~/utils/postal/getPostal";
 import { GetUserData, Post911CallsData } from "@snailycad/types/api";
 
@@ -29,7 +28,11 @@ RegisterCommand(
 
     if (!data.unit) {
       emitNet("chat:addMessage", source, {
-        args: [prependSnailyCAD("No active unit found. Go on-duty first.")],
+        args: [
+          prependSnailyCAD(
+            "No active unit found. Go on-duty first in the SnailyCAD web interface.",
+          ),
+        ],
       });
       return;
     }
@@ -41,19 +44,15 @@ RegisterCommand(
       return;
     }
 
-    const identifiers = getPlayerIds(source, "array");
-    // @ts-expect-error source is a number
+    // @ts-expect-error source is a string
     const name = GetPlayerName(source);
 
     emitNet(ClientEvents.RequestTrafficStopFlow, source, {
       unitId: data.unit.id,
       source,
-      identifiers,
       description,
       name,
     });
-
-    CancelEvent();
   },
   false,
 );
@@ -68,6 +67,8 @@ onNet(
     position: any;
     streetName: string;
   }) => {
+    CancelEvent();
+
     const postal = usePostal ? await getPostal(data.position) : null;
 
     const { data: updatedCall } = await cadRequest<Post911CallsData>({
@@ -107,7 +108,5 @@ onNet(
         ),
       ],
     });
-
-    CancelEvent();
   },
 );
