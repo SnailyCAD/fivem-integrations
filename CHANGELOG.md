@@ -1,3 +1,8 @@
+## 0.11.0
+
+- refactor: rewrite NUI to use React
+- chore: update dependencies
+
 ## 0.10.1
 
 - fix: clarify usage of Personal API Tokens.

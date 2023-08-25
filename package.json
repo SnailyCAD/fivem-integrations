@@ -20,12 +20,12 @@
   },
   "devDependencies": {
     "@casperiv/eslint-config": "^8.0.0",
-    "@citizenfx/client": "^2.0.6643-1",
-    "@citizenfx/server": "^2.0.6643-1",
+    "@citizenfx/client": "^2.0.6645-1",
+    "@citizenfx/server": "^2.0.6645-1",
     "@types/archiver": "^5.3.2",
-    "@types/node": "^20.5.0",
+    "@types/node": "^20.5.6",
     "@types/ws": "^8.5.5",
-    "@typescript-eslint/parser": "^6.4.0",
+    "@typescript-eslint/parser": "^6.4.1",
     "esbuild": "^0.19.2",
     "eslint": "^8.47.0",
     "eslint-config-prettier": "^9.0.0",
@@ -33,7 +33,7 @@
     "husky": "^8.0.3",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.2",
-    "typescript": "^5.1.6"
+    "typescript": "^5.2.2"
   },
   "dependencies": {
     "@octokit/action": "^6.0.5",
