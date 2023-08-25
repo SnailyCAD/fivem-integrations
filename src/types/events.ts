@@ -96,11 +96,6 @@ export enum NuiEvents {
   /** the player successfully authenticated with SnailyCAD's API */
   OnAuthenticationFlowSuccess = "sna-sync-nui:authentication-flow-success",
 
-  /** the player selected a new status code, sends the info to the server */
-  OnSetUnitStatus = "sna-sync-nui:set-unit-status",
-
-  OnCall911Attach = "sna-sync-nui:call-911-attach",
-
   /** a connection was established to the SnailyCAD API. */
   Connected = "sna-sync-nui:connected",
 

@@ -2,7 +2,7 @@ import * as React from "react";
 
 export interface NuiMessage<T = any> {
   action: string;
-  data?: T;
+  data?: { url: string; userApiToken: string | null } & T;
 }
 
 export function useNuiEvent<T>(action: string, onEvent: (data: NuiMessage<T>["data"]) => void) {

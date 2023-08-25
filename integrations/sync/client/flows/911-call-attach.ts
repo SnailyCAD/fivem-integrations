@@ -3,7 +3,7 @@
  */
 
 import { AssignedUnit, Call911 } from "@snailycad/types";
-import { ClientEvents, NuiEvents, ServerEvents, SnCommands } from "~/types/events";
+import { ClientEvents, SnCommands } from "~/types/events";
 
 const API_URL = GetConvar("snailycad_url", "null");
 
@@ -20,26 +20,15 @@ onNet(
   (
     unitId: string,
     source: number,
-    identifiers: string[],
     calls: (Call911 & { assignedUnits?: AssignedUnit[] })[],
+    userApiToken: string,
   ) => {
     SendNuiMessage(
       JSON.stringify({
         action: ClientEvents.RequestCall911AttachFlow,
-        data: { url: API_URL, source, unitId, identifiers, calls },
+        data: { url: API_URL, userApiToken, source, unitId, calls },
       }),
     );
     SetNuiFocus(true, true);
-  },
-);
-
-RegisterNuiCallbackType(NuiEvents.OnCall911Attach);
-on(
-  `__cfx_nui:${NuiEvents.OnCall911Attach}`,
-  (data: { unitId: string; source: number; callId: string; type: string }, cb: Function) => {
-    SetNuiFocus(false, false);
-    cb({ ok: true });
-
-    emitNet(ServerEvents.OnCall911Attach, data.source, data.type, data.unitId, data.callId);
   },
 );

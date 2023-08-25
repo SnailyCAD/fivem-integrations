@@ -20,12 +20,9 @@ emit(
 );
 
 // request to show the authentication flow modal
-onNet(ClientEvents.RequestAuthFlow, (identifiers: string[]) => {
+onNet(ClientEvents.RequestAuthFlow, () => {
   SendNuiMessage(
-    JSON.stringify({
-      action: ClientEvents.RequestAuthFlow,
-      data: { url: API_URL, source, identifiers },
-    }),
+    JSON.stringify({ action: ClientEvents.RequestAuthFlow, data: { url: API_URL, source } }),
   );
   SetNuiFocus(true, true);
 });

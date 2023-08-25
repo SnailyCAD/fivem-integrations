@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "mxcn";
-import { useNuiEvent } from "../hooks/use-nui-event";
+import { NuiMessage, useNuiEvent } from "../hooks/use-nui-event";
 import { fetchNUI } from "../main";
 import { NuiEvents } from "../types";
 
@@ -11,7 +11,7 @@ interface Props {
 
 interface VisibilityContext<T = any> {
   visible: boolean;
-  data?: T;
+  data?: NuiMessage<T>["data"];
   hide(): void;
 }
 

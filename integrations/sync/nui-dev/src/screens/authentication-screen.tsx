@@ -3,37 +3,44 @@ import { useVisibility } from "../components/visibility-provider";
 import { Button, Loader, TextField } from "@snailycad/ui";
 import { useMutation } from "@tanstack/react-query";
 import { handleClientCadRequest } from "../fetch.client";
+import { fetchNUI } from "../main";
+import { NuiEvents } from "../types";
+import { createNotification } from "../flows/notification";
 
 export function AuthenticationScreen() {
-  const { hide, data } = useVisibility<{
-    identifiers?: string[];
-    url: string;
-  }>();
+  const { hide, data: actionData } = useVisibility();
 
-  const mutation = useMutation<unknown, Error, { token: string; identifiers: any }>({
+  const mutation = useMutation<unknown, Error, { token: string }>({
     mutationKey: ["authentication"],
+    onSuccess(_data, variables) {
+      hide();
+      fetchNUI(NuiEvents.OnAuthenticationFlowSuccess, variables);
+      createNotification({
+        title: "Authentication Success",
+        message: "You have successfully authenticated with SnailyCAD.",
+      });
+    },
     mutationFn: async (variables) => {
-      if (!data?.url) return;
+      if (!actionData?.url) {
+        throw new Error("SnailyCAD API URL not provided in server.cfg.");
+      }
 
-      const response = await handleClientCadRequest({
-        url: data.url,
+      const { data, error, errorMessage } = await handleClientCadRequest({
+        url: actionData.url,
         path: "/user/api-token/validate",
         method: "POST",
         data: variables,
       });
 
-      const json = await response.json();
-      const hasErrors = json.name === "BAD_REQUEST" || json.status === 400;
-
-      if (hasErrors) {
-        if (json.message === "invalidToken") {
+      if (errorMessage || error || !data) {
+        if (errorMessage === "invalidToken") {
           throw new Error("An invalid Personal API Token was provided.");
         }
 
         throw new Error("Could not verify your Personal API Token.");
       }
 
-      return json;
+      return data;
     },
   });
 
@@ -42,12 +49,9 @@ export function AuthenticationScreen() {
 
     const elements = event.currentTarget.elements;
     const tokenElement = elements.namedItem("api_token") as HTMLInputElement | null;
-    if (!tokenElement || !data?.identifiers) return;
+    if (!tokenElement) return;
 
-    await mutation.mutateAsync({
-      identifiers: data.identifiers,
-      token: tokenElement.value,
-    });
+    await mutation.mutateAsync({ token: tokenElement.value });
   }
 
   return (

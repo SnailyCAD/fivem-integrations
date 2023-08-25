@@ -1,7 +1,6 @@
 import { cadRequest } from "~/utils/fetch.server";
 import { getPlayerApiToken, prependSnailyCAD } from "../server";
 import { ClientEvents, ServerEvents, SnCommands } from "~/types/events";
-import { getPlayerIds } from "~/utils/get-player-ids.server";
 import {
   Get911CallByIdData,
   Get911CallsData,
@@ -14,11 +13,12 @@ RegisterCommand(
   async (source: number, extraArgs?: string[]) => {
     CancelEvent();
 
+    const userApiToken = getPlayerApiToken(source);
     const { data } = await cadRequest<GetUserData>({
       method: "POST",
       path: "/user?includeActiveUnit=true",
       headers: {
-        userApiToken: getPlayerApiToken(source),
+        userApiToken,
       },
     });
 
@@ -46,7 +46,7 @@ RegisterCommand(
         method: "GET",
         path: `/911-calls/${caseNumberWithoutHash}`,
         headers: {
-          userApiToken: getPlayerApiToken(source),
+          userApiToken,
         },
       });
 
@@ -63,13 +63,11 @@ RegisterCommand(
       return;
     }
 
-    const identifiers = getPlayerIds(source, "array");
-
     const { data: callData } = await cadRequest<Get911CallsData>({
       method: "GET",
       path: "/911-calls",
       headers: {
-        userApiToken: getPlayerApiToken(source),
+        userApiToken,
       },
     });
 
@@ -78,8 +76,8 @@ RegisterCommand(
       source,
       data.unit.id,
       source,
-      identifiers,
       callData?.calls ?? [],
+      userApiToken,
     );
   },
   false,

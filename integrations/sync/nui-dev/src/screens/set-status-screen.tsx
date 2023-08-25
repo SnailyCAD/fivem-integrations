@@ -1,38 +1,67 @@
 import * as React from "react";
-import { SelectField, Button } from "@snailycad/ui";
+import { SelectField, Button, Loader } from "@snailycad/ui";
 import { useVisibility } from "../components/visibility-provider";
-import { fetchNUI } from "../main";
-import { NuiEvents } from "../types";
 import { StatusValue } from "@snailycad/types";
+import { useMutation } from "@tanstack/react-query";
+import { PutDispatchStatusByUnitId } from "@snailycad/types/api";
+import { handleClientCadRequest } from "../fetch.client";
+import { createNotification } from "../flows/notification";
 
 export function SetStatusScreen() {
   const [selectedKey, setSelectedKey] = React.useState<string | null>(null);
 
-  const { hide, data } = useVisibility<{
+  const { hide, data: actionData } = useVisibility<{
     statusCodes?: StatusValue[];
     unitId?: string;
     source?: number;
   }>();
 
+  const mutation = useMutation<PutDispatchStatusByUnitId, Error, { statusId: string }>({
+    mutationKey: ["authentication"],
+    onSuccess(unit) {
+      hide();
+
+      createNotification({
+        title: "Status updated",
+        message: `Successfully updated your status to ${unit.status?.value.value}.`,
+      });
+    },
+    mutationFn: async (variables) => {
+      if (!actionData?.url || !actionData.userApiToken) {
+        throw new Error("SnailyCAD API URL and/or Personal API Token not provided.");
+      }
+
+      const { data, error, errorMessage } = await handleClientCadRequest<PutDispatchStatusByUnitId>(
+        {
+          url: actionData.url,
+          path: `/dispatch/status/${actionData.unitId}`,
+          method: "POST",
+          data: { status: variables.statusId },
+          headers: {
+            userApiToken: actionData.userApiToken,
+          },
+        },
+      );
+
+      if (error || !data) {
+        throw new Error(
+          errorMessage || "Unknown error occurred. Please see F8 console for further details.",
+        );
+      }
+
+      return data;
+    },
+  });
+
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!selectedKey) return;
 
-    hide();
-
-    // todo: add loading state + error state in UI instead of chat.
-    // instead of sending API requests via the server, we should
-    // send the API requests here. If an error occurs, we should
-    // show the error message in the UI.
-    // use react-query for this.
-    fetchNUI(NuiEvents.OnSetUnitStatus, {
-      ...data,
-      statusCodeId: selectedKey,
-    });
+    mutation.mutate({ statusId: selectedKey });
   }
 
   return (
-    <div id="set-status-flow" className="max-w-lg rounded-md bg-primary p-8">
+    <div className="max-w-lg rounded-md bg-primary p-8">
       <header className="mb-2">
         <div className="mb-3 flex items-center justify-between">
           <h1 className="text-2xl font-bold text-white">Set Status</h1>
@@ -59,7 +88,7 @@ export function SetStatusScreen() {
           selectedKey={selectedKey}
           onSelectionChange={(key) => setSelectedKey(key as string)}
           label="Status"
-          options={(data?.statusCodes ?? []).map((v) => ({
+          options={(actionData?.statusCodes ?? []).map((v) => ({
             label: v.value.value,
             value: v.id,
           }))}
@@ -72,7 +101,10 @@ export function SetStatusScreen() {
           </code>
         </p>
 
-        <Button type="submit">Save</Button>
+        <Button className="flex gap-2 items-center" type="submit" isDisabled={mutation.isLoading}>
+          {mutation.isLoading ? <Loader /> : null}
+          Save
+        </Button>
       </form>
     </div>
   );

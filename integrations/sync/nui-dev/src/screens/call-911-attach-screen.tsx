@@ -1,32 +1,67 @@
-import { Button } from "@snailycad/ui";
-import { NuiEvents } from "../types";
-import { fetchNUI } from "../main";
+import { Alert, Button, Loader } from "@snailycad/ui";
 import { useVisibility } from "../components/visibility-provider";
 import { AssignedUnit, Call911 } from "@snailycad/types";
 import { cn } from "mxcn";
 import { slateDataToString } from "@snailycad/utils/editor";
+import { useMutation } from "@tanstack/react-query";
+import { handleClientCadRequest } from "../fetch.client";
+import { Post911CallAssignUnAssign } from "@snailycad/types/api";
+import { createNotification } from "../flows/notification";
 
 export function Call911AttachScreen() {
-  const { hide, data } = useVisibility<{
+  const { hide, data: actionData } = useVisibility<{
     calls: (Call911 & { assignedUnits?: AssignedUnit[] })[];
     source: number;
     unitId: string;
   }>();
 
-  function handleAssignUnAssignClick(type: "assign" | "unassign", callId: string) {
-    hide();
+  const mutation = useMutation<
+    Post911CallAssignUnAssign,
+    Error,
+    { type: "assign" | "unassign"; callId: string }
+  >({
+    mutationKey: ["authentication"],
+    onSuccess(call, variables) {
+      hide();
 
-    // todo: add loading state + error state in UI instead of chat.
-    // instead of sending API requests via the server, we should
-    // send the API requests here. If an error occurs, we should
-    // show the error message in the UI.
-    // use react-query for this.
-    fetchNUI(NuiEvents.OnCall911Attach, {
-      ...data,
-      callId,
-      type,
-    });
-  }
+      if (variables.type === "assign") {
+        createNotification({
+          title: "Attached to call",
+          message: `Successfully attached yourself to call #${call.caseNumber}.`,
+        });
+      } else {
+        createNotification({
+          title: "Unattached from call",
+          message: `Successfully unattached yourself from call #${call.caseNumber}.`,
+        });
+      }
+    },
+    mutationFn: async (variables) => {
+      if (!actionData?.url || !actionData.userApiToken) {
+        throw new Error("SnailyCAD API URL and/or Personal API Token not provided.");
+      }
+
+      const { data, error, errorMessage } = await handleClientCadRequest<Post911CallAssignUnAssign>(
+        {
+          url: actionData.url,
+          path: `/911-calls/${variables.type}/${variables.callId}`,
+          method: "POST",
+          data: { unit: actionData.unitId },
+          headers: {
+            userApiToken: actionData.userApiToken,
+          },
+        },
+      );
+
+      if (error || !data) {
+        throw new Error(
+          errorMessage || "Unknown error occurred. Please see F8 console for further details.",
+        );
+      }
+
+      return data;
+    },
+  });
 
   return (
     <div className="w-[56em] rounded-md bg-primary p-8">
@@ -56,6 +91,10 @@ export function Call911AttachScreen() {
         </p>
       </header>
 
+      {mutation.error ? (
+        <Alert type="error" title="An error occurred" message={mutation.error.message} />
+      ) : null}
+
       <div className="thin-scrollbar mt-6 block max-w-full overflow-x-auto pb-5">
         <table className="w-full whitespace-nowrap text-white">
           <thead>
@@ -77,9 +116,10 @@ export function Call911AttachScreen() {
           </thead>
 
           <tbody>
-            {data?.calls.map((call) => {
+            {actionData?.calls.map((call) => {
+              const isCurrentMutation = mutation.variables?.callId === call.id;
               const isUnitAttached = call.assignedUnits?.some(
-                (assignedUnit) => assignedUnit.unit?.id === data.unitId,
+                (assignedUnit) => assignedUnit.unit?.id === actionData.unitId,
               );
 
               const callDescription = call.descriptionData
@@ -94,11 +134,19 @@ export function Call911AttachScreen() {
                   <td className="m-0 p-3 text-left">{callDescription || "None"}</td>
                   <td className="m-0 p-3 text-left">
                     <Button
+                      className="flex items-center gap-2"
+                      isDisabled={isCurrentMutation && mutation.isLoading}
                       onPress={() =>
-                        handleAssignUnAssignClick(isUnitAttached ? "unassign" : "assign", call.id)
+                        mutation.mutate({
+                          type: isUnitAttached ? "unassign" : "assign",
+                          callId: call.id,
+                        })
                       }
                       size="xs"
                     >
+                      {isCurrentMutation && mutation.isLoading ? (
+                        <Loader className="w-4 h-4" />
+                      ) : null}
                       {isUnitAttached ? "Unassign from call" : "Assign to call"}
                     </Button>
                   </td>

@@ -24,7 +24,6 @@ RegisterCommand(
       emitNet("chat:addMessage", source, {
         args: [prependSnailyCAD("Please make sure you're authenticated. Use: ^5/sn-auth^7.")],
       });
-      // todo: send client event that user doesn't exist
       return;
     }
 
@@ -40,10 +39,7 @@ RegisterCommand(
 RegisterCommand(
   SnCommands.Auth,
   (source: number) => {
-    CancelEvent();
-
-    const identifiers = getPlayerIds(source, "array");
-    emitNet(ClientEvents.RequestAuthFlow, source, identifiers);
+    emitNet(ClientEvents.RequestAuthFlow, source);
 
     CancelEvent();
   },
