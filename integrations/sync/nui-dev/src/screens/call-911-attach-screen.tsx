@@ -22,9 +22,10 @@ export function Call911AttachScreen() {
     onClose();
 
     // todo: add loading state + error state in UI instead of chat.
-    // instead of doing `{ok: true}` for the callback, we should
-    // send an error message if something went wrong.
-    // we could possibly even use react-query for this.
+    // instead of sending API requests via the server, we should
+    // send the API requests here. If an error occurs, we should
+    // show the error message in the UI.
+    // use react-query for this.
     fetchNUI(NuiEvents.OnCall911Attach, {
       ...data,
       callId,

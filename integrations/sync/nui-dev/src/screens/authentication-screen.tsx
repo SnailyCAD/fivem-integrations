@@ -2,19 +2,54 @@ import React from "react";
 import { useVisibility } from "../components/visibility-provider";
 import { fetchNUI } from "../main";
 import { NuiEvents } from "../types";
-import { Button, TextField } from "@snailycad/ui";
+import { Button, Loader, TextField } from "@snailycad/ui";
+import { useMutation } from "@tanstack/react-query";
+import { handleClientCadRequest } from "../fetch.client";
 
 export function AuthenticationScreen() {
-  const { hide } = useVisibility();
+  const { hide, data } = useVisibility<{
+    identifiers?: string[];
+    url: string;
+  }>();
+
+  const mutation = useMutation<unknown, Error, { token: string; identifiers: any }>({
+    mutationKey: ["authentication"],
+    mutationFn: async (variables) => {
+      if (!data?.url) return;
+
+      const response = await handleClientCadRequest({
+        url: data.url,
+        path: "/user/api-token/validate",
+        method: "POST",
+        data: variables,
+      });
+
+      const json = await response.json();
+      const hasErrors = json.name === "BAD_REQUEST" || json.status === 400;
+
+      if (hasErrors) {
+        if (json.message === "invalidToken") {
+          throw new Error("An invalid Personal API token was provided.");
+        }
+
+        throw new Error("Could not verify your Personal API token.");
+      }
+
+      return json;
+    },
+  });
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const elements = event.currentTarget.elements;
     const tokenElement = elements.namedItem("api_token") as HTMLInputElement | null;
-    if (!tokenElement) return;
+    if (!tokenElement || !data?.identifiers) return;
 
-    console.log("Submitting authentication flow", tokenElement.value);
+    await mutation.mutateAsync({
+      identifiers: data.identifiers,
+      token: tokenElement.value,
+    });
   }
 
   function onClose() {
@@ -51,8 +86,22 @@ export function AuthenticationScreen() {
       </header>
 
       <form onSubmit={onSubmit} className="mt-3">
-        <TextField label="Personal API Token" className="mb-2" type="password" />
-        <Button>Authenticate</Button>
+        <TextField
+          id="api_token"
+          errorMessage={mutation.error?.message}
+          label="Personal API Token"
+          className="mb-2"
+          type="password"
+        />
+        {mutation.data ? (
+          <p className="text-green-400 mb-2 font-medium">
+            You have successfully authenticated with SnailyCAD. You can now close this window.
+          </p>
+        ) : null}
+        <Button className="flex gap-2 items-center" type="submit" isDisabled={mutation.isLoading}>
+          {mutation.isLoading ? <Loader /> : null}
+          Authenticate
+        </Button>
       </form>
     </div>
   );
