@@ -7,11 +7,19 @@ const AuthenticationScreen = React.lazy(async () => ({
   default: (await import("../screens/authentication-screen")).AuthenticationScreen,
 }));
 
+const SetStatusScreen = React.lazy(async () => ({
+  default: (await import("../screens/set-status-screen")).SetStatusScreen,
+}));
+
 export function App() {
   return (
     <NextIntlWrapper>
       <VisibilityProvider action={ClientEvents.RequestAuthFlow}>
         <AuthenticationScreen />
+      </VisibilityProvider>
+
+      <VisibilityProvider action={ClientEvents.RequestSetStatusFlow}>
+        <SetStatusScreen />
       </VisibilityProvider>
     </NextIntlWrapper>
   );

@@ -50,7 +50,7 @@ export function AuthenticationScreen() {
         </p>
       </header>
 
-      <form onSubmit={onSubmit} id="authentication-flow-form" className="mt-3">
+      <form onSubmit={onSubmit} className="mt-3">
         <TextField label="Personal API Token" className="mb-2" type="password" />
         <Button>Authenticate</Button>
       </form>

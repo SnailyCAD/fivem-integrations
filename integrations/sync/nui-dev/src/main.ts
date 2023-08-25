@@ -1,6 +1,4 @@
 import { Socket, io } from "socket.io-client";
-import { handleAuthenticationFlow } from "./flows/authentication";
-import { handleSetStatusFlow } from "./flows/set-status";
 import { ClientEvents, NuiEvents } from "./types";
 import { handleCall911AttachFlow } from "./flows/911-call-attach";
 import { createNotification } from "./flows/notification";
@@ -50,29 +48,16 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
 
       break;
     }
-    case ClientEvents.RequestAuthFlow: {
-      const identifiers = event.data.data?.identifiers;
+    // case ClientEvents.RequestAuthFlow: {
+    //   const identifiers = event.data.data?.identifiers;
 
-      const authenticationFlowElement = document.getElementById("authentication-flow");
-      if (authenticationFlowElement && identifiers) {
-        authenticationFlowElement.classList.remove("hidden");
-        handleAuthenticationFlow(apiURL, identifiers);
-      }
-      break;
-    }
-    case ClientEvents.RequestSetStatusFlow: {
-      const setStatusFlowElement = document.getElementById("set-status-flow");
-      const statusCodes = event.data.data?.statusCodes ?? [];
-      const unitId = event.data.data?.unitId;
-      const source = event.data.data?.source;
-
-      if (setStatusFlowElement && unitId && source) {
-        setStatusFlowElement.classList.remove("hidden");
-        handleSetStatusFlow({ statusCodes, source, unitId });
-      }
-
-      break;
-    }
+    //   const authenticationFlowElement = document.getElementById("authentication-flow");
+    //   if (authenticationFlowElement && identifiers) {
+    //     authenticationFlowElement.classList.remove("hidden");
+    //     handleAuthenticationFlow(apiURL, identifiers);
+    //   }
+    //   break;
+    // }
     case ClientEvents.RequestCall911AttachFlow: {
       const call911AttachFlowElement = document.getElementById("call-911-attach-flow");
       const unitId = event.data.data?.unitId;
