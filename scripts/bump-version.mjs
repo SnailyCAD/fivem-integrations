@@ -5,7 +5,7 @@ const BASE_PATH = path.resolve(process.cwd(), "integrations");
 const INTEGRATIONS = await fs.readdir(BASE_PATH);
 
 const [, , version] = process.argv;
-const FX_VERSION_REGEX = /version "[0-9].[0-9].[0-9]?"/;
+const FX_VERSION_REGEX = /version "[0-9].[0-9]+.[0-9]+?"/;
 
 if (!version) {
   throw new Error("Must specify a new version.");
