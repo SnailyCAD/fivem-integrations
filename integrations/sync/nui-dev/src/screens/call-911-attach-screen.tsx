@@ -20,7 +20,7 @@ export function Call911AttachScreen() {
     Error,
     { type: "assign" | "unassign"; callId: string }
   >({
-    mutationKey: ["authentication"],
+    mutationKey: ["attach-to-911-call"],
     onSuccess(call, variables) {
       hide();
 

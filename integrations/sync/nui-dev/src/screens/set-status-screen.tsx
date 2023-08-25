@@ -1,5 +1,5 @@
 import * as React from "react";
-import { SelectField, Button, Loader } from "@snailycad/ui";
+import { SelectField, Button, Loader, Alert } from "@snailycad/ui";
 import { useVisibility } from "../components/visibility-provider";
 import { StatusValue } from "@snailycad/types";
 import { useMutation } from "@tanstack/react-query";
@@ -17,7 +17,7 @@ export function SetStatusScreen() {
   }>();
 
   const mutation = useMutation<PutDispatchStatusByUnitId, Error, { statusId: string }>({
-    mutationKey: ["authentication"],
+    mutationKey: ["set-unit-status"],
     onSuccess(unit) {
       hide();
 
@@ -35,17 +35,17 @@ export function SetStatusScreen() {
         {
           url: actionData.url,
           path: `/dispatch/status/${actionData.unitId}`,
-          method: "POST",
+          method: "PUT",
           data: { status: variables.statusId },
-          headers: {
-            userApiToken: actionData.userApiToken,
-          },
+          headers: { userApiToken: actionData.userApiToken },
         },
       );
 
       if (error || !data) {
         throw new Error(
-          errorMessage || "Unknown error occurred. Please see F8 console for further details.",
+          error?.message ||
+            errorMessage ||
+            "Unknown error occurred. Please see F8 console for further details.",
         );
       }
 
@@ -82,6 +82,10 @@ export function SetStatusScreen() {
 
         <p className="text-neutral-200">Set the status for your active unit.</p>
       </header>
+
+      {mutation.error ? (
+        <Alert type="error" title="An error occurred" message={mutation.error.message} />
+      ) : null}
 
       <form onSubmit={onSubmit} className="mt-3">
         <SelectField
