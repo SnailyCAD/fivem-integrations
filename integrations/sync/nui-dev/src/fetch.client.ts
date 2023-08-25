@@ -35,7 +35,8 @@ export async function handleClientCadRequest<
     });
 
     if (!response.ok) {
-      throw new Error(response.statusText);
+      const text = await response.text().catch(() => "Unknown error");
+      return { errorMessage: text, error: new Error(text), data: null };
     }
 
     const json = (await response.json()) as any;
