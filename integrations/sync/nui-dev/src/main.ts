@@ -97,6 +97,8 @@ export async function fetchNUI(eventName: NuiEvents, data = {}) {
     const resourceName = window.GetCurrentResourceName?.() ?? "sna-sync";
     const response = await fetch(`https://${resourceName}/${eventName}`, options);
 
+    console.log("[`sna-sync-nui`][outgoing]:", eventName);
+
     return response;
   } catch (err) {
     console.error(err);
