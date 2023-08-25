@@ -29,11 +29,7 @@ RegisterCommand(
     }
 
     emitNet("chat:addMessage", source, {
-      args: [
-        prependSnailyCAD(
-          `Your SnailyCAD username is ^5${data.username} ^7and user ID is ^5${data.id}^7.`,
-        ),
-      ],
+      args: [prependSnailyCAD(`Your SnailyCAD username is ^5${data.username}^7.`)],
     });
 
     CancelEvent();

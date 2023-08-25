@@ -43,10 +43,3 @@ on(
     emitNet(ServerEvents.OnCall911Attach, data.source, data.type, data.unitId, data.callId);
   },
 );
-
-// the 911 modal has been closed
-RegisterNuiCallbackType(NuiEvents.CloseCall911AttachFlow);
-on(`__cfx_nui:${NuiEvents.CloseCall911AttachFlow}`, (_data: unknown, cb: Function) => {
-  SetNuiFocus(false, false);
-  cb({ ok: true });
-});

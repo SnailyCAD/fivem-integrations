@@ -35,6 +35,12 @@ on(`__cfx_nui:${NuiEvents.Connected}`, (_data: never, cb: Function) => {
   cb({ ok: true });
 });
 
+RegisterNuiCallbackType(NuiEvents.CloseNui);
+on(`__cfx_nui:${NuiEvents.CloseNui}`, (_data: never, cb: Function) => {
+  SetNuiFocus(false, false);
+  cb({ ok: true });
+});
+
 RegisterNuiCallbackType(NuiEvents.ConnectionError);
 on(`__cfx_nui:${NuiEvents.ConnectionError}`, (data: Partial<Error> | null, cb: Function) => {
   console.info(data?.message ?? data?.name ?? (String(data) || "Unknown error"));

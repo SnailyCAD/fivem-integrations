@@ -43,10 +43,3 @@ on(
     emitNet(ServerEvents.OnSetUnitStatus, data.source, data.unitId, data.statusCodeId);
   },
 );
-
-// the set status flow has been closed
-RegisterNuiCallbackType(NuiEvents.CloseSetStatusFlow);
-on(`__cfx_nui:${NuiEvents.CloseSetStatusFlow}`, (_data: unknown, cb: Function) => {
-  SetNuiFocus(false, false);
-  cb({ ok: true });
-});

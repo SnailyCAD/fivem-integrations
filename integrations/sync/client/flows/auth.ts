@@ -36,10 +36,3 @@ on(`__cfx_nui:${NuiEvents.OnAuthenticationFlowSuccess}`, (data: unknown, cb: Fun
   emitNet(ServerEvents.OnUserSave, data);
   cb({ ok: true });
 });
-
-// the authentication flow has been closed
-RegisterNuiCallbackType(NuiEvents.CloseAuthenticationFlow);
-on(`__cfx_nui:${NuiEvents.CloseAuthenticationFlow}`, (_data: unknown, cb: Function) => {
-  SetNuiFocus(false, false);
-  cb({ ok: true });
-});
