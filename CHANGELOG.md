@@ -1,3 +1,7 @@
+## 0.10.1
+
+- fix: clarify usage of Personal API Tokens.
+
 ## 0.10.0
 
 - feat: use custom SnailyCAD notification system for ALPR results (`sna-alpr`).

@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + TS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -14,12 +13,17 @@
   </head>
   <body>
     <div id="app" class="text-white">
-      <div id="notification-portal" class="fixed inset-5 gap-y-2 top-[56px] flex flex-col items-end pointer-events-none z-[999]"></div>
+      <div
+        id="notification-portal"
+        class="fixed inset-5 gap-y-2 top-[56px] flex flex-col items-end pointer-events-none z-[999]"
+      ></div>
 
       <div id="authentication-flow" class="max-w-4xl rounded-md bg-primary p-8 hidden">
         <header class="mb-2">
           <div class="flex items-center justify-between mb-3">
-            <h1 class="text-2xl font-bold text-white">SnailyCAD API Token Authentication</h1>
+            <h1 class="text-2xl font-bold text-white">
+              SnailyCAD Personal API Token Authentication
+            </h1>
             <button
               id="close-authentication-flow"
               class="bg-secondary border-quinary cursor-pointer rounded-md border p-1.5 text-white transition-colors hover:brightness-150 disabled:cursor-not-allowed disabled:opacity-60"
@@ -39,11 +43,14 @@
             </button>
           </div>
 
-          <p>This will allow you to interact with parts of SnailyCAD inside of FiveM.</p>
+          <p>
+            Use your Personal API Token found at your CAD URL -> Account -> API Token. This will
+            allow you to interact with the CAD from within FiveM.
+          </p>
         </header>
 
         <form id="authentication-flow-form" class="mt-3">
-          <label for="api_token" htmlFor="api_token" class="mb-2">API Token</label>
+          <label for="api_token" htmlFor="api_token" class="mb-2">Personal API Token</label>
           <input
             name="api_token"
             id="api_token"
