@@ -28,7 +28,11 @@ RegisterCommand(
 
     if (!data.unit) {
       emitNet("chat:addMessage", source, {
-        args: [prependSnailyCAD("No active unit found. Go on-duty first.")],
+        args: [
+          prependSnailyCAD(
+            "No active unit found. Go on-duty first in the SnailyCAD web interface.",
+          ),
+        ],
       });
       return;
     }
@@ -49,8 +53,6 @@ RegisterCommand(
       description,
       name,
     });
-
-    CancelEvent();
   },
   false,
 );
@@ -65,6 +67,8 @@ onNet(
     position: any;
     streetName: string;
   }) => {
+    CancelEvent();
+
     const postal = usePostal ? await getPostal(data.position) : null;
 
     const { data: updatedCall } = await cadRequest<Post911CallsData>({
@@ -104,7 +108,5 @@ onNet(
         ),
       ],
     });
-
-    CancelEvent();
   },
 );

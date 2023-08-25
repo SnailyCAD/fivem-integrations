@@ -127,7 +127,11 @@ RegisterCommand(
 
     if (!data.unit) {
       emitNet("chat:addMessage", source, {
-        args: [prependSnailyCAD("No active unit found. Go on-duty first.")],
+        args: [
+          prependSnailyCAD(
+            "No active unit found. Go on-duty first in the SnailyCAD web interface.",
+          ),
+        ],
       });
       return;
     }

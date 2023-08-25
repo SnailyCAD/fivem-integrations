@@ -17,9 +17,7 @@ RegisterCommand(
     const { data } = await cadRequest<GetUserData>({
       method: "POST",
       path: "/user?includeActiveUnit=true",
-      headers: {
-        userApiToken,
-      },
+      headers: { userApiToken },
     });
 
     if (!data?.id) {
@@ -31,7 +29,11 @@ RegisterCommand(
 
     if (!data.unit) {
       emitNet("chat:addMessage", source, {
-        args: [prependSnailyCAD("No active unit found. Go on-duty first.")],
+        args: [
+          prependSnailyCAD(
+            "No active unit found. Go on-duty first in the SnailyCAD web interface.",
+          ),
+        ],
       });
       return;
     }
@@ -45,9 +47,7 @@ RegisterCommand(
       const { data: call } = await cadRequest<Get911CallByIdData>({
         method: "GET",
         path: `/911-calls/${caseNumberWithoutHash}`,
-        headers: {
-          userApiToken,
-        },
+        headers: { userApiToken },
       });
 
       if (!call?.id) {
@@ -66,9 +66,7 @@ RegisterCommand(
     const { data: callData } = await cadRequest<Get911CallsData>({
       method: "GET",
       path: "/911-calls",
-      headers: {
-        userApiToken,
-      },
+      headers: { userApiToken },
     });
 
     emitNet(
@@ -92,9 +90,7 @@ onNet(
       data: {
         unit: unitId,
       },
-      headers: {
-        userApiToken: getPlayerApiToken(source),
-      },
+      headers: { userApiToken: getPlayerApiToken(source) },
     });
 
     if (!updatedCall?.id) {

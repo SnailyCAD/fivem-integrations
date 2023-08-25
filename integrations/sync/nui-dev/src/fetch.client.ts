@@ -48,9 +48,10 @@ export async function handleClientCadRequest<
 
     return { data: json as T };
   } catch (err) {
-    console.error("SnailyCAD API error:", JSON.stringify(err, null, 2));
-
     const error = err instanceof Error ? err : new Error("Unknown error");
+
+    console.error("SnailyCAD API error:", error.message, JSON.stringify(err, null, 2));
+
     return { data: null, error, errorMessage: error.message };
   }
 }

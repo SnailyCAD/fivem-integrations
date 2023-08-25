@@ -30,8 +30,6 @@ RegisterCommand(
     emitNet("chat:addMessage", source, {
       args: [prependSnailyCAD(`Your SnailyCAD username is ^5${data.username}^7.`)],
     });
-
-    CancelEvent();
   },
   false,
 );
@@ -39,14 +37,16 @@ RegisterCommand(
 RegisterCommand(
   SnCommands.Auth,
   (source: number) => {
-    emitNet(ClientEvents.RequestAuthFlow, source);
-
     CancelEvent();
+
+    emitNet(ClientEvents.RequestAuthFlow, source);
   },
   false,
 );
 
 onNet(ServerEvents.OnUserSave, async (userData: { token: string }) => {
+  CancelEvent();
+
   const identifiers = getPlayerIds(source, "object");
   if (!identifiers.license) {
     console.error("no license found");
