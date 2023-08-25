@@ -1,6 +1,5 @@
 import { Socket, io } from "socket.io-client";
 import { ClientEvents, NuiEvents } from "./types";
-import { handleCall911AttachFlow } from "./flows/911-call-attach";
 import { createNotification } from "./flows/notification";
 import { AssignedUnit, Call911, StatusValue } from "@snailycad/types";
 import { SocketEvents } from "@snailycad/config";
@@ -44,29 +43,6 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
 
       if (title && message) {
         createNotification({ timeout, title, message });
-      }
-
-      break;
-    }
-    // case ClientEvents.RequestAuthFlow: {
-    //   const identifiers = event.data.data?.identifiers;
-
-    //   const authenticationFlowElement = document.getElementById("authentication-flow");
-    //   if (authenticationFlowElement && identifiers) {
-    //     authenticationFlowElement.classList.remove("hidden");
-    //     handleAuthenticationFlow(apiURL, identifiers);
-    //   }
-    //   break;
-    // }
-    case ClientEvents.RequestCall911AttachFlow: {
-      const call911AttachFlowElement = document.getElementById("call-911-attach-flow");
-      const unitId = event.data.data?.unitId;
-      const source = event.data.data?.source;
-      const calls = event.data.data?.calls ?? [];
-
-      if (call911AttachFlowElement && unitId && source) {
-        call911AttachFlowElement.classList.remove("hidden");
-        handleCall911AttachFlow({ calls, source, unitId });
       }
 
       break;

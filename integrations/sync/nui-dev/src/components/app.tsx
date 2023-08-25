@@ -11,6 +11,10 @@ const SetStatusScreen = React.lazy(async () => ({
   default: (await import("../screens/set-status-screen")).SetStatusScreen,
 }));
 
+const Call911AttachScreen = React.lazy(async () => ({
+  default: (await import("../screens/call-911-attach-screen")).Call911AttachScreen,
+}));
+
 export function App() {
   return (
     <NextIntlWrapper>
@@ -20,6 +24,10 @@ export function App() {
 
       <VisibilityProvider action={ClientEvents.RequestSetStatusFlow}>
         <SetStatusScreen />
+      </VisibilityProvider>
+
+      <VisibilityProvider action={ClientEvents.RequestCall911AttachFlow}>
+        <Call911AttachScreen />
       </VisibilityProvider>
     </NextIntlWrapper>
   );
