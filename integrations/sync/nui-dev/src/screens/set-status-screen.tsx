@@ -14,16 +14,11 @@ export function SetStatusScreen() {
     source?: number;
   }>();
 
-  function onClose() {
-    hide();
-    fetchNUI(NuiEvents.CloseSetStatusFlow);
-  }
-
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!selectedKey) return;
 
-    onClose();
+    hide();
 
     // todo: add loading state + error state in UI instead of chat.
     // instead of sending API requests via the server, we should
@@ -42,7 +37,7 @@ export function SetStatusScreen() {
         <div className="mb-3 flex items-center justify-between">
           <h1 className="text-2xl font-bold text-white">Set Status</h1>
 
-          <Button className="px-1 text-base" onPress={onClose}>
+          <Button className="px-1 text-base" onPress={hide}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"

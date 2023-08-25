@@ -13,13 +13,8 @@ export function Call911AttachScreen() {
     unitId: string;
   }>();
 
-  function onClose() {
-    hide();
-    fetchNUI(NuiEvents.CloseCall911AttachFlow);
-  }
-
   function handleAssignUnAssignClick(type: "assign" | "unassign", callId: string) {
-    onClose();
+    hide();
 
     // todo: add loading state + error state in UI instead of chat.
     // instead of sending API requests via the server, we should
@@ -39,7 +34,7 @@ export function Call911AttachScreen() {
         <div className="mb-3 flex items-center justify-between">
           <h1 className="text-2xl font-bold text-white">Active 911 Calls</h1>
 
-          <Button className="px-1 text-base" onPress={onClose}>
+          <Button className="px-1 text-base" onPress={hide}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -114,7 +109,7 @@ export function Call911AttachScreen() {
         </table>
       </div>
 
-      <Button onPress={onClose}>Cancel</Button>
+      <Button onPress={hide}>Cancel</Button>
     </div>
   );
 }

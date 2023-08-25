@@ -1,7 +1,5 @@
 import React from "react";
 import { useVisibility } from "../components/visibility-provider";
-import { fetchNUI } from "../main";
-import { NuiEvents } from "../types";
 import { Button, Loader, TextField } from "@snailycad/ui";
 import { useMutation } from "@tanstack/react-query";
 import { handleClientCadRequest } from "../fetch.client";
@@ -29,10 +27,10 @@ export function AuthenticationScreen() {
 
       if (hasErrors) {
         if (json.message === "invalidToken") {
-          throw new Error("An invalid Personal API token was provided.");
+          throw new Error("An invalid Personal API Token was provided.");
         }
 
-        throw new Error("Could not verify your Personal API token.");
+        throw new Error("Could not verify your Personal API Token.");
       }
 
       return json;
@@ -52,11 +50,6 @@ export function AuthenticationScreen() {
     });
   }
 
-  function onClose() {
-    hide();
-    fetchNUI(NuiEvents.CloseAuthenticationFlow);
-  }
-
   return (
     <div className="w-[48em] rounded-md bg-primary p-8">
       <header className="mb-2">
@@ -65,7 +58,7 @@ export function AuthenticationScreen() {
             SnailyCAD Personal API Token Authentication
           </h1>
 
-          <Button className="px-1 text-base" onPress={onClose}>
+          <Button className="px-1 text-base" onPress={hide}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"

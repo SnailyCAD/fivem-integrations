@@ -1,6 +1,8 @@
 import * as React from "react";
 import { cn } from "mxcn";
 import { useNuiEvent } from "../hooks/use-nui-event";
+import { fetchNUI } from "../main";
+import { NuiEvents } from "../types";
 
 interface Props {
   children: React.ReactNode;
@@ -24,13 +26,14 @@ export function VisibilityProvider(props: Props) {
     setData(data);
   });
 
+  function hide() {
+    setVisible(false);
+    fetchNUI(NuiEvents.CloseNui);
+  }
+
   React.useEffect(() => {
     function keyboardHandler(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        setVisible(false);
-        // todo: streamlined event for closing flows
-        // in other words, 1 single event to close all flows
-      }
+      if (event.key === "Escape") hide();
     }
 
     window.addEventListener("keydown", keyboardHandler);
@@ -40,7 +43,7 @@ export function VisibilityProvider(props: Props) {
   }, []);
 
   return (
-    <visibilityContext.Provider value={{ data, hide: () => setVisible(false), visible }}>
+    <visibilityContext.Provider value={{ data, hide, visible }}>
       <div className={cn(visible ? "visible" : "hidden")}>{props.children}</div>
     </visibilityContext.Provider>
   );
@@ -48,8 +51,6 @@ export function VisibilityProvider(props: Props) {
 
 export function useVisibility<T>(): VisibilityContext<T> {
   const context = React.useContext(visibilityContext);
-  if (context === undefined) {
-    throw new Error("useVisibility must be used within a VisibilityProvider");
-  }
+  if (!context) throw new Error("useVisibility must be used within a VisibilityProvider");
   return context;
 }

@@ -19,13 +19,6 @@ export default defineConfig(({ mode }) => {
       assetsDir: "./",
       emptyOutDir: true,
       outDir,
-      // rollupOptions: {
-      //   output: {
-      //     entryFileNames: `js/[name].js`,
-      //     chunkFileNames: `js/[name].js`,
-      //     assetFileNames: `assets/[name].[ext]`,
-      //   },
-      // },
     },
   };
 });
