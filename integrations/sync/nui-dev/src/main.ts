@@ -1,18 +1,14 @@
 import { Socket, io } from "socket.io-client";
 import { ClientEvents, NuiEvents } from "./types";
 import { createNotification } from "./flows/notification";
-import { AssignedUnit, Call911, StatusValue } from "@snailycad/types";
 import { SocketEvents } from "@snailycad/config";
 
 export interface NuiMessage {
   action: string;
   data?: {
     url: string;
-    identifiers?: string[];
-    statusCodes?: StatusValue[];
-    unitId?: string;
-    source?: number;
-    calls?: (Call911 & { assignedUnits?: AssignedUnit[] })[];
+
+    /** notification data */
     message?: string;
     title?: string;
     timeout?: number;

@@ -1,7 +1,6 @@
 import { cadRequest } from "~/utils/fetch.server";
 import { getPlayerApiToken, prependSnailyCAD } from "../server";
 import { ClientEvents, ServerEvents, SnCommands } from "~/types/events";
-import { getPlayerIds } from "~/utils/get-player-ids.server";
 import { getPostal } from "~/utils/postal/getPostal";
 import { GetUserData, Post911CallsData } from "@snailycad/types/api";
 
@@ -41,14 +40,12 @@ RegisterCommand(
       return;
     }
 
-    const identifiers = getPlayerIds(source, "array");
-    // @ts-expect-error source is a number
+    // @ts-expect-error source is a string
     const name = GetPlayerName(source);
 
     emitNet(ClientEvents.RequestTrafficStopFlow, source, {
       unitId: data.unit.id,
       source,
-      identifiers,
       description,
       name,
     });
