@@ -2,6 +2,7 @@ import React from "react";
 import { useVisibility } from "../components/visibility-provider";
 import { fetchNUI } from "../main";
 import { NuiEvents } from "../types";
+import { Button, TextField } from "@snailycad/ui";
 
 export function AuthenticationScreen() {
   const { hide } = useVisibility();
@@ -29,21 +30,18 @@ export function AuthenticationScreen() {
             SnailyCAD Personal API Token Authentication
           </h1>
 
-          <button
-            onClick={onClose}
-            className="bg-secondary border-quinary cursor-pointer rounded-md border p-1.5 text-white transition-colors hover:brightness-150 disabled:cursor-not-allowed disabled:opacity-60"
-          >
+          <Button className="px-1 text-base" onPress={onClose}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
+              width="16"
+              height="16"
               fill="currentColor"
               className="bi bi-x"
               viewBox="0 0 16 16"
             >
               <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
             </svg>
-          </button>
+          </Button>
         </div>
 
         <p>
@@ -53,19 +51,8 @@ export function AuthenticationScreen() {
       </header>
 
       <form onSubmit={onSubmit} id="authentication-flow-form" className="mt-3">
-        <label htmlFor="api_token" className="mb-2">
-          Personal API Token
-        </label>
-        <input
-          name="api_token"
-          id="api_token"
-          type="password"
-          className="bg-secondary border-quinary w-full rounded-md border p-1.5 px-3 text-white outline-none transition-colors focus:border-gray-500 disabled:cursor-not-allowed disabled:opacity-80"
-        />
-
-        <button className="bg-secondary border-quinary mt-2 cursor-pointer rounded-md border p-1 px-4 text-white transition-colors hover:brightness-150 disabled:cursor-not-allowed disabled:opacity-60">
-          Authenticate
-        </button>
+        <TextField label="Personal API Token" className="mb-2" type="password" />
+        <Button>Authenticate</Button>
       </form>
     </div>
   );
