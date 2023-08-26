@@ -9,6 +9,7 @@ export function RegisterVehicleScreen() {
   const { hide, data: actionData } = useVisibility<{
     plate: string;
     color: string;
+    vehicleModelName: string;
   }>();
 
   const mutation = useMutation<PostCitizenVehicleData, Error, { statusId: string }>({
