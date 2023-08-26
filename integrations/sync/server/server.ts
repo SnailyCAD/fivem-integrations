@@ -4,12 +4,13 @@ import "./flows/unit-status";
 import "./flows/panic-button";
 import "./flows/911-call-attach";
 import "./flows/traffic-stop";
+import "./flows/dmv";
 
 export function prependSnailyCAD(text: string) {
   return `^8^*[SnailyCAD]:^7^r ${text}`;
 }
 
-export function getPlayerApiToken(source: number) {
+export function getPlayerApiToken(source: number | string) {
   const identifiers = getPlayerIds(source, "object");
   const userLicense = identifiers.license;
   const apiToken = GetResourceKvpString(`snailycad:${userLicense}:token`);

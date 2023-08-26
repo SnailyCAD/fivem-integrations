@@ -3,6 +3,7 @@ import "./flows/auth";
 import "./flows/unit-status";
 import "./flows/911-call-attach";
 import "./flows/traffic-stop";
+import "./flows/dmv";
 
 const API_URL = GetConvar("snailycad_url", "null");
 

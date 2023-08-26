@@ -16,6 +16,10 @@ const Call911AttachScreen = React.lazy(async () => ({
   default: (await import("../screens/call-911-attach-screen")).Call911AttachScreen,
 }));
 
+const RegisterVehicleScreen = React.lazy(async () => ({
+  default: (await import("../screens/register-vehicle-screen")).RegisterVehicleScreen,
+}));
+
 const queryClient = new QueryClient();
 
 export function App() {
@@ -32,6 +36,10 @@ export function App() {
 
         <VisibilityProvider action={ClientEvents.RequestCall911AttachFlow}>
           <Call911AttachScreen />
+        </VisibilityProvider>
+
+        <VisibilityProvider action={ClientEvents.RequestRegisterVehicleFlow}>
+          <RegisterVehicleScreen />
         </VisibilityProvider>
       </NextIntlWrapper>
     </QueryClientProvider>

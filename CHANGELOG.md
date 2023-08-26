@@ -1,9 +1,17 @@
 ## 0.11.0
 
+<<<<<<< HEAD
 - refactor: rewrite NUI to use React
 - chore: update dependencies
 - chore: add update checker
 - chore: code refactor
+=======
+- feat: logout command `/sn-logout`.
+- feat: DMV/Register Vehicle command `/sn-register-vehicle`.
+- feat: Register Weapon command `/sn-register-weapon`.
+- refactor: rewrite NUI to use React.
+- chore: update dependencies.
+>>>>>>> 67622b2 (feat: register vehicle/weapon flows)
 
 ## 0.10.1
 

@@ -5,7 +5,7 @@ export interface PlayerIdentifiers {
 }
 
 export function getPlayerIds<ReturnType extends "object" | "array">(
-  source: number,
+  source: number | string,
   returnType: ReturnType,
 ): ReturnType extends "object" ? PlayerIdentifiers : string[] {
   const _identifiers = getPlayerIdentifiers(source);

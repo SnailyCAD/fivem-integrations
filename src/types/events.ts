@@ -37,6 +37,7 @@ export enum SnCommands {
   PanicButton = "sn-panic-button",
   AttachTo911Call = "sn-attach",
   TrafficStop = "sn-traffic-stop",
+  RegisterVehicle = "sn-register-vehicle",
 }
 
 export enum ServerEvents {
@@ -89,6 +90,8 @@ export enum ClientEvents {
   RequestTrafficStopFlow = "sna-sync:request-traffic-stop-flow",
 
   CreateNotification = "sna-sync:create-notification",
+
+  RequestRegisterVehicleFlow = "sna-sync:request-register-vehicle-flow",
 }
 
 export enum NuiEvents {
