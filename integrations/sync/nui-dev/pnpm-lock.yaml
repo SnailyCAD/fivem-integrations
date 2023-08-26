@@ -32,6 +32,9 @@ dependencies:
   next-intl:
     specifier: ^2.20.0
     version: 2.20.0(next@13.4.19)(react@18.2.0)
+  parse-color:
+    specifier: ^1.0.0
+    version: 1.0.0
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -46,6 +49,9 @@ dependencies:
     version: 4.7.2
 
 devDependencies:
+  '@types/parse-color':
+    specifier: ^1.0.1
+    version: 1.0.1
   '@types/react':
     specifier: ^18.2.21
     version: 18.2.21
@@ -2360,6 +2366,10 @@ packages:
     resolution: {integrity: sha512-aLkWa0C0vO5b4Sr798E26QgOkss68Un0bLjs7u9qxzPT5CG+8DuNTffWES58YzJs3hrVAOs1wonycqEBqNJubA==}
     dev: false
 
+  /@types/parse-color@1.0.1:
+    resolution: {integrity: sha512-IEWhURMWTsse+MWUsebpmHw1yS0hI/yFxO4kY12Rh0MzW/AUbuk1cc6GlWUCRTEYtXuW6M0rP8Q8IDZY/YGX0Q==}
+    dev: true
+
   /@types/prop-types@15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
 
@@ -2547,6 +2557,10 @@ packages:
   /clsx@2.0.0:
     resolution: {integrity: sha512-rQ1+kcj+ttHG0MKVGBUXwayCCF1oh39BF5COIpRzuCEv8Mwjv0XucrI2ExNTOn9IlLifGClWQcU9BrZORvtw6Q==}
     engines: {node: '>=6'}
+    dev: false
+
+  /color-convert@0.5.3:
+    resolution: {integrity: sha512-RwBeO/B/vZR3dfKL1ye/vx8MHZ40ugzpyfeVG5GsiuGnrlMWe2o8wxBbLCpw9CsxV+wHuzYlCiWnybrIA0ling==}
     dev: false
 
   /color-convert@1.9.3:
@@ -3182,6 +3196,12 @@ packages:
     dependencies:
       no-case: 2.3.2
     dev: true
+
+  /parse-color@1.0.0:
+    resolution: {integrity: sha512-fuDHYgFHJGbpGMgw9skY/bj3HL/Jrn4l/5rSspy00DoT4RyLnDcRvPxdZ+r6OFwIsgAuhDh4I09tAId4mI12bw==}
+    dependencies:
+      color-convert: 0.5.3
+    dev: false
 
   /path-is-absolute@1.0.1:
     resolution: {integrity: sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg==}

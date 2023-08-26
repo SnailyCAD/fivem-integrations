@@ -1,14 +1,14 @@
 import * as React from "react";
 
-export interface NuiMessage<T = any> {
+export interface NuiMessage<T = unknown> {
   action: string;
   data?: { url: string; userApiToken: string | null } & T;
 }
 
 export function useNuiEvent<T>(action: string, onEvent: (data: NuiMessage<T>["data"]) => void) {
   function messageListener(event: MessageEvent<NuiMessage<T>>) {
-    console.log("[`sna-sync-nui`][incoming]:", action);
     if (event.data.action.toLocaleLowerCase() === action.toLocaleLowerCase()) {
+      console.log("[`sna-sync-nui`][incoming]:", action);
       onEvent(event.data.data);
     }
   }

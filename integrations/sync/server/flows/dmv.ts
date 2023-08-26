@@ -8,11 +8,12 @@ RegisterCommand(
   async (source: string) => {
     CancelEvent();
 
+    const userApiToken = getPlayerApiToken(source);
     const { data } = await cadRequest<GetUserData>({
       method: "POST",
       path: "/user?includeActiveUnit=true",
       headers: {
-        userApiToken: getPlayerApiToken(source),
+        userApiToken,
       },
     });
 
@@ -32,7 +33,11 @@ RegisterCommand(
       return;
     }
 
-    emitNet(ClientEvents.RequestRegisterVehicleFlow, source, { source, vehicleId: playerVehicle });
+    emitNet(ClientEvents.RequestRegisterVehicleFlow, source, {
+      source,
+      userApiToken,
+      vehicleId: playerVehicle,
+    });
   },
   false,
 );
