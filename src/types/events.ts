@@ -30,6 +30,7 @@ export enum SnCommands {
   CallTow = "sn-calltow",
   CallTaxi = "sn-calltaxi",
   WhoAmI = "sn-whoami",
+  Logout = "sn-logout",
   Auth = "sn-auth",
   ActiveUnit = "sn-active-unit",
   SetStatus = "sn-set-status",

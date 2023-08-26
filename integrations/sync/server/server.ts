@@ -4,8 +4,8 @@ export function prependSnailyCAD(text: string) {
 
 export function getPlayerApiToken(source: number) {
   const identifiers = getPlayerIds(source, "object");
-  const userId = identifiers.license;
-  const apiToken = GetResourceKvpString(`snailycad:${userId}:token`);
+  const userLicense = identifiers.license;
+  const apiToken = GetResourceKvpString(`snailycad:${userLicense}:token`);
 
   return apiToken;
 }

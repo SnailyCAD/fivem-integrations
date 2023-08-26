@@ -35,6 +35,37 @@ RegisterCommand(
 );
 
 RegisterCommand(
+  SnCommands.Logout,
+  async (source: number) => {
+    CancelEvent();
+
+    const { data } = await cadRequest<GetUserData>({
+      method: "POST",
+      path: "/user",
+      headers: {
+        userApiToken: getPlayerApiToken(source),
+      },
+    });
+
+    if (!data?.id) {
+      emitNet("chat:addMessage", source, {
+        args: [prependSnailyCAD("Please make sure you're authenticated. Use: ^5/sn-auth^7.")],
+      });
+      return;
+    }
+
+    const identifiers = getPlayerIds(source, "object");
+    const userLicense = identifiers.license;
+
+    DeleteResourceKvp(`snailycad:${userLicense}:token`);
+    emitNet("chat:addMessage", source, {
+      args: [prependSnailyCAD("Successfully logged out this player from your SnailyCAD account.")],
+    });
+  },
+  false,
+);
+
+RegisterCommand(
   SnCommands.Auth,
   (source: number) => {
     CancelEvent();
