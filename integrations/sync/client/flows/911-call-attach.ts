@@ -1,7 +1,3 @@
-/**
- * unit status flow
- */
-
 import { AssignedUnit, Call911 } from "@snailycad/types";
 import { ClientEvents, SnCommands } from "~/types/events";
 

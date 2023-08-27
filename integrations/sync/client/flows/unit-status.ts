@@ -1,7 +1,3 @@
-/**
- * unit status flow
- */
-
 import { StatusValue } from "@snailycad/types";
 import { ClientEvents, SnCommands } from "~/types/events";
 

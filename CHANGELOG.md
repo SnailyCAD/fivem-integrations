@@ -2,6 +2,8 @@
 
 - refactor: rewrite NUI to use React
 - chore: update dependencies
+- chore: add update checker
+- chore: code refactor
 
 ## 0.10.1
 

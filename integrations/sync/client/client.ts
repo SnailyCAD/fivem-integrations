@@ -1,3 +1,9 @@
+import { ClientEvents, NuiEvents, SnCommands } from "~/types/events";
+import "./flows/auth";
+import "./flows/unit-status";
+import "./flows/911-call-attach";
+import "./flows/traffic-stop";
+
 const API_URL = GetConvar("snailycad_url", "null");
 
 emit(
@@ -35,6 +41,10 @@ on(`__cfx_nui:${NuiEvents.Connected}`, (_data: never, cb: Function) => {
   cb({ ok: true });
 });
 
+/**
+ * event: closeNui
+ * close the NUI window.
+ */
 RegisterNuiCallbackType(NuiEvents.CloseNui);
 on(`__cfx_nui:${NuiEvents.CloseNui}`, (_data: never, cb: Function) => {
   SetNuiFocus(false, false);
@@ -47,9 +57,3 @@ on(`__cfx_nui:${NuiEvents.ConnectionError}`, (data: Partial<Error> | null, cb: F
   console.info("Unable to connect to SnailyCAD. Error:", data);
   cb({ ok: true });
 });
-
-import { ClientEvents, NuiEvents, SnCommands } from "~/types/events";
-import "./flows/auth";
-import "./flows/unit-status";
-import "./flows/911-call-attach";
-import "./flows/traffic-stop";

@@ -1,12 +1,7 @@
 import { ClientEvents, NuiEvents, ServerEvents, SnCommands } from "~/types/events";
 
-/**
- * authentication flow
- */
-
 const API_URL = GetConvar("snailycad_url", "null");
 
-// add client command suggestion
 emit(
   "chat:addSuggestion",
   `/${SnCommands.WhoAmI}`,

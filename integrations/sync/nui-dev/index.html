@@ -11,18 +11,13 @@
     />
     <link rel="stylesheet" href="/styles/main.css" />
   </head>
-  <body class="antialiased dark">
-    <div
-      id="root"
-      class="h-screen w-screen text-white flex justify-center items-center overflow-hidden"
-    ></div>
+  <body class="antialiased dark text-white">
+    <div id="root" class="h-screen w-screen flex justify-center items-center overflow-hidden"></div>
 
-    <div id="app" class="text-white">
-      <div
-        id="notification-portal"
-        class="fixed inset-5 gap-y-2 top-[56px] flex flex-col items-end pointer-events-none z-[999]"
-      ></div>
-    </div>
+    <div
+      id="notification-portal"
+      class="fixed inset-5 gap-y-2 top-[56px] flex flex-col items-end pointer-events-none z-[999]"
+    ></div>
 
     <script type="module" src="/src/main.ts"></script>
     <script type="module" src="/src/react.tsx"></script>

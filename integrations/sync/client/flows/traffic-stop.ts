@@ -1,7 +1,3 @@
-/**
- * unit status flow
- */
-
 import { ClientEvents, ServerEvents, SnCommands } from "~/types/events";
 
 emit(
