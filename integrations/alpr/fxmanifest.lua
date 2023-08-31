@@ -3,7 +3,7 @@ game "gta5"
 
 author "Casper Iversen"
 description "ALPR integration with support for Wraith ARS 2X"
-version "0.11.0"
+version "0.11.1"
 
 server_scripts {"server/server.js"}
 client_scripts {"client/client.js"}

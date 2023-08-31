@@ -6,6 +6,17 @@ import "./flows/traffic-stop";
 
 const API_URL = GetConvar("snailycad_url", "null");
 
+if (API_URL === "null") {
+  console.error(`
+  ---------------------------------------
+
+[${GetCurrentResourceName()}] Failed to find the "snailycad_url" convar in your server.cfg. Please make sure you are using \`setr\` and not \`set\`:
+
+\`setr snailycad_url "<api-url-here>/v1" \`
+
+  ---------------------------------------`);
+}
+
 emit(
   "chat:addSuggestion",
   `/${SnCommands.PanicButton}`,

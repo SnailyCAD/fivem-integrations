@@ -1,3 +1,7 @@
+## 0.11.1
+
+- chore: add warning when API URL is not available client-side.
+
 ## 0.11.0
 
 - refactor: rewrite NUI to use React
