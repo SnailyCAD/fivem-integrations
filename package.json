@@ -39,7 +39,7 @@
     "@octokit/action": "^6.0.5",
     "@snailycad/permissions": "1.68.3",
     "@snailycad/types": "1.68.3",
-    "@snailycad/config": "1.68.3",
+    "@snailycad/config": "1.68.7",
     "archiver": "^6.0.0",
     "dotenv": "^16.3.1",
     "undici": "^5.23.0"

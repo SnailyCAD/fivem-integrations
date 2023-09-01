@@ -9,8 +9,8 @@ dependencies:
     specifier: ^6.0.5
     version: 6.0.5
   '@snailycad/config':
-    specifier: 1.68.3
-    version: 1.68.3
+    specifier: 1.68.7
+    version: 1.68.7
   '@snailycad/permissions':
     specifier: 1.68.3
     version: 1.68.3
@@ -525,8 +525,8 @@ packages:
       tslib: 2.6.1
     dev: true
 
-  /@snailycad/config@1.68.3:
-    resolution: {integrity: sha512-md62CbeIZuG/XBzSpBNZzjwU73Fyl06GOYxLjwjh3mc/6ZvQfj2FUeTzUjMEzD46QIVHovlCvEQkLHFM/wq+zA==}
+  /@snailycad/config@1.68.7:
+    resolution: {integrity: sha512-bWv2+Bgvjqxexz89oTpIDyDGJ4vNMERM8z2riasPLmSCl6jK1Cou4pHcR7U8/Wv19euPOmLi4z18FWgdxxk7gw==}
     dev: false
 
   /@snailycad/permissions@1.68.3:
