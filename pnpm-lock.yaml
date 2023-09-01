@@ -12,8 +12,8 @@ dependencies:
     specifier: 1.68.3
     version: 1.68.3
   '@snailycad/permissions':
-    specifier: 1.68.3
-    version: 1.68.3
+    specifier: 1.68.7
+    version: 1.68.7
   '@snailycad/types':
     specifier: 1.68.3
     version: 1.68.3
@@ -529,8 +529,8 @@ packages:
     resolution: {integrity: sha512-md62CbeIZuG/XBzSpBNZzjwU73Fyl06GOYxLjwjh3mc/6ZvQfj2FUeTzUjMEzD46QIVHovlCvEQkLHFM/wq+zA==}
     dev: false
 
-  /@snailycad/permissions@1.68.3:
-    resolution: {integrity: sha512-83xTqqtRbV7pMrVZT0hXOMY3hO3fgGC95TLE5792eVDLV+22cB0+XqSTHHNZyK3DFOPyKxpIjLlNbPZ72oPy+w==}
+  /@snailycad/permissions@1.68.7:
+    resolution: {integrity: sha512-gv3RveH6+zPYZfYIeTQQ+BM2Nt3LSnyEoaJKFVH8cQSAsNe49AsjMzbdH47jhMpR3+O2jSI5Ma6v722pMiXKuA==}
     dev: false
 
   /@snailycad/types@1.68.3:

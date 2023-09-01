@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@octokit/action": "^6.0.5",
-    "@snailycad/permissions": "1.68.3",
+    "@snailycad/permissions": "1.68.7",
     "@snailycad/types": "1.68.3",
     "@snailycad/config": "1.68.3",
     "archiver": "^6.0.0",
