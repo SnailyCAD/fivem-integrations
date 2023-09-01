@@ -53,7 +53,7 @@ async function verifyCADApiVersion() {
 
 [${GetCurrentResourceName()}] Failed to verify SnailyCAD version. Please make sure the following:
 
-- Correct global API Token set in server.cfg as "snaily_cad_api_token"
+- Correct global API Token set in server.cfg as "snailycad_api_key"
 - Correct SnailyCAD URL set in server.cfg as "snaily_cad_url"
 - Your SnailyCAD instance API is running and is accessible from this server
 
@@ -67,7 +67,7 @@ async function verifyCADApiVersion() {
 
     [${GetCurrentResourceName()}] Failed to verify SnailyCAD version. Please make sure the following:
 
-    - Correct global API Token set in server.cfg as "snaily_cad_api_token"
+    - Correct global API Token set in server.cfg as "snailycad_api_key"
     - Correct SnailyCAD URL set in server.cfg as "snaily_cad_url"
     - Your SnailyCAD instance API is running and is accessible from this server
 
