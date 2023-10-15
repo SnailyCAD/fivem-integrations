@@ -1,3 +1,8 @@
+## 0.12.0
+
+- chore: update dependencies.
+- fix: unable to load custom postal codes.
+
 ## 0.11.1
 
 - chore: add warning when API URL is not available client-side.

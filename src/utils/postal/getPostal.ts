@@ -4,7 +4,6 @@
  * - https://github.com/nick-perry14
  */
 
-import { resolve } from "node:path";
 import defaultPostals from "./postals.json";
 
 export async function getPostal(playerPosition: { x: number; y: number }): Promise<string | null> {
@@ -30,19 +29,8 @@ export async function getPostal(playerPosition: { x: number; y: number }): Promi
 
 async function getPostalCodes() {
   try {
-    const resourceName = "sna-postals";
-    const pwd = resolve(process.cwd(), "resources", resourceName, "postals.json");
-
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    return require(pwd) as Promise<typeof defaultPostals>;
+    return exports["sna-postals"]["readPostalCodes"]?.();
   } catch (error) {
-    if (error instanceof Error) {
-      const errorMessage = error.message;
-
-      // return default postals if a custom postals file cannot be found
-      if (errorMessage.includes("Cannot find module")) return defaultPostals;
-    }
-
     console.error(error);
     return defaultPostals;
   }
