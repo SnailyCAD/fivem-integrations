@@ -3,6 +3,12 @@
 - chore: update dependencies.
 - fix: unable to load custom postal codes.
 
+**BREAKING CHANGES:**
+
+> `sna-postals`@`0.12.0` now exports the postals instead of other integrations loading the file.
+> This means you are **required** to update `sna-postals` **AND** all the other used resources for it to work properly.
+> Make sure to backup your custom `postals.json` file before updating.
+
 ## 0.11.1
 
 - chore: add warning when API URL is not available client-side.
