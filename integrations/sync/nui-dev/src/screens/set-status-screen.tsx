@@ -105,8 +105,8 @@ export function SetStatusScreen() {
           </code>
         </p>
 
-        <Button className="flex gap-2 items-center" type="submit" isDisabled={mutation.isLoading}>
-          {mutation.isLoading ? <Loader /> : null}
+        <Button className="flex gap-2 items-center" type="submit" isDisabled={mutation.isPending}>
+          {mutation.isPending ? <Loader /> : null}
           Save
         </Button>
       </form>

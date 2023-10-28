@@ -20,14 +20,14 @@
   },
   "devDependencies": {
     "@casperiv/eslint-config": "^8.0.0",
-    "@citizenfx/client": "^2.0.6798-1",
-    "@citizenfx/server": "^2.0.6798-1",
-    "@types/archiver": "^5.3.3",
-    "@types/node": "^20.8.6",
-    "@types/ws": "^8.5.7",
-    "@typescript-eslint/parser": "^6.7.5",
-    "esbuild": "^0.19.4",
-    "eslint": "^8.51.0",
+    "@citizenfx/client": "^2.0.6947-1",
+    "@citizenfx/server": "^2.0.6947-1",
+    "@types/archiver": "^5.3.4",
+    "@types/node": "^20.8.9",
+    "@types/ws": "^8.5.8",
+    "@typescript-eslint/parser": "^6.9.0",
+    "esbuild": "^0.19.5",
+    "eslint": "^8.52.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.1",
     "husky": "^8.0.3",
@@ -42,7 +42,7 @@
     "@snailycad/config": "1.74.0",
     "archiver": "^6.0.1",
     "dotenv": "^16.3.1",
-    "undici": "^5.26.3"
+    "undici": "^5.27.0"
   },
   "prettier": {
     "semi": true,

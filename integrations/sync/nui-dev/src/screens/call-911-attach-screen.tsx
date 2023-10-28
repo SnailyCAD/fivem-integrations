@@ -135,7 +135,7 @@ export function Call911AttachScreen() {
                   <td className="m-0 p-3 text-left">
                     <Button
                       className="flex items-center gap-2"
-                      isDisabled={isCurrentMutation && mutation.isLoading}
+                      isDisabled={isCurrentMutation && mutation.isPending}
                       onPress={() =>
                         mutation.mutate({
                           type: isUnitAttached ? "unassign" : "assign",
@@ -144,7 +144,7 @@ export function Call911AttachScreen() {
                       }
                       size="xs"
                     >
-                      {isCurrentMutation && mutation.isLoading ? (
+                      {isCurrentMutation && mutation.isPending ? (
                         <Loader className="w-4 h-4" />
                       ) : null}
                       {isUnitAttached ? "Unassign from call" : "Assign to call"}

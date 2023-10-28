@@ -8,28 +8,28 @@
     "build": "tsc && vite build"
   },
   "devDependencies": {
-    "@types/react": "^18.2.21",
-    "@types/react-dom": "^18.2.7",
-    "autoprefixer": "^10.4.15",
+    "@types/react": "^18.2.33",
+    "@types/react-dom": "^18.2.14",
+    "autoprefixer": "^10.4.16",
     "html-minifier": "^4.0.0",
-    "postcss": "^8.4.28",
-    "tailwindcss": "^3.3.3",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.5",
     "typescript": "^5.2.2",
-    "vite": "^4.4.9"
+    "vite": "^4.5.0"
   },
   "dependencies": {
-    "@snailycad/config": "1.68.7",
-    "@snailycad/types": "1.68.7",
-    "@snailycad/ui": "1.68.7",
-    "@snailycad/utils": "1.68.7",
-    "@tanstack/react-query": "^4.33.0",
-    "@vitejs/plugin-react": "^4.0.4",
-    "formik": "^2.4.3",
+    "@snailycad/config": "1.74.0",
+    "@snailycad/types": "1.74.0",
+    "@snailycad/ui": "1.74.0",
+    "@snailycad/utils": "1.74.0",
+    "@tanstack/react-query": "^5.0.5",
+    "@vitejs/plugin-react": "^4.1.0",
+    "formik": "^2.4.5",
     "mxcn": "^2.0.0",
-    "next-intl": "^2.20.0",
+    "next-intl": "^2.21.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "slate": "^0.94.1",
+    "slate": "^0.100.0",
     "socket.io-client": "^4.7.2"
   }
 }

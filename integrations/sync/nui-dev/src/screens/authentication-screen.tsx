@@ -95,8 +95,8 @@ export function AuthenticationScreen() {
             You have successfully authenticated with SnailyCAD. You can now close this window.
           </p>
         ) : null}
-        <Button className="flex gap-2 items-center" type="submit" isDisabled={mutation.isLoading}>
-          {mutation.isLoading ? <Loader /> : null}
+        <Button className="flex gap-2 items-center" type="submit" isDisabled={mutation.isPending}>
+          {mutation.isPending ? <Loader /> : null}
           Authenticate
         </Button>
       </form>

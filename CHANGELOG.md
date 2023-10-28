@@ -1,3 +1,8 @@
+## 0.13.0
+
+- chore: update dependencies.
+- feat: ability to self-assign to an incoming 911 call.
+
 ## 0.12.0
 
 - chore: update dependencies.
