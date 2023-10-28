@@ -59,7 +59,7 @@ RegisterCommand(
         return;
       }
 
-      emit(ServerEvents.OnCall911Attach, source, data.unit.id, call.id);
+      emit(ServerEvents.OnCall911Attach, source, "assign", data.unit.id, call.id);
       return;
     }
 
