@@ -52,7 +52,8 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
 let socket: Socket;
 
 function onSpawn(apiURL: string) {
-  socket = io(apiURL.replace("/v1", ""));
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  socket ??= io(apiURL.replace("/v1", ""));
 
   socket.on("connect", () => fetchNUI(NuiEvents.Connected, { socketId: socket.id }));
   socket.on("connect_error", (error) => fetchNUI(NuiEvents.ConnectionError, { error }));
