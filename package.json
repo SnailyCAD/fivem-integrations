@@ -37,12 +37,12 @@
   },
   "dependencies": {
     "@octokit/action": "^6.0.6",
+    "@snailycad/config": "1.74.0",
     "@snailycad/permissions": "1.74.0",
     "@snailycad/types": "1.74.0",
-    "@snailycad/config": "1.74.0",
     "archiver": "^6.0.1",
     "dotenv": "^16.4.5",
-    "undici": "^6.18.2"
+    "undici": "5.27.0"
   },
   "prettier": {
     "semi": true,
