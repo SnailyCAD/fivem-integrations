@@ -1,3 +1,10 @@
+## 0.14.0
+
+- fix: 911 call notifications being sent to all players in the server instead of only on-duty units.
+- fix: panic button notifications being sent to all players in the server instead of only on-duty units.
+- fix: avoid duplicate notifications
+- chore: update dependencies.
+
 ## 0.13.0
 
 - chore: update dependencies.

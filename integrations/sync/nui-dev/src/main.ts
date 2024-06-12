@@ -1,5 +1,5 @@
 import { Socket, io } from "socket.io-client";
-import { ClientEvents, NuiEvents, SnCommands } from "./types";
+import { ClientEvents, NuiEvents } from "./types";
 import { createNotification } from "./flows/notification";
 import { SocketEvents } from "@snailycad/config";
 
@@ -57,14 +57,8 @@ function onSpawn(apiURL: string) {
 
   socket.on("connect", () => fetchNUI(NuiEvents.Connected, { socketId: socket.id }));
   socket.on("connect_error", (error) => fetchNUI(NuiEvents.ConnectionError, { error }));
-
-  socket.on(SocketEvents.Create911Call, (call) => {
-    createNotification({
-      message: `A new 911 call has been created with case number: #${call.caseNumber}. To assign yourself to the call, use /${SnCommands.AttachTo911Call} ${call.caseNumber}`,
-      title: "Incoming 911 Call",
-      timeout: 15_000,
-    });
-  });
+  socket.on(SocketEvents.Create911Call, (call) => fetchNUI(NuiEvents.Create911Call, call));
+  socket.on(SocketEvents.PANIC_BUTTON_ON, (unit) => fetchNUI(NuiEvents.PanicButtonOn, unit));
 
   socket.on(SocketEvents.Signal100, (enabled: boolean) => {
     if (enabled) {
@@ -85,12 +79,6 @@ function onSpawn(apiURL: string) {
       title: "AOP Changed",
     }),
   );
-  socket.on(SocketEvents.PANIC_BUTTON_ON, (unit: { formattedUnitData: string }) => {
-    createNotification({
-      message: `${unit.formattedUnitData} has pressed their panic button.`,
-      title: "Panic Button Enabled",
-    });
-  });
 }
 
 export async function fetchNUI(eventName: NuiEvents, data = {}) {

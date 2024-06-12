@@ -1,8 +1,9 @@
-import { ClientEvents, NuiEvents, SnCommands } from "~/types/events";
+import { ClientEvents, NuiEvents, ServerEvents, SnCommands } from "~/types/events";
 import "./flows/auth";
 import "./flows/unit-status";
 import "./flows/911-call-attach";
 import "./flows/traffic-stop";
+import { Call911 } from "@snailycad/types";
 
 const API_URL = GetConvar("snailycad_url", "null");
 
@@ -24,13 +25,17 @@ emit(
 );
 
 /**
- * send a message to the NUI with the API URL when a player spawns.
+ * send a message to the NUI with the API URL when a player joins or when the resource is started
  */
-onNet("playerSpawned", () => {
-  SendNuiMessage(JSON.stringify({ action: "sn:initialize", data: { url: API_URL } }));
+on("onClientResourceStart", (resource: string) => {
+  if (resource !== GetCurrentResourceName()) return;
+
+  setTimeout(() => {
+    SendNuiMessage(JSON.stringify({ action: "sn:initialize", data: { url: API_URL } }));
+  }, 500);
 });
 
-on(
+onNet(
   ClientEvents.CreateNotification,
   (options: { timeout?: number; title: string; message: string }) => {
     SendNuiMessage(
@@ -66,5 +71,17 @@ RegisterNuiCallbackType(NuiEvents.ConnectionError);
 on(`__cfx_nui:${NuiEvents.ConnectionError}`, (data: Partial<Error> | null, cb: Function) => {
   console.info(data?.message ?? data?.name ?? (String(data) || "Unknown error"));
   console.info("Unable to connect to SnailyCAD. Error:", data);
+  cb({ ok: true });
+});
+
+RegisterNuiCallbackType(NuiEvents.Create911Call);
+on(`__cfx_nui:${NuiEvents.Create911Call}`, (data: Call911, cb: Function) => {
+  emitNet(ServerEvents.Incoming911Call, data);
+  cb({ ok: true });
+});
+
+RegisterNuiCallbackType(NuiEvents.PanicButtonOn);
+on(`__cfx_nui:${NuiEvents.PanicButtonOn}`, (data: { formattedUnitData: string }, cb: Function) => {
+  emitNet(ServerEvents.PanicButtonOn, data);
   cb({ ok: true });
 });

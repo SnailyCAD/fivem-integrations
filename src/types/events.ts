@@ -61,6 +61,16 @@ export enum ServerEvents {
    * the client immediately sends their position back to the server
    */
   OnTrafficStopClientPosition = "sna-sync:on-traffic-stop-client-position",
+
+  /**
+   * when a new 911 call is created and an active officer should be notified in-game
+   */
+  Incoming911Call = "sna-sync:incoming-911-call",
+
+  /**
+   * when a panic button is pressed, we want to notify active units in-game
+   */
+  PanicButtonOn = "sna-sync:panic-button-on",
 }
 
 export enum ClientEvents {
@@ -108,4 +118,10 @@ export enum NuiEvents {
 
   /** a socket event for `UpdateAreaOfPlay` was received from the SnailyCAD API. */
   UpdateAreaOfPlay = "sna-sync-nui:update-area-of-play",
+
+  /** when a new 911 call is created and an active officer should be notified in-game */
+  Create911Call = "sna-sync-nui:create-911-call",
+
+  /** when a panic button is pressed, we want to notify active units in-game */
+  PanicButtonOn = "sna-sync-nui:panic-button-on",
 }
