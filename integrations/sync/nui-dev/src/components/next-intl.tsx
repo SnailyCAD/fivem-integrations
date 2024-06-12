@@ -1,4 +1,4 @@
-import { NextIntlProvider } from "next-intl";
+import { IntlProvider } from "next-intl";
 
 const MESSAGES_REQUIRED_IN_COMPONENTS = {
   Common: {
@@ -30,8 +30,8 @@ interface Props {
 
 export function NextIntlWrapper(props: Props) {
   return (
-    <NextIntlProvider messages={MESSAGES_REQUIRED_IN_COMPONENTS} locale="en">
+    <IntlProvider messages={MESSAGES_REQUIRED_IN_COMPONENTS} locale="en">
       {props.children}
-    </NextIntlProvider>
+    </IntlProvider>
   );
 }
