@@ -25,10 +25,14 @@ emit(
 );
 
 /**
- * send a message to the NUI with the API URL when a player spawns.
+ * send a message to the NUI with the API URL when a player joins or when the resource is started
  */
-onNet("playerSpawned", () => {
-  SendNuiMessage(JSON.stringify({ action: "sn:initialize", data: { url: API_URL } }));
+on("onClientResourceStart", (resource: string) => {
+  if (resource !== GetCurrentResourceName()) return;
+
+  setTimeout(() => {
+    SendNuiMessage(JSON.stringify({ action: "sn:initialize", data: { url: API_URL } }));
+  }, 500);
 });
 
 onNet(
