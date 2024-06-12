@@ -4,7 +4,7 @@ import "./flows/unit-status";
 import "./flows/panic-button";
 import "./flows/911-call-attach";
 import "./flows/traffic-stop";
-import "./flows/incoming-911-call";
+import "./flows/validate-events";
 
 export function prependSnailyCAD(text: string) {
   return `^8^*[SnailyCAD]:^7^r ${text}`;

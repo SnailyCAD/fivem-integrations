@@ -58,6 +58,7 @@ function onSpawn(apiURL: string) {
   socket.on("connect", () => fetchNUI(NuiEvents.Connected, { socketId: socket.id }));
   socket.on("connect_error", (error) => fetchNUI(NuiEvents.ConnectionError, { error }));
   socket.on(SocketEvents.Create911Call, (call) => fetchNUI(NuiEvents.Create911Call, call));
+  socket.on(SocketEvents.PANIC_BUTTON_ON, (unit) => fetchNUI(NuiEvents.PanicButtonOn, unit));
 
   socket.on(SocketEvents.Signal100, (enabled: boolean) => {
     if (enabled) {
@@ -78,13 +79,6 @@ function onSpawn(apiURL: string) {
       title: "AOP Changed",
     }),
   );
-  // todo: only send to on-duty units
-  socket.on(SocketEvents.PANIC_BUTTON_ON, (unit: { formattedUnitData: string }) => {
-    createNotification({
-      message: `${unit.formattedUnitData} has pressed their panic button.`,
-      title: "Panic Button Enabled",
-    });
-  });
 }
 
 export async function fetchNUI(eventName: NuiEvents, data = {}) {

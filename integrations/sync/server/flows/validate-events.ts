@@ -28,3 +28,27 @@ onNet(ServerEvents.Incoming911Call, async (call: Call911) => {
     timeout: 15_000,
   });
 });
+
+onNet(ServerEvents.PanicButtonOn, async (unit: { formattedUnitData: string }) => {
+  CancelEvent();
+
+  const player = global.source;
+  const userApiToken = getPlayerApiToken(player);
+
+  const { data } = await cadRequest<GetUserData>({
+    method: "POST",
+    path: "/user?includeActiveUnit=true",
+    headers: {
+      userApiToken,
+    },
+  });
+
+  if (!data?.unit) {
+    return;
+  }
+
+  emitNet(ClientEvents.CreateNotification, player, {
+    message: `${unit.formattedUnitData} has pressed their panic button.`,
+    title: "Panic Button Enabled",
+  });
+});

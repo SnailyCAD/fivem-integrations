@@ -75,3 +75,9 @@ on(`__cfx_nui:${NuiEvents.Create911Call}`, (data: Call911, cb: Function) => {
   emitNet(ServerEvents.Incoming911Call, data);
   cb({ ok: true });
 });
+
+RegisterNuiCallbackType(NuiEvents.PanicButtonOn);
+on(`__cfx_nui:${NuiEvents.PanicButtonOn}`, (data: { formattedUnitData: string }, cb: Function) => {
+  emitNet(ServerEvents.PanicButtonOn, data);
+  cb({ ok: true });
+});
