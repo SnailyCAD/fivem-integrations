@@ -29,9 +29,16 @@ emit(
  */
 on("onClientResourceStart", (resource: string) => {
   if (resource !== GetCurrentResourceName()) return;
+  // @ts-expect-error index is not required
+  const currentResourceVersion = GetResourceMetadata(GetCurrentResourceName(), "version");
 
   setTimeout(() => {
-    SendNuiMessage(JSON.stringify({ action: "sn:initialize", data: { url: API_URL } }));
+    SendNuiMessage(
+      JSON.stringify({
+        action: "sn:initialize",
+        data: { version: currentResourceVersion, url: API_URL },
+      }),
+    );
   }, 500);
 });
 

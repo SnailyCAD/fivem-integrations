@@ -7,6 +7,7 @@ export interface NuiMessage {
   action: string;
   data?: {
     url: string;
+    version?: string;
 
     /** notification data */
     message?: string;
@@ -29,6 +30,9 @@ window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
 
   switch (event.data.action) {
     case "sn:initialize": {
+      if (event.data.data?.version) {
+        console.log(`[sna-sync-nui][incoming]: Version ${event.data.data.version}`);
+      }
       onSpawn(apiURL);
       break;
     }
