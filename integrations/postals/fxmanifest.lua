@@ -3,6 +3,6 @@ game "gta5"
 
 author "Casper Iversen"
 description "This allow you to define custom postals"
-version "0.14.0"
+version "0.14.1"
 
 server_scripts {"server/server.js"}

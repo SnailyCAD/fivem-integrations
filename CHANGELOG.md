@@ -1,3 +1,7 @@
+## 0.14.1
+
+- chore(debug): add version debug on initialize.
+
 ## 0.14.0
 
 - fix: 911 call notifications being sent to all players in the server instead of only on-duty units.
