@@ -1,4 +1,4 @@
-import { Call911 } from "@snailycad/types";
+import { Call911, ShouldDoType } from "@snailycad/types";
 import { ClientEvents, ServerEvents, SnCommands } from "~/types/events";
 import { getPlayerApiToken } from "../server";
 import { cadRequest } from "~/utils/fetch.server";
@@ -9,6 +9,7 @@ onNet(ServerEvents.Incoming911Call, async (call: Call911) => {
 
   const player = global.source;
   const userApiToken = getPlayerApiToken(player);
+  if (!userApiToken) return;
 
   const { data } = await cadRequest<GetUserData>({
     method: "POST",
@@ -18,15 +19,14 @@ onNet(ServerEvents.Incoming911Call, async (call: Call911) => {
     },
   });
 
-  if (!data?.unit) {
-    return;
+  const isOnDuty = data?.unit && data.unit.status?.shouldDo !== ShouldDoType.SET_OFF_DUTY;
+  if (isOnDuty) {
+    emitNet(ClientEvents.CreateNotification, player, {
+      message: `A new 911 call has been created with case number: #${call.caseNumber}. To assign yourself to the call, use /${SnCommands.AttachTo911Call} ${call.caseNumber}`,
+      title: "Incoming 911 Call",
+      timeout: 15_000,
+    });
   }
-
-  emitNet(ClientEvents.CreateNotification, player, {
-    message: `A new 911 call has been created with case number: #${call.caseNumber}. To assign yourself to the call, use /${SnCommands.AttachTo911Call} ${call.caseNumber}`,
-    title: "Incoming 911 Call",
-    timeout: 15_000,
-  });
 });
 
 onNet(ServerEvents.PanicButtonOn, async (unit: { formattedUnitData: string }) => {
@@ -34,6 +34,7 @@ onNet(ServerEvents.PanicButtonOn, async (unit: { formattedUnitData: string }) =>
 
   const player = global.source;
   const userApiToken = getPlayerApiToken(player);
+  if (!userApiToken) return;
 
   const { data } = await cadRequest<GetUserData>({
     method: "POST",
@@ -43,12 +44,11 @@ onNet(ServerEvents.PanicButtonOn, async (unit: { formattedUnitData: string }) =>
     },
   });
 
-  if (!data?.unit) {
-    return;
+  const isOnDuty = data?.unit && data.unit.status?.shouldDo !== ShouldDoType.SET_OFF_DUTY;
+  if (isOnDuty) {
+    emitNet(ClientEvents.CreateNotification, player, {
+      message: `${unit.formattedUnitData} has pressed their panic button.`,
+      title: "Panic Button Enabled",
+    });
   }
-
-  emitNet(ClientEvents.CreateNotification, player, {
-    message: `${unit.formattedUnitData} has pressed their panic button.`,
-    title: "Panic Button Enabled",
-  });
 });

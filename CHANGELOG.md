@@ -1,3 +1,7 @@
+## 0.14.2
+
+- fix: require personal API token for event validation (911-call and panic button notificatios)
+
 ## 0.14.1
 
 - chore(debug): add version debug on initialize.
