@@ -30,11 +30,7 @@ onNet(
 );
 
 const POSTAL_COMMAND_DEFAULT = GetConvar("postal_command", "null");
-onNet(
-  ClientEvents.AutoPostalOnAttach,
-  (
-    postal: string
-  ) => {
+onNet(ClientEvents.AutoPostalOnAttach, (postal: string) => {
   const PostalCode = Number(postal);
 
   if (POSTAL_COMMAND_DEFAULT === "null") {
@@ -46,15 +42,15 @@ onNet(
   \`setr postal_command "<your-command-here>" \`
   
     ---------------------------------------`);
-  };
+  }
 
-  if (PostalCode != null && PostalCode > 0){
+  if (PostalCode != null && PostalCode > 0) {
     ExecuteCommand(`${POSTAL_COMMAND_DEFAULT} ${PostalCode}`);
   } else {
-    emit('chat:addMessage', {
+    emit("chat:addMessage", {
       color: [255, 0, 0],
       multiline: true,
-      args: ["SnailyCAD", "An error occured while making route to call postal"]
+      args: ["SnailyCAD", "An error occured while making route to call postal"],
     });
-  };
-})
+  }
+});
