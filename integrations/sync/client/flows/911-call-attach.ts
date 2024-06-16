@@ -28,3 +28,29 @@ onNet(
     SetNuiFocus(true, true);
   },
 );
+
+const POSTAL_COMMAND = GetConvar("snailycad_postal_command", "null");
+onNet(ClientEvents.AutoPostalOnAttach, (postal: string) => {
+  const postalCodeAsInt = parseInt(postal);
+
+  if (POSTAL_COMMAND === "null") {
+    console.info(`
+---------------------------------------
+
+[${GetCurrentResourceName()}] Not automatically setting postal code for call. There was no postal command set.:
+\`setr snailycad_postal_command "<your-command-here>" \`
+
+---------------------------------------`);
+    return;
+  }
+
+  if (postalCodeAsInt > 0) {
+    ExecuteCommand(`${POSTAL_COMMAND} ${postalCodeAsInt}`);
+  } else {
+    emit("chat:addMessage", {
+      color: [255, 0, 0],
+      multiline: true,
+      args: ["SnailyCAD", "An error occured while making route to call postal"],
+    });
+  }
+});

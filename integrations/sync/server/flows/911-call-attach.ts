@@ -109,6 +109,7 @@ onNet(
           ),
         ],
       });
+      emitNet(ClientEvents.AutoPostalOnAttach, source, updatedCall.postal);
     } else {
       emitNet("chat:addMessage", source, {
         args: [

@@ -99,6 +99,8 @@ export enum ClientEvents {
   RequestTrafficStopFlow = "sna-sync:request-traffic-stop-flow",
 
   CreateNotification = "sna-sync:create-notification",
+
+  AutoPostalOnAttach = "sna-sync:attach-postal",
 }
 
 export enum NuiEvents {
