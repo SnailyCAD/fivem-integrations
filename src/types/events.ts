@@ -100,7 +100,7 @@ export enum ClientEvents {
 
   CreateNotification = "sna-sync:create-notification",
 
-  AutoPostalOnAttach = "sna-sync:attach-postal"
+  AutoPostalOnAttach = "sna-sync:attach-postal",
 }
 
 export enum NuiEvents {
