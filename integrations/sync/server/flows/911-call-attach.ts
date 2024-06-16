@@ -109,7 +109,7 @@ onNet(
           ),
         ],
       });
-      emitNet("sna-sync:attach-postal", source2, updatedCall.postal);
+      emitNet(ClientEvents.AutoPostalOnAttach, source2, updatedCall.postal);
     } else {
       emitNet("chat:addMessage", source, {
         args: [
