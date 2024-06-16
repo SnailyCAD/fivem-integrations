@@ -28,3 +28,31 @@ onNet(
     SetNuiFocus(true, true);
   },
 );
+
+var POSTAL_COMMAND_DEFAULT = GetConvar("postal_command", "null");
+onNet("sna-sync:attach-postal", (
+  postal: string
+) => {
+  const PostalCode = Number(postal);
+
+  if (POSTAL_COMMAND_DEFAULT === "null") {
+    console.error(`
+    ---------------------------------------
+  
+  [${GetCurrentResourceName()}] Failed to find the "postal_command" convar in your server.cfg. Please make sure you are using \`setr\` and not \`set\`:
+  
+  \`setr postal_command "<your-command-here>" \`
+  
+    ---------------------------------------`);
+  };
+
+  if (PostalCode != null && PostalCode > 0){
+    ExecuteCommand(`${POSTAL_COMMAND_DEFAULT} ${PostalCode}`);
+  } else {
+    emit('chat:addMessage', {
+      color: [255, 0, 0],
+      multiline: true,
+      args: ['SnailyCAD', 'An error occured while making route to call postal']
+    });
+  };
+})
