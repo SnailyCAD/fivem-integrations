@@ -109,6 +109,7 @@ onNet(
           ),
         ],
       });
+      emitNet("sna-sync:attach-postal", source2, updatedCall.postal);
     } else {
       emitNet("chat:addMessage", source, {
         args: [
