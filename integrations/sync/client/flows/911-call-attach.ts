@@ -29,24 +29,23 @@ onNet(
   },
 );
 
-const POSTAL_COMMAND_DEFAULT = GetConvar("postal_command", "null");
+const POSTAL_COMMAND = GetConvar("snailycad_postal_command", "null");
 onNet(ClientEvents.AutoPostalOnAttach, (postal: string) => {
   const postalCodeAsInt = parseInt(postal);
 
-  if (POSTAL_COMMAND_DEFAULT === "null") {
+  if (POSTAL_COMMAND === "null") {
     console.info(`
-    ---------------------------------------
+---------------------------------------
 
-  [${GetCurrentResourceName()}] Failed to find the "postal_command" convar in your server.cfg. Please make sure you are using \`setr\` and not \`set\`:
+[${GetCurrentResourceName()}] Not automatically setting postal code for call. There was no postal command set.:
+\`setr snailycad_postal_command "<your-command-here>" \`
 
-  \`setr postal_command "<your-command-here>" \`
-
-    ---------------------------------------`);
+---------------------------------------`);
     return;
   }
 
   if (postalCodeAsInt > 0) {
-    ExecuteCommand(`${POSTAL_COMMAND_DEFAULT} ${postalCodeAsInt}`);
+    ExecuteCommand(`${POSTAL_COMMAND} ${postalCodeAsInt}`);
   } else {
     emit("chat:addMessage", {
       color: [255, 0, 0],
