@@ -29,10 +29,12 @@ onNet(
   },
 );
 
-var POSTAL_COMMAND_DEFAULT = GetConvar("postal_command", "null");
-onNet("sna-sync:attach-postal", (
-  postal: string
-) => {
+const POSTAL_COMMAND_DEFAULT = GetConvar("postal_command", "null");
+onNet(
+  ClientEvents.AutoPostalOnAttach,
+  (
+    postal: string
+  ) => {
   const PostalCode = Number(postal);
 
   if (POSTAL_COMMAND_DEFAULT === "null") {
@@ -52,7 +54,7 @@ onNet("sna-sync:attach-postal", (
     emit('chat:addMessage', {
       color: [255, 0, 0],
       multiline: true,
-      args: ['SnailyCAD', 'An error occured while making route to call postal']
+      args: ["SnailyCAD", "An error occured while making route to call postal"]
     });
   };
 })
