@@ -31,21 +31,22 @@ onNet(
 
 const POSTAL_COMMAND_DEFAULT = GetConvar("postal_command", "null");
 onNet(ClientEvents.AutoPostalOnAttach, (postal: string) => {
-  const PostalCode = Number(postal);
+  const postalCodeAsInt = parseInt(postal);
 
   if (POSTAL_COMMAND_DEFAULT === "null") {
-    console.error(`
+    console.info(`
     ---------------------------------------
-  
+
   [${GetCurrentResourceName()}] Failed to find the "postal_command" convar in your server.cfg. Please make sure you are using \`setr\` and not \`set\`:
-  
+
   \`setr postal_command "<your-command-here>" \`
-  
+
     ---------------------------------------`);
+    return;
   }
 
-  if (PostalCode != null && PostalCode > 0) {
-    ExecuteCommand(`${POSTAL_COMMAND_DEFAULT} ${PostalCode}`);
+  if (postalCodeAsInt > 0) {
+    ExecuteCommand(`${POSTAL_COMMAND_DEFAULT} ${postalCodeAsInt}`);
   } else {
     emit("chat:addMessage", {
       color: [255, 0, 0],
