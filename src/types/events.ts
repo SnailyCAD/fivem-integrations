@@ -17,16 +17,21 @@ export enum Events {
 
   SnSignal100 = "sn:signal100",
   AreaOfPlayChange = "sn:areaOfPlayChange",
+
+  DispatcherinChannel = "vox:DispatcherinChannel",
+  Send911 = "vox:Send911",
+  Send911ToAll = "vox:Send911ToAll"
 }
 
 export interface EventData {
   source: number;
   name: string;
   description: string;
+  postal: number;
 }
 
 export enum SnCommands {
-  Call911 = "sn-call911",
+  Call911 = "911",
   CallTow = "sn-calltow",
   CallTaxi = "sn-calltaxi",
   WhoAmI = "sn-whoami",
@@ -71,6 +76,7 @@ export enum ServerEvents {
    * when a panic button is pressed, we want to notify active units in-game
    */
   PanicButtonOn = "sna-sync:panic-button-on",
+
 }
 
 export enum ClientEvents {
