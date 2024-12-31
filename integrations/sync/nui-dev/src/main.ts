@@ -17,9 +17,7 @@ export interface NuiMessage {
 }
 
 declare global {
-  interface Window {
-    GetCurrentResourceName?(): string;
-  }
+  function GetParentResourceName(): string;
 }
 
 window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
@@ -95,8 +93,15 @@ export async function fetchNUI(eventName: NuiEvents, data = {}) {
       body: JSON.stringify(data),
     } as const;
 
-    const resourceName = window.GetCurrentResourceName?.() ?? "sna-sync";
-    const response = await fetch(`https://${resourceName}/${eventName}`, options);
+    const resourceName = GetParentResourceName();
+    const url = `https://${resourceName}/${eventName}`;
+    const response = await new Promise((resolve, reject) => {
+      fetch(url, options)
+        .then((value) => resolve(value))
+        .catch((reason) => {
+          reject(new Error(`Failed to fetch url: ("${url}"), Reason: ${reason}`));
+        });
+    });
 
     console.log("[`sna-sync-nui`][outgoing]:", eventName);
 
