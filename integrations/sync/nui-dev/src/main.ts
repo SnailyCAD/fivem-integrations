@@ -95,17 +95,15 @@ export async function fetchNUI(eventName: NuiEvents, data = {}) {
 
     const resourceName = GetParentResourceName();
     const url = `https://${resourceName}/${eventName}`;
-    const response = await new Promise((resolve, reject) => {
-      fetch(url, options)
-        .then((value) => resolve(value))
-        .catch((reason) => {
-          reject(new Error(`Failed to fetch url: ("${url}"), Reason: ${reason}`));
-        });
-    });
+    try {
+      const response = await fetch(url, options);
 
-    console.log("[`sna-sync-nui`][outgoing]:", eventName);
+      console.log("[`sna-sync-nui`][outgoing]:", eventName);
 
-    return response;
+      return response;
+    } catch (reason) {
+      throw new Error(`Failed to fetch url: ("${url}"), Reason: ${reason}`);
+    }
   } catch (err) {
     console.error(err);
     return null;
