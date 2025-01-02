@@ -93,7 +93,8 @@ export async function fetchNUI(eventName: NuiEvents, data = {}) {
       body: JSON.stringify(data),
     } as const;
 
-    const resourceName = GetParentResourceName();
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    const resourceName = GetParentResourceName ? GetParentResourceName() : "sna-sync";
     const url = `https://${resourceName}/${eventName}`;
     try {
       const response = await fetch(url, options);
