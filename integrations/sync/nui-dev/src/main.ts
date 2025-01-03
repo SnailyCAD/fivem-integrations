@@ -17,9 +17,7 @@ export interface NuiMessage {
 }
 
 declare global {
-  interface Window {
-    GetCurrentResourceName?(): string;
-  }
+  function GetParentResourceName(): string;
 }
 
 window.addEventListener("message", (event: MessageEvent<NuiMessage>) => {
@@ -95,12 +93,18 @@ export async function fetchNUI(eventName: NuiEvents, data = {}) {
       body: JSON.stringify(data),
     } as const;
 
-    const resourceName = window.GetCurrentResourceName?.() ?? "sna-sync";
-    const response = await fetch(`https://${resourceName}/${eventName}`, options);
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    const resourceName = GetParentResourceName ? GetParentResourceName() : "sna-sync";
+    const url = `https://${resourceName}/${eventName}`;
+    try {
+      const response = await fetch(url, options);
 
-    console.log("[`sna-sync-nui`][outgoing]:", eventName);
+      console.log("[`sna-sync-nui`][outgoing]:", eventName);
 
-    return response;
+      return response;
+    } catch (reason) {
+      throw new Error(`Failed to fetch url: ("${url}"), Reason: ${reason}`);
+    }
   } catch (err) {
     console.error(err);
     return null;
