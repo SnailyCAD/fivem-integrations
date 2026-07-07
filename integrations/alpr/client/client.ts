@@ -4,7 +4,7 @@ import { ClientEvents, Events } from "~/types/events";
 
 onNet(Events.ALPRCadBoloResults, (plate: string, body?: GetBolosData | "failed") => {
   if (!body || body === "failed") return;
-  
+
   const matchingBolos = body.bolos.filter(
     (bolo) => bolo.type === BoloType.VEHICLE && bolo.plate?.trim().toUpperCase() === plate,
   );
