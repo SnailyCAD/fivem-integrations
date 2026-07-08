@@ -1,10 +1,15 @@
 import { GetBolosData, PostLeoSearchVehicleData } from "@snailycad/types/api";
+import { BoloType } from "@snailycad/types";
 import { ClientEvents, Events } from "~/types/events";
 
 onNet(Events.ALPRCadBoloResults, (plate: string, body?: GetBolosData | "failed") => {
   if (!body || body === "failed") return;
 
-  if (body.bolos.length > 0) {
+  const matchingBolos = body.bolos.filter(
+    (bolo) => bolo.type === BoloType.VEHICLE && bolo.plate?.trim().toUpperCase() === plate,
+  );
+
+  if (matchingBolos.length > 0) {
     emit(ClientEvents.CreateNotification, {
       title: "Active Bolo Notice",
       message: `${plate} has an active BOLO. Open SnailyCAD for more details.`,
